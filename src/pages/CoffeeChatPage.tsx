@@ -1,31 +1,37 @@
 // src/pages/CoffeeChatPage.tsx
 import { useAuthStore } from "../store/authStore";
 import NavTabs from "../components/layout/NavTabs";
-
-const rooms = ["Elena Vane", "Caleb Turner", "Maya Sterling"];
+import ChatRoomList from "../components/coffeechat/ChatRoomList";
+import ChatWindow from "../components/coffeechat/ChatWindow";
+import ChatSidebarProfile from "../components/coffeechat/ChatSidebarProfile";
+import { useChat } from "../hooks/useChat";
 
 export default function CoffeeChatPage() {
   const navigate = useAuthStore((s) => s.navigate);
+  const { rooms, selectedRoom, activeRoom, messages, inputVal, setSelectedRoom, onInputChange, onSend } = useChat();
 
   return (
-    <div>
+    <div className="min-h-svh bg-[#f0f2f8] font-sans flex flex-col">
       <NavTabs />
-      <div style={{ display: "flex", padding: 40, gap: 40 }}>
-        <div>
-          <h3>Chat Rooms</h3>
-          {rooms.map((r) => (
-            <p key={r} style={{ cursor: "pointer" }}>{r}</p>
-          ))}
-        </div>
-        <div style={{ flex: 1 }}>
-          <h1>Coffee Chat Room</h1>
-          <p>"How was your time at Polis? Would you be interested in joining us?"</p>
-          <input placeholder="Type a message..." />
-          <button>Send</button>
-        </div>
-      </div>
-      <div style={{ padding: 40 }}>
-        <button onClick={() => navigate("dashboard")}>← Back to Dashboard</button>
+      <div
+        className="flex flex-1 w-full max-w-7xl mx-auto px-6 py-5 gap-4 h-[calc(100svh-64px)] box-border"
+      >
+        <ChatRoomList rooms={rooms} selectedIndex={selectedRoom} onSelect={setSelectedRoom} />
+
+        <ChatWindow
+          room={activeRoom}
+          messages={messages}
+          inputVal={inputVal}
+          onInputChange={onInputChange}
+          onSend={onSend}
+          onViewPortfolio={() => navigate("portfolio-masterpieces")}
+        />
+
+        <ChatSidebarProfile
+          room={activeRoom}
+          onViewPortfolio={() => navigate("portfolio-masterpieces")}
+          onViewAnalysis={() => navigate("portfolio-analysis")}
+        />
       </div>
     </div>
   );

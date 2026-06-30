@@ -7,7 +7,9 @@ import BuilderStep1Page from "../pages/builder/BuilderStep1Page";
 import BuilderStep2Page from "../pages/builder/BuilderStep2Page";
 import BuilderStep3Page from "../pages/builder/BuilderStep3Page";
 import PublishingProgressPage from "../pages/builder/PublishingProgressPage";
+import PortfolioPreviewPage from "../pages/PortfolioPreviewPage";
 import PortfolioFeedPage from "../pages/PortfolioFeedPage";
+import PortfolioMasterpiecesPage from "../pages/PortfolioMasterpiecesPage";
 import PortfolioDetailPage from "../pages/PortfolioDetailPage";
 import PortfolioAnalysisPage from "../pages/PortfolioAnalysisPage";
 import PortfolioFeedbackPage from "../pages/PortfolioFeedbackPage";
@@ -29,8 +31,12 @@ export default function AppRouter() {
       return <BuilderStep3Page />;
     case "publishing":
       return <PublishingProgressPage />;
+    case "portfolio-preview":
+      return <PortfolioPreviewPage />;
     case "portfolio-feed":
       return <PortfolioFeedPage />;
+    case "portfolio-masterpieces":
+      return <PortfolioMasterpiecesPage />;
     case "portfolio-detail":
       return <PortfolioDetailPage />;
     case "portfolio-analysis":

@@ -1,0 +1,27 @@
+export default function WelcomeBanner() {
+  return (
+    <div className="rounded-3xl px-12 py-11 mb-8 relative overflow-hidden bg-[linear-gradient(135deg,#4b2ab8_0%,#6347d1_50%,#9c48ea_100%)]">
+      <div className="absolute -right-15 -top-15 w-65 h-65 rounded-full pointer-events-none bg-white/6" />
+      <div className="absolute right-20 -bottom-20 w-45 h-45 rounded-full pointer-events-none bg-white/4" />
+      <div className="absolute -top-7.5 w-30 h-30 rounded-full pointer-events-none bg-white/3" style={{ left: "40%" }} />
+
+      <p className="text-[11px] font-bold tracking-[0.12em] uppercase mb-3 text-white/55 font-label">
+        The Alchemist's Atelier
+      </p>
+      <h1 className="text-[34px] font-extrabold tracking-[-0.03em] leading-[1.2] mb-3 text-white">
+        Welcome back, Elena! ✨
+      </h1>
+      <p className="text-[15px] leading-relaxed text-white/70">
+        Your portfolio magic is working —{" "}
+        <strong className="text-white/95">12.5% growth</strong> this week
+      </p>
+
+      <div className="absolute right-12 top-1/2 -translate-y-1/2 text-center rounded-[20px] px-7 py-5 bg-white/12 backdrop-blur-sm border border-white/20">
+        <p className="text-[36px] font-extrabold tracking-[-0.04em] leading-none text-white">82</p>
+        <p className="text-[11px] font-semibold mt-1 tracking-[0.04em] text-white/65 font-label">
+          MAGIC SCORE
+        </p>
+      </div>
+    </div>
+  );
+}
