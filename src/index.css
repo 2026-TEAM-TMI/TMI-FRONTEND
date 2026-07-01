@@ -45,3 +45,35 @@
     min-height: 100svh;
   }
 }
+
+@keyframes shimmer {
+  0% { transform: translateX(-120%) skewX(-12deg); }
+  100% { transform: translateX(220%) skewX(-12deg); }
+}
+
+@keyframes page-fade-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float-orb {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%       { transform: translate(20px, -30px) scale(1.05); }
+  66%       { transform: translate(-15px, 20px) scale(0.97); }
+}
+
+.animate-shimmer {
+  animation: shimmer 2.2s ease infinite;
+}
+
+.animate-page-in {
+  animation: page-fade-in 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-float-orb {
+  animation: float-orb 8s ease-in-out infinite;
+}
+
+.animate-float-orb-slow {
+  animation: float-orb 12s ease-in-out infinite reverse;
+}

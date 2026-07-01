@@ -1,6 +1,6 @@
 // src/pages/PortfolioAnalysisPage.tsx
 import { useState } from "react";
-import { useAuthStore } from "../store/authStore";
+import { useNavigate } from "react-router-dom";
 import NavTabs from "../components/layout/NavTabs";
 import ScoreCircle from "../components/analysis/ScoreCircle";
 import SkillAnalysisChart from "../components/analysis/SkillAnalysisChart";
@@ -122,7 +122,7 @@ const TABS: { key: Tab; label: string }[] = [
 ];
 
 export default function PortfolioAnalysisPage() {
-  const navigate = useAuthStore((s) => s.navigate);
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<Tab>("matching");
   const [showMore, setShowMore] = useState(false);
 
@@ -270,7 +270,7 @@ export default function PortfolioAnalysisPage() {
               <AnalysisInsight
                 stats={STATS}
                 recommendation={RECOMMENDATION}
-                onEdit={() => navigate("builder-step1")}
+                onEdit={() => navigate("/builder/step1")}
               />
             </div>
 

@@ -1,3 +1,4 @@
+import { useState, useRef, useCallback } from "react";
 import type { PortfolioCard as IPortfolioCard } from "../../types/portfolio";
 
 interface PortfolioCardProps {
@@ -13,8 +14,31 @@ export default function PortfolioCard({
   onPortfolioClick,
   onCoffeeChatClick,
 }: PortfolioCardProps) {
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const ref = useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    const rect = ref.current?.getBoundingClientRect();
+    if (!rect) return;
+    const x = (e.clientX - rect.left - rect.width / 2) / rect.width;
+    const y = (e.clientY - rect.top - rect.height / 2) / rect.height;
+    setTilt({ x: y * 7, y: -x * 7 });
+  }, []);
+
+  const handleMouseLeave = useCallback(() => setTilt({ x: 0, y: 0 }), []);
+
   return (
-    <div className="bg-white rounded-[18px] border border-surface-container flex flex-col overflow-hidden transition-all duration-200 shadow-[0_1px_6px_rgba(99,71,209,0.06)] hover:shadow-[0_8px_28px_rgba(99,71,209,0.13)] hover:-translate-y-0.5">
+    <div
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        transform: `perspective(900px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
+        transition: tilt.x === 0 && tilt.y === 0 ? "transform 0.4s ease" : "transform 0.1s ease",
+        willChange: "transform",
+      }}
+      className="bg-white rounded-[18px] border border-surface-container flex flex-col overflow-hidden shadow-[0_1px_6px_rgba(99,71,209,0.06)] hover:shadow-[0_12px_32px_rgba(99,71,209,0.18)]"
+    >
       {/* Author bar */}
       <div
         onClick={onAuthorClick}

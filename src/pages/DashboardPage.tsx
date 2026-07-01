@@ -1,5 +1,5 @@
 // src/pages/DashboardPage.tsx
-import { useAuthStore } from "../store/authStore";
+import { useNavigate } from "react-router-dom";
 import NavTabs from "../components/layout/NavTabs";
 import WelcomeBanner from "../components/dashboard/WelcomeBanner";
 import StatCard from "../components/dashboard/StatCard";
@@ -21,7 +21,7 @@ const portfolios: IPortfolioListItem[] = [
 ];
 
 export default function DashboardPage() {
-  const navigate = useAuthStore((s) => s.navigate);
+  const navigate = useNavigate();
 
   return (
     <div className="min-h-svh bg-surface font-sans">
@@ -33,11 +33,11 @@ export default function DashboardPage() {
           {stats.map((s) => <StatCard key={s.label} {...s} />)}
         </div>
 
-        <CreatePortfolioCard count={portfolios.length} onCreate={() => navigate("builder-step1")} />
+        <CreatePortfolioCard count={portfolios.length} onCreate={() => navigate("/builder/step1")} />
 
         <div className="grid grid-cols-2 gap-5">
           {portfolios.map((p) => (
-            <PortfolioListItem key={p.id} portfolio={p} onClick={() => navigate("portfolio-preview")} />
+            <PortfolioListItem key={p.id} portfolio={p} onClick={() => navigate("/portfolio/preview")} />
           ))}
         </div>
       </main>

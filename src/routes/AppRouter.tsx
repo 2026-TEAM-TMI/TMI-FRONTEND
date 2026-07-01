@@ -1,5 +1,4 @@
-// src/routes/AppRouter.tsx
-import { useAuthStore } from "../store/authStore";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 
 import LoginPage from "../pages/LoginPage";
 import DashboardPage from "../pages/DashboardPage";
@@ -16,36 +15,27 @@ import PortfolioFeedbackPage from "../pages/PortfolioFeedbackPage";
 import CoffeeChatPage from "../pages/CoffeeChatPage";
 
 export default function AppRouter() {
-  const currentRoute = useAuthStore((s) => s.currentRoute);
+  const { pathname } = useLocation();
 
-  switch (currentRoute) {
-    case "login":
-      return <LoginPage />;
-    case "dashboard":
-      return <DashboardPage />;
-    case "builder-step1":
-      return <BuilderStep1Page />;
-    case "builder-step2":
-      return <BuilderStep2Page />;
-    case "builder-step3":
-      return <BuilderStep3Page />;
-    case "publishing":
-      return <PublishingProgressPage />;
-    case "portfolio-preview":
-      return <PortfolioPreviewPage />;
-    case "portfolio-feed":
-      return <PortfolioFeedPage />;
-    case "portfolio-masterpieces":
-      return <PortfolioMasterpiecesPage />;
-    case "portfolio-detail":
-      return <PortfolioDetailPage />;
-    case "portfolio-analysis":
-      return <PortfolioAnalysisPage />;
-    case "portfolio-feedback":
-      return <PortfolioFeedbackPage />;
-    case "coffee-chat":
-      return <CoffeeChatPage />;
-    default:
-      return <LoginPage />;
-  }
+  return (
+    <div key={pathname} className="animate-page-in">
+    <Routes>
+      <Route path="/" element={<Navigate to="/login" replace />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/dashboard" element={<DashboardPage />} />
+      <Route path="/builder/step1" element={<BuilderStep1Page />} />
+      <Route path="/builder/step2" element={<BuilderStep2Page />} />
+      <Route path="/builder/step3" element={<BuilderStep3Page />} />
+      <Route path="/builder/publishing" element={<PublishingProgressPage />} />
+      <Route path="/portfolio/preview" element={<PortfolioPreviewPage />} />
+      <Route path="/portfolio/feed" element={<PortfolioFeedPage />} />
+      <Route path="/portfolio/masterpieces" element={<PortfolioMasterpiecesPage />} />
+      <Route path="/portfolio/detail" element={<PortfolioDetailPage />} />
+      <Route path="/portfolio/analysis" element={<PortfolioAnalysisPage />} />
+      <Route path="/portfolio/feedback" element={<PortfolioFeedbackPage />} />
+      <Route path="/coffee-chat" element={<CoffeeChatPage />} />
+      <Route path="*" element={<Navigate to="/login" replace />} />
+    </Routes>
+    </div>
+  );
 }

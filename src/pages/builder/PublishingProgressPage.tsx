@@ -1,6 +1,5 @@
-// src/pages/builder/PublishingProgressPage.tsx
 import { useEffect, useState } from "react";
-import { useAuthStore } from "../../store/authStore";
+import { useNavigate } from "react-router-dom";
 
 const steps = [
   { icon: "🔍", label: "Analyzing repositories", duration: 800 },
@@ -10,9 +9,10 @@ const steps = [
 ];
 
 export default function PublishingProgressPage() {
-  const navigate = useAuthStore((s) => s.navigate);
+  const navigate = useNavigate();
   const [progress, setProgress] = useState(0);
   const [currentStep, setCurrentStep] = useState(0);
+  const [done, setDone] = useState(false);
 
   useEffect(() => {
     const total = steps.reduce((a, s) => a + s.duration, 0);
@@ -30,163 +30,81 @@ export default function PublishingProgressPage() {
 
       if (elapsed >= total) {
         clearInterval(interval);
-        setTimeout(() => navigate("portfolio-preview"), 600);
+        setDone(true);
+        setTimeout(() => navigate("/portfolio/preview"), 700);
       }
     }, 50);
     return () => clearInterval(interval);
   }, [navigate]);
 
   return (
-    <div
-      style={{
-        minHeight: "100svh",
-        background: "linear-gradient(135deg, #f8f9ff 0%, #e6eeff 50%, #f0dbff 100%)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif",
-        position: "relative",
-        overflow: "hidden",
-      }}
-    >
-      {/* Background orbs */}
-      <div style={{ position: "fixed", inset: 0, pointerEvents: "none" }}>
-        <div
-          style={{
-            position: "absolute",
-            top: "20%",
-            left: "10%",
-            width: "400px",
-            height: "400px",
-            borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(99,71,209,0.12) 0%, transparent 70%)",
-            animation: "pulse 3s ease-in-out infinite",
-          }}
-        />
-        <div
-          style={{
-            position: "absolute",
-            bottom: "20%",
-            right: "10%",
-            width: "300px",
-            height: "300px",
-            borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(156,72,234,0.1) 0%, transparent 70%)",
-          }}
-        />
+    <div className="min-h-svh font-sans flex items-center justify-center relative overflow-hidden bg-[linear-gradient(135deg,#f8f9ff_0%,#e6eeff_50%,#f0dbff_100%)]">
+      {/* Floating orbs */}
+      <div className="fixed inset-0 pointer-events-none">
+        <div className="animate-float-orb absolute top-[20%] left-[10%] w-96 h-96 rounded-full"
+          style={{ background: "radial-gradient(circle, rgba(99,71,209,0.13) 0%, transparent 70%)" }} />
+        <div className="animate-float-orb-slow absolute bottom-[20%] right-[10%] w-72 h-72 rounded-full"
+          style={{ background: "radial-gradient(circle, rgba(156,72,234,0.10) 0%, transparent 70%)" }} />
+        <div className="animate-float-orb absolute top-[60%] left-[60%] w-56 h-56 rounded-full"
+          style={{ background: "radial-gradient(circle, rgba(75,42,184,0.07) 0%, transparent 70%)", animationDelay: "2s" }} />
       </div>
 
-      <div
-        style={{
-          background: "rgba(255,255,255,0.85)",
-          backdropFilter: "blur(20px)",
-          borderRadius: "28px",
-          padding: "52px 56px",
-          maxWidth: "500px",
-          width: "90%",
-          textAlign: "center",
-          boxShadow: "0 8px 48px rgba(99,71,209,0.12)",
-          border: "1px solid rgba(201,196,214,0.5)",
-          position: "relative",
-          zIndex: 1,
-        }}
-      >
+      {/* Card */}
+      <div className="relative z-10 w-[90%] max-w-lg text-center rounded-[28px] px-14 py-14 border border-white/50"
+        style={{ background: "rgba(255,255,255,0.88)", backdropFilter: "blur(24px)", boxShadow: "0 8px 48px rgba(99,71,209,0.14), 0 1px 0 rgba(255,255,255,0.9) inset" }}>
+
         {/* Animated icon */}
         <div
-          style={{
-            width: "80px",
-            height: "80px",
-            borderRadius: "24px",
-            background: "linear-gradient(135deg, #6347d1, #9c48ea)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: "36px",
-            margin: "0 auto 28px",
-            boxShadow: "0 8px 32px rgba(99,71,209,0.35)",
-          }}
+          className="w-20 h-20 rounded-3xl flex items-center justify-center text-4xl mx-auto mb-8 bg-[linear-gradient(135deg,#6347d1,#9c48ea)] shadow-[0_8px_32px_rgba(99,71,209,0.4)]"
+          style={{ transition: "all 0.3s ease", transform: done ? "scale(1.1)" : "scale(1)" }}
         >
-          {steps[currentStep]?.icon ?? "✨"}
+          {done ? "🎉" : steps[currentStep]?.icon ?? "✨"}
         </div>
 
-        <h1
-          style={{
-            fontSize: "24px",
-            fontWeight: "800",
-            color: "#121c2a",
-            letterSpacing: "-0.02em",
-            marginBottom: "10px",
-          }}
-        >
-          Casting Your Portfolio Spell...
+        <h1 className="text-[26px] font-extrabold text-on-surface tracking-tight mb-3">
+          {done ? "Transmutation Complete!" : "Casting Your Portfolio Spell..."}
         </h1>
-        <p style={{ fontSize: "14px", color: "#484554", lineHeight: "1.6", marginBottom: "36px" }}>
-          Our AI alchemists are distilling your experience into a legendary masterpiece.
-          This transmutation takes a moment of focused energy.
+        <p className="text-[14px] text-on-surface-variant leading-relaxed mb-9">
+          {done
+            ? "Your legendary portfolio has been forged. Redirecting..."
+            : "Our AI alchemists are distilling your experience into a legendary masterpiece."}
         </p>
 
-        {/* Current step */}
-        <div
-          style={{
-            background: "#f0dbff",
-            borderRadius: "12px",
-            padding: "12px 20px",
-            marginBottom: "20px",
-            display: "flex",
-            alignItems: "center",
-            gap: "10px",
-          }}
-        >
-          <span style={{ fontSize: "18px" }}>{steps[currentStep]?.icon}</span>
-          <span style={{ fontSize: "14px", fontWeight: "600", color: "#8127cf" }}>
+        {/* Current step indicator */}
+        <div className="flex items-center gap-3 bg-surface-low rounded-xl px-5 py-3.5 mb-5 text-left">
+          <span className="text-xl">{steps[currentStep]?.icon}</span>
+          <span className="text-[14px] font-semibold text-secondary flex-1">
             {steps[currentStep]?.label}...
           </span>
-          <span style={{ marginLeft: "auto", fontSize: "14px", fontWeight: "800", color: "#4b2ab8" }}>
-            {Math.round(progress)}%
-          </span>
+          <span className="text-[14px] font-extrabold text-primary">{Math.round(progress)}%</span>
         </div>
 
         {/* Progress bar */}
-        <div style={{ height: "8px", background: "#e6eeff", borderRadius: "999px", overflow: "hidden", marginBottom: "28px" }}>
+        <div className="h-2 bg-surface-container rounded-full overflow-hidden mb-7">
           <div
-            style={{
-              height: "100%",
-              width: `${progress}%`,
-              background: "linear-gradient(90deg, #6347d1, #9c48ea)",
-              borderRadius: "999px",
-              transition: "width 0.1s linear",
-              boxShadow: "0 0 8px rgba(99,71,209,0.5)",
-            }}
+            className="h-full rounded-full bg-[linear-gradient(90deg,#6347d1,#9c48ea)] shadow-[0_0_10px_rgba(99,71,209,0.5)]"
+            style={{ width: `${progress}%`, transition: "width 0.1s linear" }}
           />
         </div>
 
-        {/* Steps indicators */}
-        <div style={{ display: "flex", justifyContent: "center", gap: "8px" }}>
-          {steps.map((s, i) => (
+        {/* Step dots */}
+        <div className="flex justify-center gap-2 mb-7">
+          {steps.map((_, i) => (
             <div
               key={i}
+              className="rounded-full transition-all duration-300"
               style={{
-                width: "8px",
+                width: i === currentStep ? "24px" : "8px",
                 height: "8px",
-                borderRadius: "50%",
                 background: i <= currentStep ? "#6347d1" : "#c9c4d6",
-                transition: "background 0.3s",
               }}
             />
           ))}
         </div>
 
         <button
-          onClick={() => navigate("dashboard")}
-          style={{
-            marginTop: "28px",
-            background: "none",
-            border: "none",
-            color: "#797585",
-            fontSize: "13px",
-            cursor: "pointer",
-            fontFamily: "inherit",
-          }}
+          onClick={() => navigate("/dashboard")}
+          className="text-[13px] font-semibold text-outline bg-transparent border-0 cursor-pointer font-[inherit] hover:text-on-surface-variant transition-colors duration-150"
         >
           Skip to Dashboard →
         </button>

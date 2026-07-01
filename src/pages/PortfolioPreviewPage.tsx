@@ -1,6 +1,6 @@
 // src/pages/PortfolioPreviewPage.tsx
 import { useState } from "react";
-import { useAuthStore } from "../store/authStore";
+import { useNavigate } from "react-router-dom";
 import NavTabs from "../components/layout/NavTabs";
 import SkillRadarChart from "../components/portfolio/SkillRadarChart";
 import ProgressBar from "../components/common/ProgressBar";
@@ -68,7 +68,7 @@ const MOCK_HTML = `<!DOCTYPE html>
 const SIDEBAR_W = 300;
 
 export default function PortfolioPreviewPage() {
-  const navigate = useAuthStore((s) => s.navigate);
+  const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const handleDownload = () => {
@@ -90,7 +90,7 @@ export default function PortfolioPreviewPage() {
         className="bg-white border-b border-surface-container flex items-center gap-3 px-7 py-3 sticky top-16 z-10"
       >
         <button
-          onClick={() => navigate("dashboard")}
+          onClick={() => navigate("/dashboard")}
           className="flex items-center gap-1.5 text-sm font-semibold text-outline bg-transparent border-0 cursor-pointer font-[inherit]"
         >
           ← 대시보드
@@ -184,7 +184,7 @@ export default function PortfolioPreviewPage() {
               ⬇ HTML 다운로드
             </button>
             <button
-              onClick={() => navigate("portfolio-analysis")}
+              onClick={() => navigate("/portfolio/analysis")}
               className="w-full py-3 rounded-xl text-sm font-bold text-white border-0 cursor-pointer font-[inherit] flex items-center justify-center gap-2"
               style={{ background: "linear-gradient(135deg,#6347d1,#9c48ea)", boxShadow: "0 4px 16px rgba(99,71,209,0.3)" }}
             >

@@ -7,86 +7,56 @@ interface LoginFormProps {
 
 export default function LoginForm({ onGithubLogin }: LoginFormProps) {
   return (
-    <div
-      style={{
-        width: "100%",
-        maxWidth: "440px",
-        margin: "0 auto",
-        padding: "0 24px",
-        position: "relative",
-        zIndex: 1,
-      }}
-    >
+    <div className="w-full max-w-105 mx-auto px-6 relative z-10">
       {/* Logo */}
-      <div style={{ textAlign: "center", marginBottom: "40px" }}>
-        <div
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: "64px",
-            height: "64px",
-            background: "linear-gradient(135deg, #6347d1, #9c48ea)",
-            borderRadius: "16px",
-            fontSize: "28px",
-            marginBottom: "16px",
-            boxShadow: "0 8px 32px rgba(99,71,209,0.3)",
-          }}
-        >
-          ✦
+      <div className="text-center mb-10">
+        <div className="relative inline-block mb-5">
+          <div
+            className="w-18 h-18 flex items-center justify-center rounded-2xl text-[32px] mx-auto bg-[linear-gradient(135deg,#6347d1,#9c48ea)]"
+            style={{ boxShadow: "0 8px 40px rgba(99,71,209,0.45), 0 0 0 1px rgba(255,255,255,0.15) inset" }}
+          >
+            ✦
+          </div>
+          {/* Glow ring */}
+          <div
+            className="absolute inset-0 rounded-2xl -z-10"
+            style={{ background: "radial-gradient(circle, rgba(99,71,209,0.3) 0%, transparent 70%)", transform: "scale(1.8)", opacity: 0.6 }}
+          />
         </div>
-        <h1
-          style={{
-            fontSize: "28px",
-            fontWeight: "800",
-            color: "#4b2ab8",
-            letterSpacing: "-0.02em",
-            margin: "0 0 4px",
-          }}
-        >
+        <h1 className="text-[32px] font-extrabold text-primary tracking-tight leading-none mb-1.5">
           Cupoli
         </h1>
-        <p
-          style={{
-            fontSize: "11px",
-            fontWeight: "600",
-            letterSpacing: "0.12em",
-            color: "#797585",
-            fontFamily: "'Space Grotesk', system-ui, sans-serif",
-            textTransform: "uppercase",
-          }}
-        >
+        <p className="text-[11px] font-semibold tracking-[0.14em] text-outline uppercase font-label">
           The Alchemist's Atelier
         </p>
       </div>
 
       {/* Card */}
       <div
+        className="rounded-3xl p-10"
         style={{
-          background: "rgba(255, 255, 255, 0.85)",
-          backdropFilter: "blur(20px)",
-          borderRadius: "24px",
-          padding: "40px",
-          boxShadow: "0 4px 40px rgba(99,71,209,0.08), 0 1px 0 rgba(255,255,255,0.8) inset",
-          border: "1px solid rgba(201,196,214,0.5)",
+          background: "rgba(255, 255, 255, 0.88)",
+          backdropFilter: "blur(24px)",
+          boxShadow: "0 4px 48px rgba(99,71,209,0.10), 0 1px 0 rgba(255,255,255,0.9) inset",
+          border: "1px solid rgba(201,196,214,0.45)",
         }}
       >
-        <h2
-          style={{
-            fontSize: "24px",
-            fontWeight: "700",
-            color: "#121c2a",
-            marginBottom: "8px",
-            letterSpacing: "-0.01em",
-          }}
-        >
-          Welcome Back ✨
-        </h2>
-        <p style={{ fontSize: "14px", color: "#484554", marginBottom: "32px" }}>
-          Continue your journey of transmutation
-        </p>
+        <div className="mb-8">
+          <h2 className="text-[22px] font-extrabold text-on-surface tracking-tight mb-2">
+            Welcome Back ✨
+          </h2>
+          <p className="text-[14px] text-on-surface-variant leading-relaxed">
+            GitHub으로 로그인하고 포트폴리오 마법을 이어가세요.
+          </p>
+        </div>
 
         <SocialLoginButton onClick={onGithubLogin} />
+
+        <div className="mt-6 flex items-center gap-3">
+          <div className="flex-1 h-px bg-surface-container" />
+          <span className="text-[11px] font-semibold text-outline font-label">SECURED BY OAUTH 2.0</span>
+          <div className="flex-1 h-px bg-surface-container" />
+        </div>
       </div>
 
       <AuthFooterLinks />

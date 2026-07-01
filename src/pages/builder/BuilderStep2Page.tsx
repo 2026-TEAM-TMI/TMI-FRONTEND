@@ -1,5 +1,5 @@
 // src/pages/builder/BuilderStep2Page.tsx
-import { useAuthStore } from "../../store/authStore";
+import { useNavigate } from "react-router-dom";
 import NavTabs from "../../components/layout/NavTabs";
 import BuilderStepper from "../../components/builder/BuilderStepper";
 import ExtraExperienceStep from "../../components/builder/ExtraExperienceStep";
@@ -7,7 +7,7 @@ import Button from "../../components/common/Button";
 import { useBuilderStore } from "../../store/builderStore";
 
 export default function BuilderStep2Page() {
-  const navigate = useAuthStore((s) => s.navigate);
+  const navigate = useNavigate();
   const {
     awards, addAward, removeAward, updateAward,
     educations, addEducation, removeEducation, updateEducation,
@@ -20,7 +20,7 @@ export default function BuilderStep2Page() {
       <main className="max-w-190 mx-auto px-8 py-10">
         <BuilderStepper currentStep={2} />
 
-        <div className="bg-white rounded-3xl p-10 border border-surface-container" className_PLACEHOLDER>
+        <div className="bg-white rounded-3xl p-10 border border-surface-container shadow-[0_1px_16px_rgba(99,71,209,0.08)]">
           <div className="mb-8">
             <p className="text-[11px] font-semibold tracking-widest uppercase text-secondary mb-2 font-label">
               Step 2 of 3
@@ -43,8 +43,8 @@ export default function BuilderStep2Page() {
           />
 
           <div className="flex justify-between">
-            <Button variant="ghost" onClick={() => navigate("builder-step1")}>← Back</Button>
-            <Button variant="primary" onClick={() => navigate("builder-step3")}>Next: Finish →</Button>
+            <Button variant="ghost" onClick={() => navigate("/builder/step1")}>← Back</Button>
+            <Button variant="primary" onClick={() => navigate("/builder/step3")}>Next: Finish →</Button>
           </div>
         </div>
       </main>

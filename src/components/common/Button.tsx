@@ -10,16 +10,16 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const sizeMap: Record<Size, string> = {
-  sm: "px-3 py-1.5 text-xs",
-  md: "px-5 py-2.5 text-sm",
-  lg: "px-7 py-3 text-sm",
+  sm: "px-4 py-1.5 text-xs",
+  md: "px-6 py-2.5 text-sm",
+  lg: "px-8 py-3.5 text-sm",
 };
 
 const variantMap: Record<Variant, string> = {
   primary:
-    "bg-[linear-gradient(135deg,#6347d1,#9c48ea)] text-white shadow-[0_4px_16px_rgba(99,71,209,0.3)] hover:opacity-90",
+    "bg-[linear-gradient(135deg,#6347d1,#9c48ea)] text-white shadow-[0_4px_16px_rgba(99,71,209,0.35)] hover:shadow-[0_6px_24px_rgba(99,71,209,0.5)] hover:-translate-y-px active:translate-y-0",
   secondary:
-    "bg-surface-low text-primary border-[1.5px] border-[#dddaeb] hover:bg-surface-container",
+    "bg-surface-low text-primary border-[1.5px] border-[#dddaeb] hover:bg-surface-container hover:border-primary-container",
   ghost:
     "bg-transparent text-on-surface-variant border-[1.5px] border-outline-variant hover:bg-surface-container hover:text-on-surface",
 };
@@ -33,14 +33,24 @@ export default function Button({
   ...rest
 }: ButtonProps) {
   const base =
-    "inline-flex items-center justify-center gap-1.5 rounded-xl font-bold cursor-pointer transition-all duration-150 font-[inherit] border-0";
+    "relative inline-flex items-center justify-center gap-1.5 rounded-full font-bold cursor-pointer transition-all duration-200 font-[inherit] border-0 overflow-hidden";
 
   return (
     <button
       className={`${base} ${sizeMap[size]} ${variantMap[variant]} ${fullWidth ? "w-full" : ""} ${className}`}
       {...rest}
     >
-      {children}
+      {variant === "primary" && (
+        <span
+          aria-hidden
+          className="animate-shimmer pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.22) 50%, transparent 60%)",
+          }}
+        />
+      )}
+      <span className="relative z-10 flex items-center gap-1.5">{children}</span>
     </button>
   );
 }

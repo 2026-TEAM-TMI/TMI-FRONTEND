@@ -1,7 +1,7 @@
 // src/pages/builder/BuilderStep3Page.tsx
 import { useState } from "react";
 import type { KeyboardEvent } from "react";
-import { useAuthStore } from "../../store/authStore";
+import { useNavigate } from "react-router-dom";
 import NavTabs from "../../components/layout/NavTabs";
 import BuilderStepper from "../../components/builder/BuilderStepper";
 import FinishStep from "../../components/builder/FinishStep";
@@ -10,7 +10,7 @@ import Button from "../../components/common/Button";
 import { useBuilderStore } from "../../store/builderStore";
 
 export default function BuilderStep3Page() {
-  const navigate = useAuthStore((s) => s.navigate);
+  const navigate = useNavigate();
   const {
     direction, setDirection,
     tags, setTags,
@@ -66,8 +66,8 @@ export default function BuilderStep3Page() {
           <VisibilitySettings value={visibility} onChange={setVisibility} />
 
           <div className="flex justify-between">
-            <Button variant="ghost" onClick={() => navigate("builder-step2")}>← Back</Button>
-            <Button variant="primary" onClick={() => navigate("publishing")}>Complete ✨ Transmute!</Button>
+            <Button variant="ghost" onClick={() => navigate("/builder/step2")}>← Back</Button>
+            <Button variant="primary" onClick={() => navigate("/builder/publishing")}>Complete ✨ Transmute!</Button>
           </div>
         </div>
       </main>

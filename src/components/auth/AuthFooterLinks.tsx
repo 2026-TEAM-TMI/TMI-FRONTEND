@@ -4,33 +4,22 @@ interface AuthFooterLinksProps {
   onSignUp?: () => void;
 }
 
-const linkStyle: React.CSSProperties = {
-  background: "none",
-  border: "none",
-  color: "#797585",
-  fontSize: "13px",
-  cursor: "pointer",
-  fontFamily: "inherit",
-};
-
-export default function AuthFooterLinks({
-  onFindAccount,
-  onResetPassword,
-  onSignUp,
-}: AuthFooterLinksProps) {
+export default function AuthFooterLinks({ onFindAccount, onResetPassword, onSignUp }: AuthFooterLinksProps) {
   return (
-    <div
-      style={{
-        textAlign: "center",
-        marginTop: "24px",
-        display: "flex",
-        justifyContent: "center",
-        gap: "20px",
-      }}
-    >
-      <button style={linkStyle} onClick={onFindAccount}>Find Account</button>
-      <button style={linkStyle} onClick={onResetPassword}>Reset Password</button>
-      <button style={linkStyle} onClick={onSignUp}>Sign Up</button>
+    <div className="flex justify-center gap-6 mt-6">
+      {[
+        { label: "Find Account", handler: onFindAccount },
+        { label: "Reset Password", handler: onResetPassword },
+        { label: "Sign Up", handler: onSignUp },
+      ].map(({ label, handler }) => (
+        <button
+          key={label}
+          onClick={handler}
+          className="text-[13px] font-medium text-outline bg-transparent border-0 cursor-pointer font-[inherit] hover:text-primary-container transition-colors duration-150 underline-offset-2 hover:underline"
+        >
+          {label}
+        </button>
+      ))}
     </div>
   );
 }

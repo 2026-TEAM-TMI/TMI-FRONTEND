@@ -16,20 +16,20 @@ export default function BuilderStepper({ currentStep }: BuilderStepperProps) {
         const active = i + 1 === currentStep;
         return (
           <div key={step.num} className="flex items-center">
-            <div className="flex flex-col items-center gap-1.5">
+            <div className="flex flex-col items-center gap-2">
               <div
-                className={`w-9 h-9 rounded-full flex items-center justify-center font-extrabold text-sm transition-all duration-200 ${
+                className={`w-11 h-11 rounded-full flex items-center justify-center font-extrabold text-[15px] transition-all duration-300 ${
                   active
-                    ? "bg-[linear-gradient(135deg,#6347d1,#9c48ea)] text-white shadow-[0_4px_12px_rgba(99,71,209,0.3)]"
+                    ? "bg-[linear-gradient(135deg,#6347d1,#9c48ea)] text-white shadow-[0_6px_20px_rgba(99,71,209,0.4)] scale-110"
                     : done
-                    ? "bg-surface-container text-primary border-2 border-primary-container"
-                    : "bg-surface-container text-outline"
+                    ? "bg-primary-container/20 text-primary-container border-2 border-primary-container"
+                    : "bg-surface-container text-outline border-2 border-outline-variant"
                 }`}
               >
                 {done ? "✓" : step.num}
               </div>
               <span
-                className={`text-[11px] font-semibold tracking-widest font-label ${
+                className={`text-[11px] font-bold tracking-widest uppercase font-label transition-colors duration-300 ${
                   active ? "text-primary" : done ? "text-primary-container" : "text-outline"
                 }`}
               >
@@ -37,11 +37,13 @@ export default function BuilderStepper({ currentStep }: BuilderStepperProps) {
               </span>
             </div>
             {i < STEPS.length - 1 && (
-              <div
-                className={`w-20 h-0.5 mx-2 mb-4.5 transition-colors duration-200 ${
-                  done ? "bg-primary-container" : "bg-surface-container"
-                }`}
-              />
+              <div className="relative mx-3 mb-5 w-32 h-0.5">
+                <div className="absolute inset-0 bg-surface-container rounded-full" />
+                <div
+                  className="absolute inset-y-0 left-0 rounded-full bg-[linear-gradient(90deg,#6347d1,#9c48ea)] transition-all duration-500"
+                  style={{ width: done ? "100%" : "0%" }}
+                />
+              </div>
             )}
           </div>
         );

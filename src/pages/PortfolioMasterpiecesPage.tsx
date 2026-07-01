@@ -1,5 +1,5 @@
 // src/pages/PortfolioMasterpiecesPage.tsx
-import { useAuthStore } from "../store/authStore";
+import { useNavigate } from "react-router-dom";
 import NavTabs from "../components/layout/NavTabs";
 import ProfileSummary from "../components/portfolio/ProfileSummary";
 import MasterpieceCard from "../components/portfolio/MasterpieceCard";
@@ -20,20 +20,20 @@ const masterpieces: Masterpiece[] = [
 ];
 
 export default function PortfolioMasterpiecesPage() {
-  const navigate = useAuthStore((s) => s.navigate);
+  const navigate = useNavigate();
 
   return (
     <div className="min-h-svh bg-surface font-sans">
       <NavTabs />
-      <main className="max-w-[1000px] mx-auto px-8 py-10">
+      <main className="max-w-250 mx-auto px-8 py-10">
         <button
-          onClick={() => navigate("portfolio-feed")}
+          onClick={() => navigate("/portfolio/feed")}
           className="flex items-center gap-1.5 text-[13px] font-semibold text-outline bg-transparent border-0 cursor-pointer font-[inherit] mb-7 p-0"
         >
           ← 피드로 돌아가기
         </button>
 
-        <ProfileSummary person={person} onCoffeeChat={() => navigate("coffee-chat")} />
+        <ProfileSummary person={person} onCoffeeChat={() => navigate("/coffee-chat")} />
 
         <div>
           <div className="flex items-baseline gap-2 mb-4">
@@ -42,7 +42,7 @@ export default function PortfolioMasterpiecesPage() {
           </div>
           <div className="grid grid-cols-3 gap-4">
             {masterpieces.map((m) => (
-              <MasterpieceCard key={m.id} item={m} onClick={() => navigate("portfolio-preview")} />
+              <MasterpieceCard key={m.id} item={m} onClick={() => navigate("/portfolio/preview")} />
             ))}
           </div>
         </div>

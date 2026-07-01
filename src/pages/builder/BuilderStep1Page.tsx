@@ -1,5 +1,5 @@
 // src/pages/builder/BuilderStep1Page.tsx
-import { useAuthStore } from "../../store/authStore";
+import { useNavigate } from "react-router-dom";
 import NavTabs from "../../components/layout/NavTabs";
 import BuilderStepper from "../../components/builder/BuilderStepper";
 import GithubConnectStep from "../../components/builder/GithubConnectStep";
@@ -7,7 +7,7 @@ import Button from "../../components/common/Button";
 import { useBuilderStore } from "../../store/builderStore";
 
 export default function BuilderStep1Page() {
-  const navigate = useAuthStore((s) => s.navigate);
+  const navigate = useNavigate();
   const {
     selectedCategory, setSelectedCategory,
     repos, addRepo, removeRepo, updateRepo,
@@ -40,8 +40,8 @@ export default function BuilderStep1Page() {
           />
 
           <div className="flex justify-between">
-            <Button variant="ghost" onClick={() => navigate("dashboard")}>← Cancel</Button>
-            <Button variant="primary" onClick={() => navigate("builder-step2")}>Continue Crafting →</Button>
+            <Button variant="ghost" onClick={() => navigate("/dashboard")}>← Cancel</Button>
+            <Button variant="primary" onClick={() => navigate("/builder/step2")}>Continue Crafting →</Button>
           </div>
         </div>
       </main>

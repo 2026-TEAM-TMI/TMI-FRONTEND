@@ -1,18 +1,16 @@
-import type { AppRoute } from "../../store/authStore";
+import { useNavigate, useLocation } from "react-router-dom";
 
-const NAV_ITEMS: { label: string; route: AppRoute; icon: string }[] = [
-  { label: "Dashboard", route: "dashboard", icon: "⊞" },
-  { label: "Builder", route: "builder-step1", icon: "✦" },
-  { label: "Feed", route: "portfolio-feed", icon: "◈" },
-  { label: "Coffee Chat", route: "coffee-chat", icon: "☕" },
+const NAV_ITEMS: { label: string; path: string; icon: string }[] = [
+  { label: "Dashboard", path: "/dashboard", icon: "⊞" },
+  { label: "Builder", path: "/builder/step1", icon: "✦" },
+  { label: "Feed", path: "/portfolio/feed", icon: "◈" },
+  { label: "Coffee Chat", path: "/coffee-chat", icon: "☕" },
 ];
 
-interface SidebarProps {
-  currentRoute: AppRoute;
-  onNavigate: (route: AppRoute) => void;
-}
+export default function Sidebar() {
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
 
-export default function Sidebar({ currentRoute, onNavigate }: SidebarProps) {
   return (
     <aside className="flex flex-col w-56 min-h-screen bg-white border-r border-surface-container py-8 px-4 shrink-0">
       <div className="flex items-center gap-2 px-2 mb-10">
@@ -28,13 +26,14 @@ export default function Sidebar({ currentRoute, onNavigate }: SidebarProps) {
       </div>
 
       <nav className="flex flex-col gap-1">
-        {NAV_ITEMS.map(({ label, route, icon }) => {
-          const isBuilderRoute = route === "builder-step1" && currentRoute.startsWith("builder");
-          const isActive = currentRoute === route || isBuilderRoute;
+        {NAV_ITEMS.map(({ label, path, icon }) => {
+          const isActive =
+            pathname === path ||
+            (path === "/builder/step1" && pathname.startsWith("/builder"));
           return (
             <button
-              key={route}
-              onClick={() => onNavigate(route)}
+              key={path}
+              onClick={() => navigate(path)}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold text-left transition-colors cursor-pointer border-0 font-[inherit] ${
                 isActive
                   ? "bg-primary-container text-primary"

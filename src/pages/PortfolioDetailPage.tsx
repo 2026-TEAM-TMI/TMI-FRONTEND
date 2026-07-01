@@ -1,5 +1,5 @@
 // src/pages/PortfolioDetailPage.tsx
-import { useAuthStore } from "../store/authStore";
+import { useNavigate } from "react-router-dom";
 import NavTabs from "../components/layout/NavTabs";
 
 const projects = [
@@ -46,7 +46,7 @@ const skills = [
 ];
 
 export default function PortfolioDetailPage() {
-  const navigate = useAuthStore((s) => s.navigate);
+  const navigate = useNavigate();
 
   return (
     <div className="min-h-svh bg-surface font-sans">
@@ -54,7 +54,7 @@ export default function PortfolioDetailPage() {
 
       <main className="max-w-300 mx-auto px-8 py-10">
         <button
-          onClick={() => navigate("portfolio-feed")}
+          onClick={() => navigate("/portfolio/feed")}
           className="flex items-center gap-1.5 bg-transparent border-0 text-on-surface-variant text-sm cursor-pointer font-[inherit] mb-6 hover:text-on-surface transition-colors duration-150"
         >
           ← Back to Feed
@@ -77,7 +77,7 @@ export default function PortfolioDetailPage() {
                   </p>
                 </div>
                 <button
-                  onClick={() => navigate("coffee-chat")}
+                  onClick={() => navigate("/coffee-chat")}
                   className="flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold cursor-pointer font-[inherit] border-0 text-white bg-[linear-gradient(135deg,#6347d1,#9c48ea)] shadow-[0_4px_16px_rgba(99,71,209,0.3)] hover:opacity-90 transition-opacity duration-150 whitespace-nowrap shrink-0"
                 >
                   ☕ Coffee Chat
@@ -158,7 +158,7 @@ export default function PortfolioDetailPage() {
                 </p>
               </div>
               <button
-                onClick={() => navigate("portfolio-analysis")}
+                onClick={() => navigate("/portfolio/analysis")}
                 className="w-full py-3 bg-white/15 border border-white/30 rounded-xl text-sm font-bold cursor-pointer font-[inherit] text-white hover:bg-white/25 transition-colors duration-150"
               >
                 Full Analysis →
@@ -171,9 +171,9 @@ export default function PortfolioDetailPage() {
                 Quick Actions
               </p>
               {[
-                { label: "📥 Download Portfolio", action: "dashboard" as const },
-                { label: "🔗 Share Profile", action: "dashboard" as const },
-                { label: "📊 View Feedback", action: "portfolio-feedback" as const },
+                { label: "📥 Download Portfolio", action: "/dashboard" },
+                { label: "🔗 Share Profile", action: "/dashboard" },
+                { label: "📊 View Feedback", action: "/portfolio/feedback" },
               ].map((item) => (
                 <button
                   key={item.label}
