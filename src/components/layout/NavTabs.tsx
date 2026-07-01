@@ -56,10 +56,15 @@ export default function NavTabs() {
 
       {/* User avatar */}
       <div
-        className="w-9 h-9 rounded-full flex items-center justify-center text-white font-extrabold text-sm cursor-pointer shrink-0 transition-all duration-200 hover:scale-110 hover:shadow-[0_4px_14px_rgba(99,71,209,0.4)] select-none bg-[linear-gradient(135deg,#6347d1,#9c48ea)]"
-        title={user?.name ?? ""}
+        onClick={() => navigate("/mypage")}
+        title="My Page"
+        className={`w-9 h-9 rounded-full flex items-center justify-center text-white font-extrabold text-sm cursor-pointer shrink-0 transition-all duration-200 hover:scale-110 hover:shadow-[0_4px_14px_rgba(99,71,209,0.4)] select-none bg-[linear-gradient(135deg,#6347d1,#9c48ea)] ${
+          pathname === "/mypage" ? "ring-2 ring-primary" : ""
+        }`}
       >
         {user?.avatar ?? "?"}
+      </div>
+
       </div>
     </nav>
   );
