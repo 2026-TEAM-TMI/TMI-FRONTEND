@@ -2,8 +2,7 @@
 import { useAuthStore } from "../../store/authStore";
 import NavTabs from "../../components/layout/NavTabs";
 import BuilderStepper from "../../components/builder/BuilderStepper";
-import AwardsSection from "../../components/builder/AwardsSection";
-import EducationSection from "../../components/builder/EducationSection";
+import ExtraExperienceStep from "../../components/builder/ExtraExperienceStep";
 import Button from "../../components/common/Button";
 import { useBuilderStore } from "../../store/builderStore";
 
@@ -13,6 +12,7 @@ export default function BuilderStep2Page() {
     awards, addAward, removeAward, updateAward,
     educations, addEducation, removeEducation, updateEducation,
   } = useBuilderStore();
+
 
   return (
     <div className="min-h-svh bg-surface font-sans">
@@ -31,8 +31,16 @@ export default function BuilderStep2Page() {
             </p>
           </div>
 
-          <AwardsSection awards={awards} onAdd={addAward} onRemove={removeAward} onChange={updateAward} />
-          <EducationSection educations={educations} onAdd={addEducation} onRemove={removeEducation} onChange={updateEducation} />
+          <ExtraExperienceStep
+            awards={awards}
+            onAddAward={addAward}
+            onRemoveAward={removeAward}
+            onChangeAward={updateAward}
+            educations={educations}
+            onAddEducation={addEducation}
+            onRemoveEducation={removeEducation}
+            onChangeEducation={updateEducation}
+          />
 
           <div className="flex justify-between">
             <Button variant="ghost" onClick={() => navigate("builder-step1")}>← Back</Button>

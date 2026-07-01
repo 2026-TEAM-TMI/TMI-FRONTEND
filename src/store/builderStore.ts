@@ -7,7 +7,6 @@ let _eduId = 1;
 
 interface BuilderState {
   // Step 1
-  githubId: string;
   selectedCategory: string | null;
   repos: RepoEntry[];
   // Step 2
@@ -20,7 +19,6 @@ interface BuilderState {
   customStyleDesc: string;
   visibility: "public" | "private";
 
-  setGithubId: (v: string) => void;
   setSelectedCategory: (v: string) => void;
   addRepo: () => void;
   removeRepo: (id: number) => void;
@@ -42,7 +40,6 @@ interface BuilderState {
 }
 
 export const useBuilderStore = create<BuilderState>((set) => ({
-  githubId: "",
   selectedCategory: null,
   repos: [],
   awards: [],
@@ -53,7 +50,6 @@ export const useBuilderStore = create<BuilderState>((set) => ({
   customStyleDesc: "",
   visibility: "public",
 
-  setGithubId: (v) => set({ githubId: v }),
   setSelectedCategory: (v) => set({ selectedCategory: v }),
 
   addRepo: () =>

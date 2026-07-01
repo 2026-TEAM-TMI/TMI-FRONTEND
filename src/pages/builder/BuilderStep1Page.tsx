@@ -9,7 +9,6 @@ import { useBuilderStore } from "../../store/builderStore";
 export default function BuilderStep1Page() {
   const navigate = useAuthStore((s) => s.navigate);
   const {
-    githubId, setGithubId,
     selectedCategory, setSelectedCategory,
     repos, addRepo, removeRepo, updateRepo,
   } = useBuilderStore();
@@ -17,7 +16,7 @@ export default function BuilderStep1Page() {
   return (
     <div className="min-h-svh bg-surface font-sans">
       <NavTabs />
-      <main className="max-w-[760px] mx-auto px-8 py-10">
+      <main className="max-w-190 mx-auto px-8 py-10">
         <BuilderStepper currentStep={1} />
 
         <div className="bg-white rounded-3xl p-10 border border-surface-container shadow-[0_1px_16px_rgba(99,71,209,0.08)]">
@@ -27,13 +26,11 @@ export default function BuilderStep1Page() {
             </p>
             <h1 className="text-[26px] font-extrabold text-on-surface tracking-tight mb-2">Connect Your Grimoire ✦</h1>
             <p className="text-[15px] text-on-surface-variant leading-relaxed">
-              GitHub 아이디와 목표 직무를 입력하고, 레포지토리 정보를 추가하세요.
+              GitHub을 연동하고, 레포지토리를 선택해 포트폴리오를 만들어보세요.
             </p>
           </div>
 
           <GithubConnectStep
-            githubId={githubId}
-            onGithubIdChange={setGithubId}
             selectedCategory={selectedCategory}
             onCategoryChange={setSelectedCategory}
             repos={repos}

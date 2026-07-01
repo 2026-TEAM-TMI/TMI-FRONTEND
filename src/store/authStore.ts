@@ -1,5 +1,5 @@
-// src/store/authStore.ts (라우팅 상태 겸용으로 사용)
 import { create } from "zustand";
+import type { User } from "../types/user";
 
 export type AppRoute =
   | "login"
@@ -19,9 +19,21 @@ export type AppRoute =
 interface AuthState {
   currentRoute: AppRoute;
   navigate: (route: AppRoute) => void;
+  user: User | null;
+  token: string | null;
+  isLoggedIn: boolean;
+  setUser: (user: User) => void;
+  setToken: (token: string) => void;
+  logout: () => void;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
   currentRoute: "login",
   navigate: (route) => set({ currentRoute: route }),
+  user: null,
+  token: null,
+  isLoggedIn: false,
+  setUser: (user) => set({ user, isLoggedIn: true }),
+  setToken: (token) => set({ token }),
+  logout: () => set({ user: null, token: null, isLoggedIn: false, currentRoute: "login" }),
 }));
