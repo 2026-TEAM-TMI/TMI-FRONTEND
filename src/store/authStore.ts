@@ -1,3 +1,4 @@
+// src/store/authStore.ts
 import { create } from "zustand";
 import type { User } from "../types/user";
 
@@ -14,7 +15,8 @@ export type AppRoute =
   | "portfolio-detail"
   | "portfolio-analysis"
   | "portfolio-feedback"
-  | "coffee-chat";
+  | "coffee-chat"
+  | "mypage";
 
 interface AuthState {
   currentRoute: AppRoute;
@@ -35,5 +37,6 @@ export const useAuthStore = create<AuthState>((set) => ({
   isLoggedIn: false,
   setUser: (user) => set({ user, isLoggedIn: true }),
   setToken: (token) => set({ token }),
-  logout: () => set({ user: null, token: null, isLoggedIn: false, currentRoute: "login" }),
+  logout: () =>
+    set({ user: null, token: null, isLoggedIn: false, currentRoute: "login" }),
 }));

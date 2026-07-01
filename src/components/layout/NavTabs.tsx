@@ -11,7 +11,9 @@ const tabs: { label: string; route: AppRoute; icon: string }[] = [
 ];
 
 export default function NavTabs() {
-  const { currentRoute, navigate } = useAuthStore();
+  const { currentRoute, navigate, user } = useAuthStore();
+
+  const initial = user?.name?.[0]?.toUpperCase() ?? "E";
 
   return (
     <nav className="sticky top-0 z-50 flex items-center gap-1 px-8 h-16 bg-surface/90 backdrop-blur-md border-b border-outline-variant">
@@ -50,9 +52,17 @@ export default function NavTabs() {
         })}
       </div>
 
-      {/* Avatar */}
-      <div className="w-9 h-9 rounded-full bg-[linear-gradient(135deg,#6347d1,#9c48ea)] flex items-center justify-center text-white font-bold text-sm cursor-pointer shrink-0">
-        E
+      {/* Avatar - 클릭 시 MyPage 이동 */}
+      <div
+        onClick={() => navigate("mypage")}
+        title="My Page"
+        className={`w-9 h-9 rounded-full flex items-center justify-center text-white font-bold text-sm cursor-pointer shrink-0 transition-all duration-200 hover:ring-2 hover:ring-primary hover:scale-105 ${
+          currentRoute === "mypage"
+            ? "ring-2 ring-primary scale-105"
+            : ""
+        } bg-[linear-gradient(135deg,#6347d1,#9c48ea)]`}
+      >
+        {initial}
       </div>
     </nav>
   );
