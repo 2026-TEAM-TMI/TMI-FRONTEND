@@ -64,8 +64,6 @@ export default function NavTabs() {
       >
         {user?.avatar ?? "?"}
       </div>
-
-      </div>
     </nav>
   );
 }

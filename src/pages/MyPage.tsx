@@ -1,9 +1,11 @@
 // src/pages/MyPage.tsx
+import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
 import NavTabs from "../components/layout/NavTabs";
 
 export default function MyPage() {
-  const { navigate, logout } = useAuthStore();
+  const navigate = useNavigate();
+  const { logout } = useAuthStore();
 
   const profile = {
     name: "Elena Vane",
@@ -76,7 +78,7 @@ export default function MyPage() {
 
         <div className="flex gap-3">
           <button
-            onClick={() => navigate("dashboard")}
+            onClick={() => navigate("/dashboard")}
             className="flex-1 py-3 rounded-xl border border-gray-200 text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors"
           >
             ← Dashboard
