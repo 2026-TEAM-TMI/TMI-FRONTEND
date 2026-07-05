@@ -72,6 +72,7 @@ erDiagram
         bigint member_id FK
         string title
         string job_category "AI, BACKEND, FRONTEND"
+        string self_intro "자기소개, 직접 입력"
         string direction
         string style
         string custom_style_desc
@@ -95,6 +96,7 @@ erDiagram
         bigint repository_id FK
         string file_name
         string file_url
+        string file_type "TODO: image/pdf/ppt 구분, 논의중"
     }
 
     AWARD {
