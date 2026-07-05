@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NavTabs from "../components/layout/NavTabs";
 import Button from "../components/common/Button";
+import { useAuthStore } from "../store/authStore";
 
 const TABS = ["Overview", "UX Depth", "Storytelling", "Technical"] as const;
 type Tab = typeof TABS[number];
@@ -45,6 +46,7 @@ const statusConfig = {
 
 export default function PortfolioFeedbackPage() {
   const navigate = useNavigate();
+  const user = useAuthStore((state) => state.user);
   const [activeTab, setActiveTab] = useState<Tab>("Overview");
 
   return (
@@ -62,7 +64,7 @@ export default function PortfolioFeedbackPage() {
               Portfolio Feedback ✦
             </h1>
             <p className="text-[15px] text-on-surface-variant leading-relaxed">
-              Elena Vane · Senior Product Designer
+              {user?.name ?? "게스트"} · {user?.role ?? "직군 미설정"}
             </p>
           </div>
 

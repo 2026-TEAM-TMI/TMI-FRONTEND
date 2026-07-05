@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NavTabs from "../components/layout/NavTabs";
+import { useAuthStore } from "../store/authStore";
 import ScoreCircle from "../components/analysis/ScoreCircle";
 import SkillAnalysisChart from "../components/analysis/SkillAnalysisChart";
 import MatchingResultCard from "../components/analysis/MatchingResultCard";
@@ -123,6 +124,7 @@ const TABS: { key: Tab; label: string }[] = [
 
 export default function PortfolioAnalysisPage() {
   const navigate = useNavigate();
+  const user = useAuthStore((state) => state.user);
   const [activeTab, setActiveTab] = useState<Tab>("matching");
   const [showMore, setShowMore] = useState(false);
 
@@ -144,7 +146,7 @@ export default function PortfolioAnalysisPage() {
           <div
             className="w-14 h-14 rounded-full flex items-center justify-center text-[22px] font-extrabold text-white shrink-0 bg-white/20 border-2 border-white/30"
           >
-            E
+            {user?.avatar ?? "?"}
           </div>
           <div className="flex-1">
             <p
@@ -152,9 +154,9 @@ export default function PortfolioAnalysisPage() {
             >
               My Portfolio Analysis
             </p>
-            <h1 className="text-xl font-extrabold text-white tracking-tight">Elena Vane</h1>
+            <h1 className="text-xl font-extrabold text-white tracking-tight">{user?.name ?? "게스트"}</h1>
             <p className="text-[13px] mt-0.5 text-white/75">
-              백엔드 엔지니어 · 목표 직군
+              {user?.role ?? "목표 직군 미설정"}
             </p>
           </div>
           <div className="text-right shrink-0">

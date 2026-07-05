@@ -1,6 +1,8 @@
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 
+import RequireAuth from "../components/auth/RequireAuth";
 import LoginPage from "../pages/LoginPage";
+import OAuthCallbackPage from "../pages/OAuthCallbackPage";
 import DashboardPage from "../pages/DashboardPage";
 import BuilderStep1Page from "../pages/builder/BuilderStep1Page";
 import BuilderStep2Page from "../pages/builder/BuilderStep2Page";
@@ -9,7 +11,6 @@ import PublishingProgressPage from "../pages/builder/PublishingProgressPage";
 import PortfolioPreviewPage from "../pages/PortfolioPreviewPage";
 import PortfolioFeedPage from "../pages/PortfolioFeedPage";
 import PortfolioMasterpiecesPage from "../pages/PortfolioMasterpiecesPage";
-import PortfolioDetailPage from "../pages/PortfolioDetailPage";
 import PortfolioAnalysisPage from "../pages/PortfolioAnalysisPage";
 import PortfolioFeedbackPage from "../pages/PortfolioFeedbackPage";
 import CoffeeChatPage from "../pages/CoffeeChatPage";
@@ -23,19 +24,19 @@ export default function AppRouter() {
       <Routes>
         <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/dashboard" element={<DashboardPage />} />
-        <Route path="/builder/step1" element={<BuilderStep1Page />} />
-        <Route path="/builder/step2" element={<BuilderStep2Page />} />
-        <Route path="/builder/step3" element={<BuilderStep3Page />} />
-        <Route path="/builder/publishing" element={<PublishingProgressPage />} />
-        <Route path="/portfolio/preview" element={<PortfolioPreviewPage />} />
-        <Route path="/portfolio/feed" element={<PortfolioFeedPage />} />
-        <Route path="/portfolio/masterpieces" element={<PortfolioMasterpiecesPage />} />
-        <Route path="/portfolio/detail" element={<PortfolioDetailPage />} />
-        <Route path="/portfolio/analysis" element={<PortfolioAnalysisPage />} />
-        <Route path="/portfolio/feedback" element={<PortfolioFeedbackPage />} />
-        <Route path="/coffee-chat" element={<CoffeeChatPage />} />
-        <Route path="/mypage" element={<MyPage />} />
+        <Route path="/login/oauth2/code/github" element={<OAuthCallbackPage />} />
+        <Route path="/dashboard" element={<RequireAuth><DashboardPage /></RequireAuth>} />
+        <Route path="/builder/step1" element={<RequireAuth><BuilderStep1Page /></RequireAuth>} />
+        <Route path="/builder/step2" element={<RequireAuth><BuilderStep2Page /></RequireAuth>} />
+        <Route path="/builder/step3" element={<RequireAuth><BuilderStep3Page /></RequireAuth>} />
+        <Route path="/builder/publishing" element={<RequireAuth><PublishingProgressPage /></RequireAuth>} />
+        <Route path="/portfolio/preview" element={<RequireAuth><PortfolioPreviewPage /></RequireAuth>} />
+        <Route path="/portfolio/feed" element={<RequireAuth><PortfolioFeedPage /></RequireAuth>} />
+        <Route path="/portfolio/masterpieces" element={<RequireAuth><PortfolioMasterpiecesPage /></RequireAuth>} />
+        <Route path="/portfolio/analysis" element={<RequireAuth><PortfolioAnalysisPage /></RequireAuth>} />
+        <Route path="/portfolio/feedback" element={<RequireAuth><PortfolioFeedbackPage /></RequireAuth>} />
+        <Route path="/coffee-chat" element={<RequireAuth><CoffeeChatPage /></RequireAuth>} />
+        <Route path="/mypage" element={<RequireAuth><MyPage /></RequireAuth>} />
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </div>

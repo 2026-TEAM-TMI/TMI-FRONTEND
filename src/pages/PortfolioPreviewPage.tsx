@@ -5,6 +5,7 @@ import NavTabs from "../components/layout/NavTabs";
 import SkillRadarChart from "../components/portfolio/SkillRadarChart";
 import ProgressBar from "../components/common/ProgressBar";
 import ScoreCircle from "../components/analysis/ScoreCircle";
+import { useAuthStore } from "../store/authStore";
 import type { SkillScore } from "../types/portfolio";
 
 const SKILLS: SkillScore[] = [
@@ -16,11 +17,12 @@ const SKILLS: SkillScore[] = [
   { label: "문서화", value: 0.6 },
 ];
 
-const MOCK_HTML = `<!DOCTYPE html>
+function buildMockHtml(name: string, role: string) {
+  return `<!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <title>Portfolio — Elena Vane</title>
+  <title>Portfolio — ${name}</title>
   <style>
     body { margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; background: #f8f9ff; color: #121c2a; }
     header { background: linear-gradient(135deg,#4b2ab8,#9c48ea); color:#fff; padding:48px; }
@@ -40,8 +42,8 @@ const MOCK_HTML = `<!DOCTYPE html>
 </head>
 <body>
   <header>
-    <h1>Elena Vane</h1>
-    <p>Backend Engineer · 시스템 설계 & 대용량 트래픽 처리 전문</p>
+    <h1>${name}</h1>
+    <p>${role} · 시스템 설계 & 대용량 트래픽 처리 전문</p>
   </header>
   <main>
     <div class="section">
@@ -64,19 +66,23 @@ const MOCK_HTML = `<!DOCTYPE html>
   </main>
 </body>
 </html>`;
+}
 
 const SIDEBAR_W = 300;
 
 export default function PortfolioPreviewPage() {
   const navigate = useNavigate();
+  const user = useAuthStore((state) => state.user);
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
+  const mockHtml = buildMockHtml(user?.name ?? "게스트", user?.role ?? "직군 미설정");
+
   const handleDownload = () => {
-    const blob = new Blob([MOCK_HTML], { type: "text/html;charset=utf-8" });
+    const blob = new Blob([mockHtml], { type: "text/html;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "portfolio-elena-vane.html";
+    a.download = `portfolio-${user?.githubLogin ?? "preview"}.html`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -136,7 +142,7 @@ export default function PortfolioPreviewPage() {
             style={{ boxShadow: "0 4px 24px rgba(99,71,209,0.10)", minHeight: "600px" }}
           >
             <iframe
-              srcDoc={MOCK_HTML}
+              srcDoc={mockHtml}
               title="Portfolio Preview"
               className="w-full border-0 block"
               style={{ minHeight: "700px" }}

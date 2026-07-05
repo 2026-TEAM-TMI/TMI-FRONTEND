@@ -1,28 +1,38 @@
-import type { User } from "../types/user";
+import type { SocialType } from "../types/member";
+import { apiFetch, reissueAccessToken } from "./httpClient";
 
-const BASE = import.meta.env.VITE_API_BASE_URL ?? "";
+const GITHUB_CLIENT_ID = import.meta.env.VITE_GITHUB_CLIENT_ID ?? "";
+const GITHUB_REDIRECT_URI =
+  import.meta.env.VITE_GITHUB_REDIRECT_URI ?? `${window.location.origin}/oauth/github/callback`;
 
-export async function loginWithEmail(
-  _email: string,
-  _password: string
-): Promise<{ user: User; token: string }> {
-  // TODO: POST ${BASE}/auth/login { email, password }
-  void BASE;
-  throw new Error("Not implemented");
+export interface SocialLoginResult {
+  accessToken: string;
+  refreshToken: string;
+  role: string;
 }
 
-export async function loginWithGoogle(): Promise<{ user: User; token: string }> {
-  // TODO: POST ${BASE}/auth/google (OAuth callback)
-  void BASE;
-  throw new Error("Not implemented");
+export function getGithubAuthorizeUrl(): string {
+  const params = new URLSearchParams({
+    client_id: GITHUB_CLIENT_ID,
+    redirect_uri: GITHUB_REDIRECT_URI,
+    scope: "read:user user:email",
+  });
+  return `https://github.com/login/oauth/authorize?${params.toString()}`;
 }
 
-export async function signUp(
-  _email: string,
-  _password: string,
-  _name: string
-): Promise<void> {
-  // TODO: POST ${BASE}/auth/signup { email, password, name }
-  void BASE;
-  throw new Error("Not implemented");
+// POST /api/v1/members/login?authorizationCode={authorizationCode}
+export async function loginWithSocial(
+  authorizationCode: string,
+  socialType: SocialType
+): Promise<SocialLoginResult> {
+  return apiFetch<SocialLoginResult>(
+    `/api/v1/members/login?authorizationCode=${encodeURIComponent(authorizationCode)}`,
+    {
+      method: "POST",
+      body: JSON.stringify({ socialType }),
+    },
+    { retryOn401: false }
+  );
 }
+
+export { reissueAccessToken };

@@ -1,22 +1,23 @@
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
-import type { User } from "../types/user";
+import { getGithubAuthorizeUrl, loginWithSocial } from "../api/authApi";
+import { getMyInfo, toUser } from "../api/memberApi";
+import type { SocialType } from "../types/member";
 
 export function useAuth() {
   const { setUser, setToken, logout: storeLogout, user, isLoggedIn } = useAuthStore();
   const navigate = useNavigate();
 
-  function login(_email: string, _password: string) {
-    const mockUser: User = { name: "Guest", role: "개발자", avatar: "G", color: "#6347d1" };
-    setUser(mockUser);
-    setToken("mock-token");
-    navigate("/dashboard");
+  function loginWithGithub() {
+    window.location.href = getGithubAuthorizeUrl();
   }
 
-  function loginWithGithub() {
-    const mockUser: User = { name: "Elena Vane", role: "AI 엔지니어", avatar: "E", color: "#6347d1" };
-    setUser(mockUser);
-    setToken("mock-github-token");
+  async function completeSocialLogin(authorizationCode: string, socialType: SocialType = "GITHUB") {
+    const { accessToken } = await loginWithSocial(authorizationCode, socialType);
+    setToken(accessToken);
+
+    const info = await getMyInfo();
+    setUser(toUser(info));
     navigate("/dashboard");
   }
 
@@ -25,5 +26,5 @@ export function useAuth() {
     navigate("/login");
   }
 
-  return { login, loginWithGithub, logout, user, isLoggedIn };
+  return { loginWithGithub, completeSocialLogin, logout, user, isLoggedIn };
 }

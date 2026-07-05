@@ -1,8 +1,10 @@
 import { useState, useRef, useCallback } from "react";
+import { useAuthStore } from "../../store/authStore";
 
 export default function WelcomeBanner() {
   const [glow, setGlow] = useState({ x: 50, y: 50 });
   const ref = useRef<HTMLDivElement>(null);
+  const user = useAuthStore((state) => state.user);
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
     const rect = ref.current?.getBoundingClientRect();
@@ -39,7 +41,7 @@ export default function WelcomeBanner() {
         The Alchemist's Atelier
       </p>
       <h1 className="relative text-[34px] font-extrabold tracking-[-0.03em] leading-[1.2] mb-3 text-white">
-        Welcome back, Elena! ✨
+        Welcome back, {user?.name ?? "게스트"}! ✨
       </h1>
       <p className="relative text-[15px] leading-relaxed text-white/70">
         Your portfolio magic is working —{" "}
