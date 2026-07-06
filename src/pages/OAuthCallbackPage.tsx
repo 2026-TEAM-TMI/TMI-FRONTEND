@@ -26,5 +26,5 @@ export default function OAuthCallbackPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return <OAuthCallbackStatus error={error} onRetry={() => navigate("/login")} />;
+  return <OAuthCallbackStatus error={error} onRetry={() => navigate("/login", { replace: true })} />;
 }
