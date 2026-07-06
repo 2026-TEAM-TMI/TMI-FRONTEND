@@ -1,3 +1,4 @@
+// src/types/portfolio.ts
 export type JobCategory = "ALL" | "AI" | "백엔드" | "프론트엔드";
 
 export interface PortfolioCard {
@@ -22,7 +23,7 @@ export interface PortfolioListItem {
   tags: string[];
   updated: string;
   views: string;
-  status: "published" | "draft" | "generating";
+  status: "published" | "draft";
 }
 
 export interface Masterpiece {
@@ -62,4 +63,48 @@ export interface Education {
   startDate: string;
   endDate: string;
   description: string;
+}
+
+// ===== 포트폴리오 생성 Request Body =====
+
+export interface ProjectRequest {
+  name: string;
+  repositoryId: number;
+  description?: string;
+  fileKeys?: string[];
+  imageKeys?: string[];
+}
+
+export interface AwardRequest {
+  title: string;
+  organization?: string;
+  date?: string;
+  description?: string;
+}
+
+export interface ActivityRequest {
+  title: string;
+  organization?: string;
+  period?: string;
+  description?: string;
+}
+
+export interface CreatePortfolioRequest {
+  portfolioTitle: string;
+  portfolioDescription: string;
+  isPublic: boolean;
+  name: string;
+  contact?: Record<string, string>;
+  address?: string;
+  description: string;
+  jobCategory: string;
+  portfolioImageKeys?: string[];
+  customPrompt?: string;
+  projects: ProjectRequest[];
+  awards?: AwardRequest[];
+  activities?: ActivityRequest[];
+}
+
+export interface CreatePortfolioResponse {
+  id: number;
 }
