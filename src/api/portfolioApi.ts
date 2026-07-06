@@ -1,33 +1,41 @@
-import type { PortfolioCard, JobCategory } from "../types/portfolio";
-
-const BASE = import.meta.env.VITE_API_BASE_URL ?? "";
+// src/api/portfolioApi.ts
+import { apiFetch } from "./httpClient";
+import type {
+  PortfolioCard,
+  JobCategory,
+  CreatePortfolioRequest,
+  CreatePortfolioResponse,
+} from "../types/portfolio";
 
 export async function getPortfolioFeed(
-  _category?: JobCategory
+  category?: JobCategory
 ): Promise<PortfolioCard[]> {
-  // TODO: GET ${BASE}/portfolios?category={category}
-  void BASE;
-  throw new Error("Not implemented");
+  const query =
+    category && category !== "ALL"
+      ? `?category=${encodeURIComponent(category)}`
+      : "";
+  return apiFetch<PortfolioCard[]>(`/api/v1/portfolios${query}`, {
+    method: "GET",
+  });
 }
 
-export async function getPortfolioDetail(
-  _id: number
-): Promise<PortfolioCard> {
-  // TODO: GET ${BASE}/portfolios/{id}
-  void BASE;
-  throw new Error("Not implemented");
+export async function getPortfolioDetail(id: number): Promise<PortfolioCard> {
+  return apiFetch<PortfolioCard>(`/api/v1/portfolios/${id}`, {
+    method: "GET",
+  });
 }
 
 export async function createPortfolio(
-  _data: Record<string, unknown>
-): Promise<{ id: number }> {
-  // TODO: POST ${BASE}/portfolios
-  void BASE;
-  throw new Error("Not implemented");
+  data: CreatePortfolioRequest
+): Promise<CreatePortfolioResponse> {
+  return apiFetch<CreatePortfolioResponse>("/api/v1/portfolios", {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
 }
 
-export async function deletePortfolio(_id: number): Promise<void> {
-  // TODO: DELETE ${BASE}/portfolios/{id}
-  void BASE;
-  throw new Error("Not implemented");
+export async function deletePortfolio(id: number): Promise<void> {
+  return apiFetch<void>(`/api/v1/portfolios/${id}`, {
+    method: "DELETE",
+  });
 }
