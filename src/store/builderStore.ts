@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { RepoEntry, Award, Education } from "../types/portfolio";
+import type { RepoEntry, RepoFile, Award, Education } from "../types/portfolio";
 
 let _repoId = 1;
 let _awardId = 1;
@@ -23,6 +23,7 @@ interface BuilderState {
   addRepo: () => void;
   removeRepo: (id: number) => void;
   updateRepo: (id: number, field: keyof Omit<RepoEntry, "id" | "files">, value: string) => void;
+  setRepoFiles: (id: number, files: RepoFile[]) => void;
 
   addAward: () => void;
   removeAward: (id: number) => void;
@@ -57,6 +58,8 @@ export const useBuilderStore = create<BuilderState>((set) => ({
   removeRepo: (id) => set((s) => ({ repos: s.repos.filter((r) => r.id !== id) })),
   updateRepo: (id, field, value) =>
     set((s) => ({ repos: s.repos.map((r) => (r.id === id ? { ...r, [field]: value } : r)) })),
+  setRepoFiles: (id, files) =>
+    set((s) => ({ repos: s.repos.map((r) => (r.id === id ? { ...r, files } : r)) })),
 
   addAward: () =>
     set((s) => ({ awards: [...s.awards, { id: _awardId++, name: "", type: "", date: "", description: "" }] })),

@@ -23,7 +23,7 @@ export interface PortfolioListItem {
   tags: string[];
   updated: string;
   views: string;
-  status: "published" | "draft";
+  status: "published" | "draft" | "generating";
 }
 
 export interface Masterpiece {
@@ -42,11 +42,19 @@ export interface SkillScore {
   value: number; // 0–1
 }
 
+export type UploadStatus = "uploading" | "done" | "error";
+
+export interface RepoFile {
+  file: File;
+  status: UploadStatus;
+  key?: string;
+}
+
 export interface RepoEntry {
   id: number;
   url: string;
   description: string;
-  files: File[];
+  files: RepoFile[];
 }
 
 export interface Award {

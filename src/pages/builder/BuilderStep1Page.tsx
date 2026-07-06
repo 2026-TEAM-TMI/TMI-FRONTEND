@@ -10,7 +10,7 @@ export default function BuilderStep1Page() {
   const navigate = useNavigate();
   const {
     selectedCategory, setSelectedCategory,
-    repos, addRepo, removeRepo, updateRepo,
+    repos, addRepo, removeRepo, updateRepo, setRepoFiles,
   } = useBuilderStore();
 
   return (
@@ -37,6 +37,7 @@ export default function BuilderStep1Page() {
             onAddRepo={addRepo}
             onRemoveRepo={removeRepo}
             onUpdateRepo={updateRepo}
+            onRepoFilesChange={setRepoFiles}
           />
 
           <div className="flex justify-between">
