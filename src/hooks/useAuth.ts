@@ -18,12 +18,12 @@ export function useAuth() {
 
     const info = await getMyInfo();
     setUser(toUser(info));
-    navigate("/dashboard");
+    navigate("/dashboard", { replace: true });
   }
 
   function logout() {
     storeLogout();
-    navigate("/login");
+    navigate("/login", { replace: true });
   }
 
   return { loginWithGithub, completeSocialLogin, logout, user, isLoggedIn };

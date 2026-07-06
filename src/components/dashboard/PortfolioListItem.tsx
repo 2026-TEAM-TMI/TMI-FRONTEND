@@ -24,7 +24,7 @@ export default function PortfolioListItem({ portfolio: p, onClick }: PortfolioLi
 
   if (isGenerating) {
     return (
-      <div className="rounded-[20px] p-7 bg-[linear-gradient(135deg,#f8f9ff_0%,#f3ebfa_100%)] border-[1.5px] border-dashed border-[#d9c9f5] cursor-default flex flex-col items-center justify-center text-center gap-3 min-h-[172px]">
+      <div className="rounded-[20px] p-7 bg-[linear-gradient(135deg,#f8f9ff_0%,#f3ebfa_100%)] border-[1.5px] border-dashed border-[#d9c9f5] cursor-default flex flex-col items-center justify-center text-center gap-3 min-h-43">
         <div className="w-9 h-9 rounded-full border-[3px] border-[#e0d3f7] border-t-secondary animate-spin" />
         <h3 className="text-[15px] font-bold text-on-surface leading-snug">{p.title}</h3>
         <p className="text-[12px] font-semibold text-secondary">✨ AI가 포트폴리오를 만들고 있어요...</p>
