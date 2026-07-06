@@ -1,21 +1,29 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { RepoEntry } from "../../types/portfolio";
+import type { GithubRepository } from "../../types/github";
+import { getMyRepositories } from "../../api/memberApi";
+import { useAuthStore } from "../../store/authStore";
 import { Textarea } from "../common/Input";
 
-interface GithubRepo {
-  name: string;
-  url: string;
-  description: string;
-}
+const REPO_VISIBILITY_HELP =
+  "owner, collaborator, organization repository 중 권한이 write 이상인 레포지토리만 조회됩니다. (organization read 권한만 있는 레포는 조회되지 않아요)";
 
-const MOCK_GITHUB_REPOS: GithubRepo[] = [
-  { name: "nebula-os", url: "https://github.com/elena-vane/nebula-os", description: "분산 OS 작업 스케줄러" },
-  { name: "lumina-ai", url: "https://github.com/elena-vane/lumina-ai", description: "생성형 AI 파이프라인" },
-  { name: "pulse-api", url: "https://github.com/elena-vane/pulse-api", description: "헬스테크 REST API" },
-  { name: "void-scheduler", url: "https://github.com/elena-vane/void-scheduler", description: "Kafka 기반 분산 스케줄러" },
-  { name: "ethos-nlp", url: "https://github.com/elena-vane/ethos-nlp", description: "NLP 감성 분석 파이프라인" },
-  { name: "fluxengine", url: "https://github.com/elena-vane/fluxengine", description: "실시간 파티클 렌더러" },
-];
+function HelpTooltip({ text }: { text: string }) {
+  return (
+    <span className="relative inline-flex group align-middle ml-1">
+      <button
+        type="button"
+        aria-label="도움말"
+        className="w-4 h-4 rounded-full bg-surface-container text-outline text-[10px] font-bold flex items-center justify-center cursor-help hover:bg-outline-variant transition-colors"
+      >
+        ?
+      </button>
+      <span className="pointer-events-none absolute left-1/2 -translate-x-1/2 bottom-[calc(100%+6px)] w-64 rounded-lg bg-on-surface text-white text-[11px] leading-relaxed p-2.5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-150 z-10">
+        {text}
+      </span>
+    </span>
+  );
+}
 
 const GitHubIcon = ({ size = 16, color = "currentColor" }: { size?: number; color?: string }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill={color}>
@@ -34,7 +42,7 @@ function RepoCard({
 }: {
   repo: RepoEntry;
   index: number;
-  availableRepos: GithubRepo[];
+  availableRepos: GithubRepository[];
   onRemove: (id: number) => void;
   onChange: (id: number, field: keyof Omit<RepoEntry, "id" | "files">, value: string) => void;
 }) {
@@ -52,7 +60,7 @@ function RepoCard({
     setFiles((prev) => [...prev, ...valid]);
   };
 
-  const selectedRepo = availableRepos.find((r) => r.url === repo.url);
+  const selectedRepo = availableRepos.find((r) => r.html_url === repo.url);
 
   return (
     <div className="bg-surface rounded-2xl border border-surface-container p-5 relative">
@@ -80,7 +88,7 @@ function RepoCard({
             >
               <option value="">레포지토리를 선택하세요</option>
               {availableRepos.map((r) => (
-                <option key={r.url} value={r.url}>
+                <option key={r.id} value={r.html_url}>
                   {r.name}
                 </option>
               ))}
@@ -94,7 +102,7 @@ function RepoCard({
           {selectedRepo && (
             <p className="text-[11px] text-outline mt-1.5 flex items-center gap-1">
               <GitHubIcon size={11} color="#797585" />
-              {selectedRepo.url}
+              {selectedRepo.html_url}
             </p>
           )}
         </div>
@@ -172,8 +180,29 @@ export default function GithubConnectStep({
   onRemoveRepo,
   onUpdateRepo,
 }: GithubConnectStepProps) {
-  const githubUsername = "elena-vane";
-  const availableRepos = MOCK_GITHUB_REPOS;
+  const githubUsername = useAuthStore((s) => s.user?.githubLogin) ?? "-";
+  const [availableRepos, setAvailableRepos] = useState<GithubRepository[]>([]);
+  const [reposLoading, setReposLoading] = useState(true);
+  const [reposError, setReposError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    setReposLoading(true);
+    setReposError(null);
+    getMyRepositories()
+      .then((data) => {
+        if (!cancelled) setAvailableRepos(data);
+      })
+      .catch(() => {
+        if (!cancelled) setReposError("레포지토리 목록을 불러오지 못했습니다.");
+      })
+      .finally(() => {
+        if (!cancelled) setReposLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   return (
     <>
@@ -219,16 +248,26 @@ export default function GithubConnectStep({
       <div className="mb-8">
         <div className="flex justify-between items-center mb-3.5">
           <div>
-            <h3 className="text-[15px] font-bold text-on-surface">📁 레포지토리 정보</h3>
-            <p className="text-[12px] text-outline mt-0.5">포트폴리오에 담을 프로젝트를 추가하세요</p>
+            <h3 className="text-[15px] font-bold text-on-surface flex items-center">
+              📁 레포지토리 정보
+              <HelpTooltip text={REPO_VISIBILITY_HELP} />
+            </h3>
+            <p className="text-[12px] text-outline mt-0.5">
+              {reposLoading ? "레포지토리 목록을 불러오는 중이에요..." : "포트폴리오에 담을 프로젝트를 추가하세요"}
+            </p>
           </div>
           <button
             onClick={onAddRepo}
-            className="px-4 py-2 rounded-full text-[13px] font-bold text-white border-0 font-[inherit] bg-[linear-gradient(135deg,#6347d1,#9c48ea)] shadow-[0_4px_12px_rgba(99,71,209,0.25)] hover:opacity-90 transition-opacity duration-150 cursor-pointer"
+            disabled={reposLoading}
+            className="px-4 py-2 rounded-full text-[13px] font-bold text-white border-0 font-[inherit] bg-[linear-gradient(135deg,#6347d1,#9c48ea)] shadow-[0_4px_12px_rgba(99,71,209,0.25)] hover:opacity-90 transition-opacity duration-150 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           >
             + 레포지토리 추가
           </button>
         </div>
+
+        {reposError && (
+          <p className="text-[12px] text-red-500 mb-3">{reposError}</p>
+        )}
 
         {repos.length === 0 ? (
           <div className="border-2 border-dashed border-outline-variant rounded-2xl p-8 text-center text-outline text-sm">

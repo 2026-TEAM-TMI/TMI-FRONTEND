@@ -5,7 +5,7 @@ import WelcomeBanner from "../components/dashboard/WelcomeBanner";
 import StatCard from "../components/dashboard/StatCard";
 import CreatePortfolioCard from "../components/dashboard/CreatePortfolioCard";
 import PortfolioListItem from "../components/dashboard/PortfolioListItem";
-import type { PortfolioListItem as IPortfolioListItem } from "../types/portfolio";
+import { usePortfolioStore } from "../store/portfolioStore";
 
 const stats = [
   { label: "Total Views", value: "12,482", change: "+12.5%", icon: "👁️" },
@@ -13,15 +13,9 @@ const stats = [
   { label: "My Portfolios", value: "04", change: "Active", icon: "✨" },
 ];
 
-const portfolios: IPortfolioListItem[] = [
-  { id: 1, title: "Lumina: Generative Dreamscapes", tags: ["UX", "AI", "GENERATIVE"], updated: "Updated 2h ago", views: "4.2k", status: "published" },
-  { id: 2, title: "Nebula OS: System Design", tags: ["SYSTEM", "VR/AR"], updated: "Updated 5d ago", views: "2.8k", status: "published" },
-  { id: 3, title: "Soma Skincare Branding", tags: ["BRANDING", "E-COM"], updated: "Updated 1w ago", views: "3.1k", status: "draft" },
-  { id: 4, title: "Pulse Dashboard: Health-Tech", tags: ["DASHBOARD", "DATA"], updated: "Updated 2w ago", views: "1.9k", status: "published" },
-];
-
 export default function DashboardPage() {
   const navigate = useNavigate();
+  const portfolios = usePortfolioStore((s) => s.portfolios);
 
   return (
     <div className="min-h-svh bg-surface font-sans">

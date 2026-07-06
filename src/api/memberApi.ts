@@ -1,5 +1,6 @@
 import type { Member } from "../types/member";
 import type { User } from "../types/user";
+import type { GithubRepository } from "../types/github";
 import { apiFetch } from "./httpClient";
 
 // GET /api/v1/members/me
@@ -20,7 +21,7 @@ export function toUser(member: Member): User {
 }
 
 // GET /api/v1/members/me/repositories
-// 참고: Notion 명세서상 응답 데이터 필드가 아직 확정되지 않음 (백엔드 진행상황: 작업 전)
-export async function getMyRepositories(): Promise<unknown[]> {
-  return apiFetch<unknown[]>("/api/v1/members/me/repositories");
+// 참고: write 이상 권한을 가진 레포지토리만 반환됨 (organization read 권한만 있는 레포는 제외, 최대 1000개)
+export async function getMyRepositories(): Promise<GithubRepository[]> {
+  return apiFetch<GithubRepository[]>("/api/v1/members/me/repositories");
 }

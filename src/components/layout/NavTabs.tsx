@@ -9,7 +9,7 @@ const tabs = [
   { label: "Analysis", path: "/portfolio/analysis", icon: "◎" },
 ];
 
-const BUILDER_PATHS = ["/builder/step1", "/builder/step2", "/builder/step3", "/builder/publishing"];
+const BUILDER_PATHS = ["/builder/step1", "/builder/step2", "/builder/step3"];
 
 export default function NavTabs() {
   const navigate = useNavigate();

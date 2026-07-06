@@ -15,7 +15,7 @@ export function getGithubAuthorizeUrl(): string {
   const params = new URLSearchParams({
     client_id: GITHUB_CLIENT_ID,
     redirect_uri: GITHUB_REDIRECT_URI,
-    scope: "read:user user:email",
+    scope: "read:user user:email read:org",
   });
   return `https://github.com/login/oauth/authorize?${params.toString()}`;
 }

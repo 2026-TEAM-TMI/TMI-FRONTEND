@@ -8,6 +8,9 @@ import FinishStep from "../../components/builder/FinishStep";
 import VisibilitySettings from "../../components/builder/VisibilitySettings";
 import Button from "../../components/common/Button";
 import { useBuilderStore } from "../../store/builderStore";
+import { usePortfolioStore } from "../../store/portfolioStore";
+
+const GENERATION_DURATION_MS = 3400;
 
 export default function BuilderStep3Page() {
   const navigate = useNavigate();
@@ -18,8 +21,15 @@ export default function BuilderStep3Page() {
     customStyleDesc, setCustomStyleDesc,
     visibility, setVisibility,
   } = useBuilderStore();
+  const { addGeneratingPortfolio, markPublished } = usePortfolioStore();
 
   const [tagInput, setTagInput] = useState("");
+
+  const handleComplete = () => {
+    const id = addGeneratingPortfolio(direction.trim() || "Untitled Portfolio", tags);
+    navigate("/dashboard");
+    setTimeout(() => markPublished(id), GENERATION_DURATION_MS);
+  };
 
   const handleTagKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if ((e.key === "Enter" || e.key === ",") && tagInput.trim()) {
@@ -67,7 +77,7 @@ export default function BuilderStep3Page() {
 
           <div className="flex justify-between">
             <Button variant="ghost" onClick={() => navigate("/builder/step2")}>← Back</Button>
-            <Button variant="primary" onClick={() => navigate("/builder/publishing")}>Complete ✨ Transmute!</Button>
+            <Button variant="primary" onClick={handleComplete}>Complete ✨ Transmute!</Button>
           </div>
         </div>
       </main>

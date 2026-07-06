@@ -22,7 +22,7 @@ export interface PortfolioListItem {
   tags: string[];
   updated: string;
   views: string;
-  status: "published" | "draft";
+  status: "published" | "draft" | "generating";
 }
 
 export interface Masterpiece {
