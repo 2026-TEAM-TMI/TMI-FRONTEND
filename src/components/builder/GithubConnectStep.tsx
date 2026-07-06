@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
-import type { RepoEntry } from "../../types/portfolio";
+import { useEffect, useRef, useState } from "react";
+import type { RepoEntry, RepoFile } from "../../types/portfolio";
 import type { GithubRepository } from "../../types/github";
 import { getMyRepositories } from "../../api/memberApi";
+import { uploadFile } from "../../api/uploadApi";
 import { useAuthStore } from "../../store/authStore";
 import { Textarea } from "../common/Input";
 
@@ -39,15 +40,29 @@ function RepoCard({
   availableRepos,
   onRemove,
   onChange,
+  onFilesChange,
 }: {
   repo: RepoEntry;
   index: number;
   availableRepos: GithubRepository[];
   onRemove: (id: number) => void;
   onChange: (id: number, field: keyof Omit<RepoEntry, "id" | "files">, value: string) => void;
+  onFilesChange: (id: number, files: RepoFile[]) => void;
 }) {
   const [dragOver, setDragOver] = useState(false);
-  const [files, setFiles] = useState<File[]>(repo.files);
+  const files = repo.files;
+
+  // 업로드는 비동기로 겹쳐서 완료되므로, 매 갱신 시점의 최신 목록을 ref로 들고 있다가 순차 반영한다.
+  const filesRef = useRef<RepoFile[]>(files);
+  useEffect(() => {
+    filesRef.current = files;
+  }, [files]);
+
+  const setFiles = (updater: (prev: RepoFile[]) => RepoFile[]) => {
+    const next = updater(filesRef.current);
+    filesRef.current = next;
+    onFilesChange(repo.id, next);
+  };
 
   const handleFiles = (incoming: FileList | null) => {
     if (!incoming) return;
@@ -57,7 +72,28 @@ function RepoCard({
       "application/vnd.openxmlformats-officedocument.presentationml.presentation",
     ];
     const valid = Array.from(incoming).filter((f) => allowed.includes(f.type));
-    setFiles((prev) => [...prev, ...valid]);
+    if (valid.length === 0) return;
+
+    const pending: RepoFile[] = valid.map((file) => ({ file, status: "uploading" }));
+    setFiles((prev) => [...prev, ...pending]);
+
+    pending.forEach((entry) => {
+      uploadFile(entry.file, "PROJECT_FILE")
+        .then((key) => {
+          setFiles((prev) =>
+            prev.map((f) => (f.file === entry.file ? { ...f, status: "done", key } : f))
+          );
+        })
+        .catch(() => {
+          setFiles((prev) =>
+            prev.map((f) => (f.file === entry.file ? { ...f, status: "error" } : f))
+          );
+        });
+    });
+  };
+
+  const removeFile = (target: File) => {
+    setFiles((prev) => prev.filter((f) => f.file !== target));
   };
 
   const selectedRepo = availableRepos.find((r) => r.html_url === repo.url);
@@ -148,9 +184,27 @@ function RepoCard({
               {files.map((f, i) => (
                 <span
                   key={i}
-                  className="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-surface-container text-primary font-label"
+                  className={`group relative inline-flex items-center pl-2.5 pr-1.5 py-0.5 rounded-full text-[11px] font-semibold font-label ${
+                    f.status === "error"
+                      ? "bg-red-100 text-red-500"
+                      : f.status === "uploading"
+                        ? "bg-surface-container text-outline"
+                        : "bg-surface-container text-primary"
+                  }`}
                 >
-                  {f.name}
+                  <span className="max-w-40 truncate">
+                    {f.file.name}
+                    {f.status === "uploading" && " · 업로드 중"}
+                    {f.status === "error" && " · 업로드 실패"}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => removeFile(f.file)}
+                    aria-label={`${f.file.name} 삭제`}
+                    className="ml-1 w-4 h-4 rounded-full flex items-center justify-center leading-none opacity-0 group-hover:opacity-100 hover:bg-black/10 transition-opacity duration-150 cursor-pointer"
+                  >
+                    ×
+                  </button>
                 </span>
               ))}
             </div>
@@ -168,6 +222,7 @@ interface GithubConnectStepProps {
   onAddRepo: () => void;
   onRemoveRepo: (id: number) => void;
   onUpdateRepo: (id: number, field: keyof Omit<RepoEntry, "id" | "files">, value: string) => void;
+  onRepoFilesChange: (id: number, files: RepoFile[]) => void;
 }
 
 const JOB_CATEGORIES = ["AI", "백엔드", "프론트엔드"];
@@ -179,6 +234,7 @@ export default function GithubConnectStep({
   onAddRepo,
   onRemoveRepo,
   onUpdateRepo,
+  onRepoFilesChange,
 }: GithubConnectStepProps) {
   const githubUsername = useAuthStore((s) => s.user?.githubLogin) ?? "-";
   const [availableRepos, setAvailableRepos] = useState<GithubRepository[]>([]);
@@ -285,6 +341,7 @@ export default function GithubConnectStep({
                 availableRepos={availableRepos}
                 onRemove={onRemoveRepo}
                 onChange={onUpdateRepo}
+                onFilesChange={onRepoFilesChange}
               />
             ))}
           </div>
