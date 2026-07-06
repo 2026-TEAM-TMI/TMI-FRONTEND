@@ -24,6 +24,21 @@ export interface PortfolioListItem {
   updated: string;
   views: string;
   status: "published" | "draft" | "generating";
+  // GET /api/v1/members/{memberId}/portfolios 응답 필드 (실 데이터 병행 표시용, 없으면 undefined)
+  description?: string;
+  thumbnailImage?: string | null;
+  jobCategory?: string;
+  url?: string;
+}
+
+// GET /api/v1/members/{memberId}/portfolios 응답의 portfolios 배열 원소
+export interface MemberPortfolio {
+  portfolioTitle: string;
+  portfolioDescription: string;
+  thumbnailImage: string | null;
+  jobCategory: string;
+  viewsCount: number;
+  url: string;
 }
 
 export interface Masterpiece {

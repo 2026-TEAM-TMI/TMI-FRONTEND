@@ -5,6 +5,7 @@ import type {
   JobCategory,
   CreatePortfolioRequest,
   CreatePortfolioResponse,
+  MemberPortfolio,
 } from "../types/portfolio";
 
 export async function getPortfolioFeed(
@@ -38,4 +39,16 @@ export async function deletePortfolio(id: number): Promise<void> {
   return apiFetch<void>(`/api/v1/portfolios/${id}`, {
     method: "DELETE",
   });
+}
+
+// GET /api/v1/portfolios/{memberId}
+// 본인 memberId 조회 시 private+public 모두, 타인 memberId 조회 시 public만 반환됨
+export async function getMemberPortfolios(
+  memberId: number | string
+): Promise<MemberPortfolio[]> {
+  const { portfolios } = await apiFetch<{ portfolios: MemberPortfolio[] }>(
+    `/api/v1/portfolios/${memberId}`,
+    { method: "GET" }
+  );
+  return portfolios;
 }

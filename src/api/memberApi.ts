@@ -1,4 +1,4 @@
-import type { Member } from "../types/member";
+import type { Member, DashboardStats } from "../types/member";
 import type { User } from "../types/user";
 import type { GithubRepository } from "../types/github";
 import { apiFetch } from "./httpClient";
@@ -10,6 +10,7 @@ export async function getMyInfo(): Promise<Member> {
 
 export function toUser(member: Member): User {
   return {
+    id: String(member.id),
     name: member.name,
     role: member.role,
     avatar: member.name?.[0]?.toUpperCase() ?? "?",
@@ -18,6 +19,11 @@ export function toUser(member: Member): User {
     githubLogin: member.githubLogin,
     profileImage: member.profileImage,
   };
+}
+
+// GET /api/v1/members/me/dashboard
+export async function getMyDashboard(): Promise<DashboardStats> {
+  return apiFetch<DashboardStats>("/api/v1/members/me/dashboard");
 }
 
 // GET /api/v1/members/me/repositories

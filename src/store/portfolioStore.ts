@@ -7,6 +7,7 @@ interface PortfolioState {
   portfolios: PortfolioListItem[];
   addGeneratingPortfolio: (title: string, tags: string[]) => number;
   markPublished: (id: number) => void;
+  setFetchedPortfolios: (items: PortfolioListItem[]) => void;
 }
 
 export const usePortfolioStore = create<PortfolioState>((set) => ({
@@ -33,5 +34,11 @@ export const usePortfolioStore = create<PortfolioState>((set) => ({
       portfolios: s.portfolios.map((p) =>
         p.id === id ? { ...p, status: "published", updated: "Updated just now" } : p
       ),
+    })),
+
+  // 생성 중인 카드(status: "generating")는 유지한 채, 나머지를 서버에서 조회한 목록으로 교체
+  setFetchedPortfolios: (items) =>
+    set((s) => ({
+      portfolios: [...s.portfolios.filter((p) => p.status === "generating"), ...items],
     })),
 }));
