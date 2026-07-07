@@ -10,7 +10,6 @@ import BuilderStep3Page from "../pages/builder/BuilderStep3Page";
 import PortfolioPreviewPage from "../pages/PortfolioPreviewPage";
 import PortfolioFeedPage from "../pages/PortfolioFeedPage";
 import PortfolioAuthorFeedPage from "../pages/PortfolioAuthorFeedPage";
-import PortfolioMasterpiecesPage from "../pages/PortfolioMasterpiecesPage";
 import PortfolioAnalysisPage from "../pages/PortfolioAnalysisPage";
 import PortfolioFeedbackPage from "../pages/PortfolioFeedbackPage";
 import CoffeeChatPage from "../pages/CoffeeChatPage";
@@ -32,7 +31,6 @@ export default function AppRouter() {
         <Route path="/portfolio/preview" element={<RequireAuth><PortfolioPreviewPage /></RequireAuth>} />
         <Route path="/portfolio/feed" element={<RequireAuth><PortfolioFeedPage /></RequireAuth>} />
         <Route path="/portfolio/author/:memberId" element={<RequireAuth><PortfolioAuthorFeedPage /></RequireAuth>} />
-        <Route path="/portfolio/masterpieces" element={<RequireAuth><PortfolioMasterpiecesPage /></RequireAuth>} />
         <Route path="/portfolio/analysis" element={<RequireAuth><PortfolioAnalysisPage /></RequireAuth>} />
         <Route path="/portfolio/feedback" element={<RequireAuth><PortfolioFeedbackPage /></RequireAuth>} />
         <Route path="/coffee-chat" element={<RequireAuth><CoffeeChatPage /></RequireAuth>} />

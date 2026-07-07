@@ -12,6 +12,8 @@ export interface ChatMessage {
 
 export interface ChatRoom {
   id: number;
+  // GET /api/v1/portfolios/{memberId} 조회용. 채팅 API 연동 전까지는 목업 값
+  memberId: number;
   name: string;
   role: string;
   company: string;

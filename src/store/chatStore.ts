@@ -3,7 +3,7 @@ import type { ChatRoom, ChatMessage } from "../types/chat";
 
 export const ROOMS: ChatRoom[] = [
   {
-    id: 1, name: "Elena Vane", role: "AI 엔지니어", company: "Nebula Systems",
+    id: 1, memberId: 1, name: "Elena Vane", role: "AI 엔지니어", company: "Nebula Systems",
     avatar: "E", color: "#6347d1", lastMsg: "Would you be interested in joining?",
     time: "2m", unread: 2, matchScore: 89,
     bio: "생성형 AI 파이프라인 설계 전문. LLM fine-tuning & 프로덕션 배포 경험 3년.",
@@ -14,7 +14,7 @@ export const ROOMS: ChatRoom[] = [
     ],
   },
   {
-    id: 2, name: "Caleb Turner", role: "백엔드 리드", company: "Nebula Lab",
+    id: 2, memberId: 2, name: "Caleb Turner", role: "백엔드 리드", company: "Nebula Lab",
     avatar: "C", color: "#8127cf", lastMsg: "Great portfolio! Let's chat.",
     time: "1h", unread: 0, matchScore: 76,
     bio: "분산 시스템 & 고가용성 아키텍처. Kafka·Redis 기반 대용량 트래픽 처리 전문.",
@@ -25,7 +25,7 @@ export const ROOMS: ChatRoom[] = [
     ],
   },
   {
-    id: 3, name: "Maya Sterling", role: "프론트엔드 개발자", company: "Polis Studio",
+    id: 3, memberId: 3, name: "Maya Sterling", role: "프론트엔드 개발자", company: "Polis Studio",
     avatar: "M", color: "#4b2ab8", lastMsg: "How was your time at Polis?",
     time: "3h", unread: 1, matchScore: 82,
     bio: "React·TypeScript 기반 복잡한 상태 관리 & 성능 최적화 전문. WebGL 경험 보유.",
@@ -36,7 +36,7 @@ export const ROOMS: ChatRoom[] = [
     ],
   },
   {
-    id: 4, name: "Jin Park", role: "풀스택 엔지니어", company: "Cupoli Lab",
+    id: 4, memberId: 4, name: "Jin Park", role: "풀스택 엔지니어", company: "Cupoli Lab",
     avatar: "J", color: "#0d6efd", lastMsg: "Loved your Nebula OS project!",
     time: "1d", unread: 0, matchScore: 71,
     bio: "Node.js·Next.js 풀스택. 스타트업 초기 멤버로 제품 전반 설계·개발 경험.",

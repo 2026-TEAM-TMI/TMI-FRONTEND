@@ -44,19 +44,6 @@ export interface MemberPortfolio {
   url: string;
 }
 
-export interface Masterpiece {
-  id: number;
-  // GET /api/v1/portfolios/{memberId} 호출용. 실 데이터 연동 전까지는 목업 값
-  memberId: number;
-  title: string;
-  desc: string;
-  tags: string[];
-  likes: string;
-  comments: string;
-  gradient: string;
-  accent: string;
-}
-
 export interface SkillScore {
   label: string;
   value: number; // 0–1
