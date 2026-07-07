@@ -43,7 +43,7 @@ export const usePortfolioStore = create<PortfolioState>((set) => ({
     set((s) => ({
       portfolios: [...s.portfolios.filter((p) => p.status === "generating"), ...items],
     })),
-}));
+
   markError: (id) =>
     set((s) => ({
       portfolios: s.portfolios.map((p) =>
