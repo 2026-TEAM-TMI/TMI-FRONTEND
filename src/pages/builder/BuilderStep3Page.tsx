@@ -8,6 +8,7 @@ import FinishStep from "../../components/builder/FinishStep";
 import VisibilitySettings from "../../components/builder/VisibilitySettings";
 import Button from "../../components/common/Button";
 import { useBuilderStore } from "../../store/builderStore";
+import { submitPortfolio } from "../../utils/submitPortfolio";
 
 export default function BuilderStep3Page() {
   const navigate = useNavigate();
@@ -31,6 +32,11 @@ export default function BuilderStep3Page() {
     } else if (e.key === "Backspace" && !tagInput && tags.length > 0) {
       setTags(tags.slice(0, -1));
     }
+  };
+
+  const handleComplete = () => {
+    submitPortfolio();
+    navigate("/dashboard");
   };
 
   return (
@@ -70,7 +76,7 @@ export default function BuilderStep3Page() {
 
           <div className="flex justify-between">
             <Button variant="ghost" onClick={() => navigate("/builder/step2")}>← Back</Button>
-            <Button variant="primary" onClick={() => navigate("/builder/publishing")}>Complete ✨ Transmute!</Button>
+            <Button variant="primary" onClick={handleComplete}>Complete ✨ Transmute!</Button>
           </div>
         </div>
       </main>

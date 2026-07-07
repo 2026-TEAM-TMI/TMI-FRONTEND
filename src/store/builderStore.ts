@@ -7,7 +7,6 @@ let _activityId = 1;
 let _contactId = 1;
 
 interface BuilderState {
-  // 기본 정보
   portfolioTitle: string;
   portfolioDescription: string;
   name: string;
@@ -17,13 +16,10 @@ interface BuilderState {
   portfolioImages: RepoFile[];
   customPrompt: string;
 
-  // Step 1
   selectedCategory: string | null;
   repos: RepoEntry[];
-  // Step 2
   awards: Award[];
   activities: Activity[];
-  // Step 3
   direction: string;
   tags: string[];
   selectedStyle: string;
@@ -61,27 +57,32 @@ interface BuilderState {
   setSelectedStyle: (v: string) => void;
   setCustomStyleDesc: (v: string) => void;
   setVisibility: (v: "public" | "private") => void;
+
+  resetBuilder: () => void;
 }
 
-export const useBuilderStore = create<BuilderState>((set) => ({
+const initialState = {
   portfolioTitle: "",
   portfolioDescription: "",
   name: "",
-  contact: [],
+  contact: [] as ContactEntry[],
   address: "",
   bio: "",
-  portfolioImages: [],
+  portfolioImages: [] as RepoFile[],
   customPrompt: "",
-
-  selectedCategory: null,
-  repos: [],
-  awards: [],
-  activities: [],
+  selectedCategory: null as string | null,
+  repos: [] as RepoEntry[],
+  awards: [] as Award[],
+  activities: [] as Activity[],
   direction: "",
-  tags: [],
+  tags: [] as string[],
   selectedStyle: "ethereal",
   customStyleDesc: "",
-  visibility: "public",
+  visibility: "public" as "public" | "private",
+};
+
+export const useBuilderStore = create<BuilderState>((set) => ({
+  ...initialState,
 
   setPortfolioTitle: (v) => set({ portfolioTitle: v }),
   setPortfolioDescription: (v) => set({ portfolioDescription: v }),
@@ -127,4 +128,12 @@ export const useBuilderStore = create<BuilderState>((set) => ({
   setSelectedStyle: (v) => set({ selectedStyle: v }),
   setCustomStyleDesc: (v) => set({ customStyleDesc: v }),
   setVisibility: (v) => set({ visibility: v }),
+
+  resetBuilder: () => {
+    _repoId = 1;
+    _awardId = 1;
+    _activityId = 1;
+    _contactId = 1;
+    set({ ...initialState });
+  },
 }));

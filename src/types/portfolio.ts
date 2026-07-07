@@ -23,7 +23,7 @@ export interface PortfolioListItem {
   tags: string[];
   updated: string;
   views: string;
-  status: "published" | "draft";
+  status: "published" | "draft" | "generating" | "error";
 }
 
 export interface Masterpiece {
@@ -52,13 +52,12 @@ export interface RepoEntry {
   id: number;
   url: string;
   repositoryId: number | null;
-  name: string; // projects[].name (선택한 레포 이름 자동 반영)
+  name: string;
   description: string;
   files: RepoFile[];
-  images: RepoFile[]; // projects[].imageKeys
+  images: RepoFile[];
 }
 
-// API 스펙에 맞춘 필드명 (title/organization/date/description)
 export interface Award {
   id: number;
   title: string;
@@ -67,7 +66,6 @@ export interface Award {
   description: string;
 }
 
-// API 스펙에 맞춘 필드명 (title/organization/period/description)
 export interface Activity {
   id: number;
   title: string;

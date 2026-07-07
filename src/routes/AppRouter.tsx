@@ -8,7 +8,6 @@ import BuilderBasicInfoPage from "../pages/builder/BuilderBasicInfoPage";
 import BuilderStep1Page from "../pages/builder/BuilderStep1Page";
 import BuilderStep2Page from "../pages/builder/BuilderStep2Page";
 import BuilderStep3Page from "../pages/builder/BuilderStep3Page";
-import BuilderPublishingPage from "../pages/builder/BuilderPublishingPage";
 import PortfolioPreviewPage from "../pages/PortfolioPreviewPage";
 import PortfolioFeedPage from "../pages/PortfolioFeedPage";
 import PortfolioMasterpiecesPage from "../pages/PortfolioMasterpiecesPage";
@@ -31,7 +30,6 @@ export default function AppRouter() {
         <Route path="/builder/step1" element={<RequireAuth><BuilderStep1Page /></RequireAuth>} />
         <Route path="/builder/step2" element={<RequireAuth><BuilderStep2Page /></RequireAuth>} />
         <Route path="/builder/step3" element={<RequireAuth><BuilderStep3Page /></RequireAuth>} />
-        <Route path="/builder/publishing" element={<RequireAuth><BuilderPublishingPage /></RequireAuth>} />
         <Route path="/portfolio/preview" element={<RequireAuth><PortfolioPreviewPage /></RequireAuth>} />
         <Route path="/portfolio/feed" element={<RequireAuth><PortfolioFeedPage /></RequireAuth>} />
         <Route path="/portfolio/masterpieces" element={<RequireAuth><PortfolioMasterpiecesPage /></RequireAuth>} />
