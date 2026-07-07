@@ -1,4 +1,5 @@
 import { useState, useRef, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import type { PortfolioListItem as IPortfolioListItem } from "../../types/portfolio";
 
 interface PortfolioListItemProps {
@@ -7,6 +8,7 @@ interface PortfolioListItemProps {
 }
 
 export default function PortfolioListItem({ portfolio: p, onClick }: PortfolioListItemProps) {
+  const navigate = useNavigate();
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const ref = useRef<HTMLDivElement>(null);
 
@@ -19,6 +21,15 @@ export default function PortfolioListItem({ portfolio: p, onClick }: PortfolioLi
   }, []);
 
   const handleMouseLeave = useCallback(() => setTilt({ x: 0, y: 0 }), []);
+
+  // 서버에서 받은 실제 포트폴리오는 preview 페이지 내부 iframe으로, 목업/생성 중 카드는 기존 내부 이동 사용
+  const handleClick = () => {
+    if (p.url) {
+      navigate("/portfolio/preview", { state: { portfolioUrl: p.url } });
+    } else {
+      onClick();
+    }
+  };
 
   const isGenerating = p.status === "generating";
 
@@ -35,7 +46,7 @@ export default function PortfolioListItem({ portfolio: p, onClick }: PortfolioLi
   return (
     <div
       ref={ref}
-      onClick={onClick}
+      onClick={handleClick}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{
@@ -45,6 +56,14 @@ export default function PortfolioListItem({ portfolio: p, onClick }: PortfolioLi
       }}
       className="rounded-[20px] p-7 bg-white border-[1.5px] border-surface-container shadow-[0_2px_12px_rgba(99,71,209,0.06)] hover:shadow-[0_12px_36px_rgba(99,71,209,0.16)] hover:border-outline-variant cursor-pointer"
     >
+      {p.thumbnailImage && (
+        <img
+          src={p.thumbnailImage}
+          alt={p.title}
+          className="w-full h-32 object-cover rounded-xl mb-4"
+        />
+      )}
+
       <div className="flex justify-between items-start mb-4">
         <h3 className="text-[17px] font-bold flex-1 leading-snug pr-3 text-on-surface">{p.title}</h3>
         <span
@@ -58,7 +77,16 @@ export default function PortfolioListItem({ portfolio: p, onClick }: PortfolioLi
         </span>
       </div>
 
+      {p.description && (
+        <p className="text-[13px] text-on-surface-variant leading-relaxed mb-4 line-clamp-2">{p.description}</p>
+      )}
+
       <div className="flex flex-wrap gap-1.5 mb-5">
+        {p.jobCategory && (
+          <span className="px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-[0.06em] bg-surface-container text-primary font-label">
+            {p.jobCategory}
+          </span>
+        )}
         {p.tags.map((tag) => (
           <span
             key={tag}

@@ -24,12 +24,12 @@ export default function CoffeeChatPage() {
           inputVal={inputVal}
           onInputChange={onInputChange}
           onSend={onSend}
-          onViewPortfolio={() => navigate("/portfolio/masterpieces")}
+          onViewPortfolio={() => navigate(`/portfolio/author/${activeRoom.memberId}`)}
         />
 
         <ChatSidebarProfile
           room={activeRoom}
-          onViewPortfolio={() => navigate("/portfolio/masterpieces")}
+          onViewPortfolio={() => navigate(`/portfolio/author/${activeRoom.memberId}`)}
           onViewAnalysis={() => navigate("/portfolio/analysis")}
         />
       </div>

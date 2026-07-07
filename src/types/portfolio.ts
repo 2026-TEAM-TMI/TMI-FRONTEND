@@ -1,20 +1,23 @@
 // src/types/portfolio.ts
 export type JobCategory = "ALL" | "AI" | "백엔드" | "프론트엔드";
 
-export interface PortfolioCard {
-  id: number;
-  name: string;
-  role: string;
-  jobCategory: Exclude<JobCategory, "ALL">;
-  title: string;
-  desc: string;
-  tags: string[];
-  matchScore: number;
-  views: string;
-  likes: string;
-  avatar: string;
-  color: string;
-  gradient: string;
+// GET /api/v1/portfolios (전체 유저의 public 포트폴리오 피드) 응답 portfolios 배열 원소
+export interface PortfolioFeedItem {
+  portfolioTitle: string;
+  portfolioDescription: string;
+  thumbnailImage: string | null;
+  jobCategory: string;
+  viewsCount: number;
+  url: string;
+}
+
+export interface PortfolioFeedResponse {
+  portfolios: PortfolioFeedItem[];
+  page: number;
+  size: number;
+  totalElements: number;
+  totalPages: number;
+  hasNext: boolean;
 }
 
 export interface PortfolioListItem {
@@ -23,18 +26,23 @@ export interface PortfolioListItem {
   tags: string[];
   updated: string;
   views: string;
+
+  // GET /api/v1/members/{memberId}/portfolios 응답 필드 (실 데이터 병행 표시용, 없으면 undefined)
+  description?: string;
+  thumbnailImage?: string | null;
+  jobCategory?: string;
+  url?: string;
   status: "published" | "draft" | "generating" | "error";
 }
 
-export interface Masterpiece {
-  id: number;
-  title: string;
-  desc: string;
-  tags: string[];
-  likes: string;
-  comments: string;
-  gradient: string;
-  accent: string;
+// GET /api/v1/members/{memberId}/portfolios 응답의 portfolios 배열 원소
+export interface MemberPortfolio {
+  portfolioTitle: string;
+  portfolioDescription: string;
+  thumbnailImage: string | null;
+  jobCategory: string;
+  viewsCount: number;
+  url: string;
 }
 
 export interface SkillScore {
