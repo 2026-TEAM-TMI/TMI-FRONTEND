@@ -33,44 +33,32 @@ const GitHubIcon = ({ size = 16, color = "currentColor" }: { size?: number; colo
 );
 
 const labelCls = "block text-[12px] font-semibold text-on-surface-variant mb-[5px]";
+const IMAGE_ALLOWED = ["image/png", "image/jpeg", "image/webp"];
+const FILE_ALLOWED = [
+  "application/pdf", "image/png", "image/jpeg",
+  "application/vnd.ms-powerpoint",
+  "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+];
 
-function RepoCard({
-  repo,
-  index,
-  availableRepos,
-  onRemove,
-  onChange,
-  onFilesChange,
-}: {
-  repo: RepoEntry;
-  index: number;
-  availableRepos: GithubRepository[];
-  onRemove: (id: number) => void;
-  onChange: (id: number, field: keyof Omit<RepoEntry, "id" | "files">, value: string) => void;
-  onFilesChange: (id: number, files: RepoFile[]) => void;
-}) {
-  const [dragOver, setDragOver] = useState(false);
-  const files = repo.files;
-
-  // 업로드는 비동기로 겹쳐서 완료되므로, 매 갱신 시점의 최신 목록을 ref로 들고 있다가 순차 반영한다.
-  const filesRef = useRef<RepoFile[]>(files);
+function useFileUploader(
+  initial: RepoFile[],
+  onFilesChange: (files: RepoFile[]) => void,
+  purpose: string,
+  allowed: string[]
+) {
+  const filesRef = useRef<RepoFile[]>(initial);
   useEffect(() => {
-    filesRef.current = files;
-  }, [files]);
+    filesRef.current = initial;
+  }, [initial]);
 
   const setFiles = (updater: (prev: RepoFile[]) => RepoFile[]) => {
     const next = updater(filesRef.current);
     filesRef.current = next;
-    onFilesChange(repo.id, next);
+    onFilesChange(next);
   };
 
   const handleFiles = (incoming: FileList | null) => {
     if (!incoming) return;
-    const allowed = [
-      "application/pdf", "image/png", "image/jpeg",
-      "application/vnd.ms-powerpoint",
-      "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-    ];
     const valid = Array.from(incoming).filter((f) => allowed.includes(f.type));
     if (valid.length === 0) return;
 
@@ -78,16 +66,12 @@ function RepoCard({
     setFiles((prev) => [...prev, ...pending]);
 
     pending.forEach((entry) => {
-      uploadFile(entry.file, "PROJECT_FILE")
+      uploadFile(entry.file, purpose)
         .then((key) => {
-          setFiles((prev) =>
-            prev.map((f) => (f.file === entry.file ? { ...f, status: "done", key } : f))
-          );
+          setFiles((prev) => prev.map((f) => (f.file === entry.file ? { ...f, status: "done", key } : f)));
         })
         .catch(() => {
-          setFiles((prev) =>
-            prev.map((f) => (f.file === entry.file ? { ...f, status: "error" } : f))
-          );
+          setFiles((prev) => prev.map((f) => (f.file === entry.file ? { ...f, status: "error" } : f)));
         });
     });
   };
@@ -96,7 +80,115 @@ function RepoCard({
     setFiles((prev) => prev.filter((f) => f.file !== target));
   };
 
+  return { handleFiles, removeFile };
+}
+
+function FileDropzone({
+  id,
+  label,
+  helpText,
+  accept,
+  allowed,
+  files,
+  onFilesChange,
+  purpose,
+}: {
+  id: string;
+  label: string;
+  helpText: string;
+  accept: string;
+  allowed: string[];
+  files: RepoFile[];
+  onFilesChange: (files: RepoFile[]) => void;
+  purpose: string;
+}) {
+  const [dragOver, setDragOver] = useState(false);
+  const { handleFiles, removeFile } = useFileUploader(files, onFilesChange, purpose, allowed);
+
+  return (
+    <div>
+      <label className={labelCls}>{label}</label>
+      <div
+        onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+        onDragLeave={() => setDragOver(false)}
+        onDrop={(e) => { e.preventDefault(); setDragOver(false); handleFiles(e.dataTransfer.files); }}
+        onClick={() => document.getElementById(id)?.click()}
+        className={`rounded-xl p-4 text-center cursor-pointer transition-all duration-150 border-[1.5px] border-dashed ${
+          dragOver ? "border-primary-container bg-surface-low" : "border-outline-variant bg-white"
+        }`}
+      >
+        <input
+          id={id}
+          type="file"
+          multiple
+          accept={accept}
+          className="hidden"
+          onChange={(e) => handleFiles(e.target.files)}
+        />
+        <p className="text-[13px] text-outline">
+          드래그 앤 드롭 또는 <span className="text-primary-container font-semibold">클릭하여 업로드</span>
+        </p>
+        <p className="text-[11px] text-[#b0abc0] mt-1">{helpText}</p>
+      </div>
+      {files.length > 0 && (
+        <div className="flex flex-wrap gap-1.5 mt-2">
+          {files.map((f, i) => (
+            <span
+              key={i}
+              className={`group relative inline-flex items-center pl-2.5 pr-1.5 py-0.5 rounded-full text-[11px] font-semibold font-label ${
+                f.status === "error"
+                  ? "bg-red-100 text-red-500"
+                  : f.status === "uploading"
+                    ? "bg-surface-container text-outline"
+                    : "bg-surface-container text-primary"
+              }`}
+            >
+              <span className="max-w-40 truncate">
+                {f.file.name}
+                {f.status === "uploading" && " · 업로드 중"}
+                {f.status === "error" && " · 업로드 실패"}
+              </span>
+              <button
+                type="button"
+                onClick={() => removeFile(f.file)}
+                aria-label={`${f.file.name} 삭제`}
+                className="ml-1 w-4 h-4 rounded-full flex items-center justify-center leading-none opacity-0 group-hover:opacity-100 hover:bg-black/10 transition-opacity duration-150 cursor-pointer"
+              >
+                ×
+              </button>
+            </span>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function RepoCard({
+  repo,
+  index,
+  availableRepos,
+  onRemove,
+  onChange,
+  onFilesChange,
+  onImagesChange,
+}: {
+  repo: RepoEntry;
+  index: number;
+  availableRepos: GithubRepository[];
+  onRemove: (id: number) => void;
+  onChange: (id: number, field: keyof Omit<RepoEntry, "id" | "files" | "images">, value: string | number | null) => void;
+  onFilesChange: (id: number, files: RepoFile[]) => void;
+  onImagesChange: (id: number, images: RepoFile[]) => void;
+}) {
   const selectedRepo = availableRepos.find((r) => r.html_url === repo.url);
+
+  const handleRepoSelect = (url: string) => {
+    onChange(repo.id, "url", url);
+    const picked = availableRepos.find((r) => r.html_url === url);
+    onChange(repo.id, "repositoryId", picked ? picked.id : null);
+    onChange(repo.id, "name", picked ? picked.name : "");
+  };
 
   return (
     <div className="bg-surface rounded-2xl border border-surface-container p-5 relative">
@@ -113,13 +205,12 @@ function RepoCard({
       </div>
 
       <div className="flex flex-col gap-3">
-        {/* Repo dropdown */}
         <div>
           <label className={labelCls}>레포지토리 선택</label>
           <div className="relative">
             <select
               value={repo.url}
-              onChange={(e) => onChange(repo.id, "url", e.target.value)}
+              onChange={(e) => handleRepoSelect(e.target.value)}
               className="w-full appearance-none px-4 py-3 pr-10 rounded-xl border-[1.5px] border-outline-variant bg-white text-[14px] text-on-surface focus:outline-none focus:border-primary-container cursor-pointer transition-colors duration-150"
             >
               <option value="">레포지토리를 선택하세요</option>
@@ -143,7 +234,6 @@ function RepoCard({
           )}
         </div>
 
-        {/* Description */}
         <div>
           <label className={labelCls}>레포지토리 설명</label>
           <Textarea
@@ -154,62 +244,27 @@ function RepoCard({
           />
         </div>
 
-        {/* File upload */}
-        <div>
-          <label className={labelCls}>설명에 도움되는 파일 (PDF, PNG, PPT 등)</label>
-          <div
-            onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
-            onDragLeave={() => setDragOver(false)}
-            onDrop={(e) => { e.preventDefault(); setDragOver(false); handleFiles(e.dataTransfer.files); }}
-            onClick={() => document.getElementById(`file-input-${repo.id}`)?.click()}
-            className={`rounded-xl p-4 text-center cursor-pointer transition-all duration-150 border-[1.5px] border-dashed ${
-              dragOver ? "border-primary-container bg-surface-low" : "border-outline-variant bg-white"
-            }`}
-          >
-            <input
-              id={`file-input-${repo.id}`}
-              type="file"
-              multiple
-              accept=".pdf,.png,.jpg,.jpeg,.ppt,.pptx"
-              className="hidden"
-              onChange={(e) => handleFiles(e.target.files)}
-            />
-            <p className="text-[13px] text-outline">
-              드래그 앤 드롭 또는 <span className="text-primary-container font-semibold">클릭하여 업로드</span>
-            </p>
-            <p className="text-[11px] text-[#b0abc0] mt-1">PDF, PNG, JPG, PPT, PPTX 지원</p>
-          </div>
-          {files.length > 0 && (
-            <div className="flex flex-wrap gap-1.5 mt-2">
-              {files.map((f, i) => (
-                <span
-                  key={i}
-                  className={`group relative inline-flex items-center pl-2.5 pr-1.5 py-0.5 rounded-full text-[11px] font-semibold font-label ${
-                    f.status === "error"
-                      ? "bg-red-100 text-red-500"
-                      : f.status === "uploading"
-                        ? "bg-surface-container text-outline"
-                        : "bg-surface-container text-primary"
-                  }`}
-                >
-                  <span className="max-w-40 truncate">
-                    {f.file.name}
-                    {f.status === "uploading" && " · 업로드 중"}
-                    {f.status === "error" && " · 업로드 실패"}
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => removeFile(f.file)}
-                    aria-label={`${f.file.name} 삭제`}
-                    className="ml-1 w-4 h-4 rounded-full flex items-center justify-center leading-none opacity-0 group-hover:opacity-100 hover:bg-black/10 transition-opacity duration-150 cursor-pointer"
-                  >
-                    ×
-                  </button>
-                </span>
-              ))}
-            </div>
-          )}
-        </div>
+        <FileDropzone
+          id={`file-input-${repo.id}`}
+          label="설명에 도움되는 파일 (PDF, PNG, PPT 등)"
+          helpText="PDF, PNG, JPG, PPT, PPTX 지원"
+          accept=".pdf,.png,.jpg,.jpeg,.ppt,.pptx"
+          allowed={FILE_ALLOWED}
+          files={repo.files}
+          onFilesChange={(files) => onFilesChange(repo.id, files)}
+          purpose="PROJECT_FILE"
+        />
+
+        <FileDropzone
+          id={`image-input-${repo.id}`}
+          label="프로젝트 사진"
+          helpText="PNG, JPG, WEBP 지원"
+          accept=".png,.jpg,.jpeg,.webp"
+          allowed={IMAGE_ALLOWED}
+          files={repo.images}
+          onFilesChange={(images) => onImagesChange(repo.id, images)}
+          purpose="PROJECT_IMAGE"
+        />
       </div>
     </div>
   );
@@ -221,8 +276,9 @@ interface GithubConnectStepProps {
   repos: RepoEntry[];
   onAddRepo: () => void;
   onRemoveRepo: (id: number) => void;
-  onUpdateRepo: (id: number, field: keyof Omit<RepoEntry, "id" | "files">, value: string) => void;
+  onUpdateRepo: (id: number, field: keyof Omit<RepoEntry, "id" | "files" | "images">, value: string | number | null) => void;
   onRepoFilesChange: (id: number, files: RepoFile[]) => void;
+  onRepoImagesChange: (id: number, images: RepoFile[]) => void;
 }
 
 const JOB_CATEGORIES = ["AI", "백엔드", "프론트엔드"];
@@ -235,6 +291,7 @@ export default function GithubConnectStep({
   onRemoveRepo,
   onUpdateRepo,
   onRepoFilesChange,
+  onRepoImagesChange,
 }: GithubConnectStepProps) {
   const githubUsername = useAuthStore((s) => s.user?.githubLogin) ?? "-";
   const [availableRepos, setAvailableRepos] = useState<GithubRepository[]>([]);
@@ -262,10 +319,8 @@ export default function GithubConnectStep({
 
   return (
     <>
-      {/* GitHub OAuth */}
       <div className="mb-6">
         <label className="block text-sm font-bold text-on-surface mb-3">GitHub 연동</label>
-
         <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-surface-low border border-surface-container">
           <div className="w-8 h-8 rounded-full bg-[#24292e] flex items-center justify-center shrink-0">
             <GitHubIcon size={16} color="white" />
@@ -280,7 +335,6 @@ export default function GithubConnectStep({
         </div>
       </div>
 
-      {/* Job category */}
       <div className="mb-8">
         <label className="block text-sm font-bold text-on-surface mb-3">원하는 직무 카테고리</label>
         <div className="flex gap-2.5 flex-wrap">
@@ -300,7 +354,6 @@ export default function GithubConnectStep({
         </div>
       </div>
 
-      {/* Repository section */}
       <div className="mb-8">
         <div className="flex justify-between items-center mb-3.5">
           <div>
@@ -321,9 +374,7 @@ export default function GithubConnectStep({
           </button>
         </div>
 
-        {reposError && (
-          <p className="text-[12px] text-red-500 mb-3">{reposError}</p>
-        )}
+        {reposError && <p className="text-[12px] text-red-500 mb-3">{reposError}</p>}
 
         {repos.length === 0 ? (
           <div className="border-2 border-dashed border-outline-variant rounded-2xl p-8 text-center text-outline text-sm">
@@ -342,6 +393,7 @@ export default function GithubConnectStep({
                 onRemove={onRemoveRepo}
                 onChange={onUpdateRepo}
                 onFilesChange={onRepoFilesChange}
+                onImagesChange={onRepoImagesChange}
               />
             ))}
           </div>

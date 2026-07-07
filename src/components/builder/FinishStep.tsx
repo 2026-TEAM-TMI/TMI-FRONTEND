@@ -20,6 +20,8 @@ interface FinishStepProps {
   onStyleChange: (id: string) => void;
   customStyleDesc: string;
   onCustomStyleDescChange: (v: string) => void;
+  customPrompt: string;
+  onCustomPromptChange: (v: string) => void;
 }
 
 export default function FinishStep({
@@ -27,10 +29,10 @@ export default function FinishStep({
   tags, tagInput, onTagInputChange, onTagKeyDown, onRemoveTag,
   selectedStyle, onStyleChange,
   customStyleDesc, onCustomStyleDescChange,
+  customPrompt, onCustomPromptChange,
 }: FinishStepProps) {
   return (
     <>
-      {/* Direction */}
       <div className="mb-7">
         <label className="block text-[15px] font-bold text-on-surface mb-1.5">📝 포트폴리오 방향 설명</label>
         <p className="text-[13px] text-outline mb-2.5">AI가 어떤 방향으로 포트폴리오를 구성할지 자유롭게 작성해주세요.</p>
@@ -43,7 +45,6 @@ export default function FinishStep({
         />
       </div>
 
-      {/* Keyword tags */}
       <div className="mb-7">
         <label className="block text-[15px] font-bold text-on-surface mb-1.5">🏷️ 강조할 키워드</label>
         <p className="text-[13px] text-outline mb-2.5">포트폴리오에서 부각시키고 싶은 단어를 입력 후 Enter 또는 쉼표로 추가하세요.</p>
@@ -77,7 +78,6 @@ export default function FinishStep({
         </div>
       </div>
 
-      {/* Visual style */}
       <div className="mb-7">
         <h3 className="text-[15px] font-bold text-on-surface mb-3.5">🎨 Visual Style</h3>
         <div className="grid grid-cols-2 gap-3">
@@ -128,6 +128,17 @@ export default function FinishStep({
             />
           </div>
         )}
+      </div>
+
+      <div className="mb-7">
+        <label className="block text-[15px] font-bold text-on-surface mb-1.5">✨ 전반적인 커스텀 요구사항</label>
+        <p className="text-[13px] text-outline mb-2.5">위 항목 외에 AI에게 전달하고 싶은 전반적인 요구사항이 있다면 작성해주세요.</p>
+        <Textarea
+          value={customPrompt}
+          onChange={(e) => onCustomPromptChange(e.target.value)}
+          rows={3}
+          placeholder="예) 전체적으로 간결하고 신뢰감 있는 톤으로 작성해주세요."
+        />
       </div>
     </>
   );

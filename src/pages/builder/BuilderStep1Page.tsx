@@ -10,19 +10,19 @@ export default function BuilderStep1Page() {
   const navigate = useNavigate();
   const {
     selectedCategory, setSelectedCategory,
-    repos, addRepo, removeRepo, updateRepo, setRepoFiles,
+    repos, addRepo, removeRepo, updateRepo, setRepoFiles, setRepoImages,
   } = useBuilderStore();
 
   return (
     <div className="min-h-svh bg-surface font-sans">
       <NavTabs />
       <main className="max-w-190 mx-auto px-8 py-10">
-        <BuilderStepper currentStep={1} />
+        <BuilderStepper currentStep={2} />
 
         <div className="bg-white rounded-3xl p-10 border border-surface-container shadow-[0_1px_16px_rgba(99,71,209,0.08)]">
           <div className="mb-8">
             <p className="text-[11px] font-semibold tracking-widest uppercase text-secondary mb-2 font-label">
-              Step 1 of 3
+              Step 2 of 4
             </p>
             <h1 className="text-[26px] font-extrabold text-on-surface tracking-tight mb-2">Connect Your Grimoire ✦</h1>
             <p className="text-[15px] text-on-surface-variant leading-relaxed">
@@ -38,10 +38,11 @@ export default function BuilderStep1Page() {
             onRemoveRepo={removeRepo}
             onUpdateRepo={updateRepo}
             onRepoFilesChange={setRepoFiles}
+            onRepoImagesChange={setRepoImages}
           />
 
           <div className="flex justify-between">
-            <Button variant="ghost" onClick={() => navigate("/dashboard")}>← Cancel</Button>
+            <Button variant="ghost" onClick={() => navigate("/builder/basic-info")}>← Back</Button>
             <Button variant="primary" onClick={() => navigate("/builder/step2")}>Continue Crafting →</Button>
           </div>
         </div>

@@ -30,20 +30,20 @@ function AwardCard({
       </div>
       <div className="grid gap-3" style={{ gridTemplateColumns: "1fr 1fr" }}>
         <div style={{ gridColumn: "1 / -1" }}>
-          <label style={labelStyle}>수상 이름</label>
-          <TextInput placeholder="e.g. 대학생 창업 아이디어 경진대회 최우수상" value={award.name} onChange={(e) => onChange(award.id, "name", e.target.value)} />
+          <label style={labelStyle}>수상명</label>
+          <TextInput placeholder="e.g. 대학생 창업 아이디어 경진대회 최우수상" value={award.title} onChange={(e) => onChange(award.id, "title", e.target.value)} />
         </div>
         <div>
-          <label style={labelStyle}>상 타입</label>
-          <TextInput placeholder="e.g. 최우수상, 금상" value={award.type} onChange={(e) => onChange(award.id, "type", e.target.value)} />
+          <label style={labelStyle}>주최/기관</label>
+          <TextInput placeholder="e.g. 중소벤처기업부" value={award.organization} onChange={(e) => onChange(award.id, "organization", e.target.value)} />
         </div>
         <div>
-          <label style={labelStyle}>받은 날짜</label>
-          <TextInput type="date" value={award.date} onChange={(e) => onChange(award.id, "date", e.target.value)} />
+          <label style={labelStyle}>수상 시기</label>
+          <TextInput placeholder="e.g. 2024.05" value={award.date} onChange={(e) => onChange(award.id, "date", e.target.value)} />
         </div>
         <div style={{ gridColumn: "1 / -1" }}>
-          <label style={labelStyle}>상 설명</label>
-          <Textarea placeholder="이 수상에 대한 간략한 설명을 입력하세요." value={award.description} onChange={(e) => onChange(award.id, "description", e.target.value)} rows={2} />
+          <label style={labelStyle}>설명</label>
+          <Textarea placeholder="이 수상에 대한 간략한 설명(수상 결과 등)을 입력하세요." value={award.description} onChange={(e) => onChange(award.id, "description", e.target.value)} rows={2} />
         </div>
       </div>
     </div>

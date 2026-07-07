@@ -23,7 +23,7 @@ export interface PortfolioListItem {
   tags: string[];
   updated: string;
   views: string;
-  status: "published" | "draft" | "generating";
+  status: "published" | "draft";
 }
 
 export interface Masterpiece {
@@ -39,38 +39,47 @@ export interface Masterpiece {
 
 export interface SkillScore {
   label: string;
-  value: number; // 0–1
+  value: number;
 }
-
-export type UploadStatus = "uploading" | "done" | "error";
 
 export interface RepoFile {
   file: File;
-  status: UploadStatus;
+  status: "uploading" | "done" | "error";
   key?: string;
 }
 
 export interface RepoEntry {
   id: number;
   url: string;
+  repositoryId: number | null;
+  name: string; // projects[].name (선택한 레포 이름 자동 반영)
   description: string;
   files: RepoFile[];
+  images: RepoFile[]; // projects[].imageKeys
 }
 
+// API 스펙에 맞춘 필드명 (title/organization/date/description)
 export interface Award {
   id: number;
-  name: string;
-  type: string;
+  title: string;
+  organization: string;
   date: string;
   description: string;
 }
 
-export interface Education {
+// API 스펙에 맞춘 필드명 (title/organization/period/description)
+export interface Activity {
   id: number;
-  program: string;
-  startDate: string;
-  endDate: string;
+  title: string;
+  organization: string;
+  period: string;
   description: string;
+}
+
+export interface ContactEntry {
+  id: number;
+  label: string;
+  value: string;
 }
 
 // ===== 포트폴리오 생성 Request Body =====

@@ -8,9 +8,6 @@ import FinishStep from "../../components/builder/FinishStep";
 import VisibilitySettings from "../../components/builder/VisibilitySettings";
 import Button from "../../components/common/Button";
 import { useBuilderStore } from "../../store/builderStore";
-import { usePortfolioStore } from "../../store/portfolioStore";
-
-const GENERATION_DURATION_MS = 3400;
 
 export default function BuilderStep3Page() {
   const navigate = useNavigate();
@@ -19,17 +16,11 @@ export default function BuilderStep3Page() {
     tags, setTags,
     selectedStyle, setSelectedStyle,
     customStyleDesc, setCustomStyleDesc,
+    customPrompt, setCustomPrompt,
     visibility, setVisibility,
   } = useBuilderStore();
-  const { addGeneratingPortfolio, markPublished } = usePortfolioStore();
 
   const [tagInput, setTagInput] = useState("");
-
-  const handleComplete = () => {
-    const id = addGeneratingPortfolio(direction.trim() || "Untitled Portfolio", tags);
-    navigate("/dashboard");
-    setTimeout(() => markPublished(id), GENERATION_DURATION_MS);
-  };
 
   const handleTagKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if ((e.key === "Enter" || e.key === ",") && tagInput.trim()) {
@@ -46,12 +37,12 @@ export default function BuilderStep3Page() {
     <div className="min-h-svh bg-surface font-sans">
       <NavTabs />
       <main className="max-w-190 mx-auto px-8 py-10">
-        <BuilderStepper currentStep={3} />
+        <BuilderStepper currentStep={4} />
 
         <div className="bg-white rounded-3xl p-10 border border-surface-container shadow-[0_1px_16px_rgba(99,71,209,0.08)]">
           <div className="mb-8">
             <p className="text-[11px] font-semibold tracking-widest uppercase text-secondary mb-2 font-label">
-              Step 3 of 3
+              Step 4 of 4
             </p>
             <h1 className="text-[26px] font-extrabold text-on-surface tracking-tight mb-2">Final Enchantments ✦</h1>
             <p className="text-[15px] text-on-surface-variant leading-relaxed">
@@ -71,13 +62,15 @@ export default function BuilderStep3Page() {
             onStyleChange={setSelectedStyle}
             customStyleDesc={customStyleDesc}
             onCustomStyleDescChange={setCustomStyleDesc}
+            customPrompt={customPrompt}
+            onCustomPromptChange={setCustomPrompt}
           />
 
           <VisibilitySettings value={visibility} onChange={setVisibility} />
 
           <div className="flex justify-between">
             <Button variant="ghost" onClick={() => navigate("/builder/step2")}>← Back</Button>
-            <Button variant="primary" onClick={handleComplete}>Complete ✨ Transmute!</Button>
+            <Button variant="primary" onClick={() => navigate("/builder/publishing")}>Complete ✨ Transmute!</Button>
           </div>
         </div>
       </main>
