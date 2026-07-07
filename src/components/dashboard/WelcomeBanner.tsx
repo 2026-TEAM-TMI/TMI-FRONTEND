@@ -44,8 +44,7 @@ export default function WelcomeBanner() {
         Welcome back, {user?.name ?? "게스트"}! ✨
       </h1>
       <p className="relative text-[15px] leading-relaxed text-white/70">
-        Your portfolio magic is working —{" "}
-        <strong className="text-white/95">12.5% growth</strong> this week
+        Your portfolio magic is ready — keep crafting your story.
       </p>
 
       <div className="absolute right-12 top-1/2 -translate-y-1/2 text-center rounded-[20px] px-7 py-5 bg-white/12 backdrop-blur-sm border border-white/20">

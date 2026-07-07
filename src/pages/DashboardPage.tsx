@@ -53,7 +53,7 @@ export default function DashboardPage() {
   }, [memberId, setFetchedPortfolios]);
 
   const stats = [
-    { label: "Total Views", value: dashboardStats.totalViewsCount.toLocaleString(), change: "+12.5%", icon: "👁️" },
+    { label: "Total Views", value: dashboardStats.totalViewsCount.toLocaleString(), icon: "👁️" },
     { label: "Chat Requests", value: "18", change: "+3 this week", icon: "☕" },
     { label: "My Portfolios", value: String(dashboardStats.portfolioCount), change: "Active", icon: "✨" },
   ];

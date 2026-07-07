@@ -3,7 +3,7 @@ import { useState, useRef, useCallback } from "react";
 interface StatCardProps {
   label: string;
   value: string;
-  change: string;
+  change?: string;
   icon: string;
 }
 
@@ -42,9 +42,11 @@ export default function StatCard({ label, value, change, icon }: StatCardProps) 
       <p className="text-[32px] font-extrabold tracking-[-0.04em] leading-none mb-3.5 text-on-surface">
         {value}
       </p>
-      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[12px] font-bold bg-surface-low text-primary font-label">
-        ↑ {change}
-      </span>
+      {change && (
+        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[12px] font-bold bg-surface-low text-primary font-label">
+          {change}
+        </span>
+      )}
     </div>
   );
 }
