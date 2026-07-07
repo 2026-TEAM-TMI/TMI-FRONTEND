@@ -10,24 +10,23 @@ export default function BuilderStep2Page() {
   const navigate = useNavigate();
   const {
     awards, addAward, removeAward, updateAward,
-    educations, addEducation, removeEducation, updateEducation,
+    activities, addActivity, removeActivity, updateActivity,
   } = useBuilderStore();
-
 
   return (
     <div className="min-h-svh bg-surface font-sans">
       <NavTabs />
       <main className="max-w-190 mx-auto px-8 py-10">
-        <BuilderStepper currentStep={2} />
+        <BuilderStepper currentStep={3} />
 
         <div className="bg-white rounded-3xl p-10 border border-surface-container shadow-[0_1px_16px_rgba(99,71,209,0.08)]">
           <div className="mb-8">
             <p className="text-[11px] font-semibold tracking-widest uppercase text-secondary mb-2 font-label">
-              Step 2 of 3
+              Step 3 of 4
             </p>
             <h1 className="text-[26px] font-extrabold text-on-surface tracking-tight mb-2">Add Extra Experience ✦</h1>
             <p className="text-[15px] text-on-surface-variant leading-relaxed">
-              수상경력과 외부 교육/부트캠프 정보를 추가하세요.
+              수상경력과 활동 이력을 추가하세요.
             </p>
           </div>
 
@@ -36,10 +35,10 @@ export default function BuilderStep2Page() {
             onAddAward={addAward}
             onRemoveAward={removeAward}
             onChangeAward={updateAward}
-            educations={educations}
-            onAddEducation={addEducation}
-            onRemoveEducation={removeEducation}
-            onChangeEducation={updateEducation}
+            activities={activities}
+            onAddActivity={addActivity}
+            onRemoveActivity={removeActivity}
+            onChangeActivity={updateActivity}
           />
 
           <div className="flex justify-between">

@@ -68,7 +68,7 @@ export default function DashboardPage() {
           {stats.map((s) => <StatCard key={s.label} {...s} />)}
         </div>
 
-        <CreatePortfolioCard count={portfolios.length} onCreate={() => navigate("/builder/step1")} />
+        <CreatePortfolioCard count={portfolios.length} onCreate={() => navigate("/builder/basic-info")} />
 
         <div className="grid grid-cols-2 gap-5">
           {portfolios.map((p) => (

@@ -1,0 +1,61 @@
+import { useNavigate } from "react-router-dom";
+import NavTabs from "../../components/layout/NavTabs";
+import BasicInfoStep from "../../components/builder/BasicInfoStep";
+import Button from "../../components/common/Button";
+import { useBuilderStore } from "../../store/builderStore";
+
+export default function BuilderBasicInfoPage() {
+  const navigate = useNavigate();
+  const {
+    portfolioTitle, setPortfolioTitle,
+    portfolioDescription, setPortfolioDescription,
+    name, setName,
+    contact, addContact, removeContact, updateContact,
+    address, setAddress,
+    bio, setBio,
+    portfolioImages, setPortfolioImages,
+  } = useBuilderStore();
+
+  return (
+    <div className="min-h-svh bg-surface font-sans">
+      <NavTabs />
+      <main className="max-w-190 mx-auto px-8 py-10">
+        <div className="bg-white rounded-3xl p-10 border border-surface-container shadow-[0_1px_16px_rgba(99,71,209,0.08)]">
+          <div className="mb-8">
+            <p className="text-[11px] font-semibold tracking-widest uppercase text-secondary mb-2 font-label">
+              Basic Info
+            </p>
+            <h1 className="text-[26px] font-extrabold text-on-surface tracking-tight mb-2">Introduce Yourself ✦</h1>
+            <p className="text-[15px] text-on-surface-variant leading-relaxed">
+              포트폴리오의 기본 정보를 입력하세요.
+            </p>
+          </div>
+
+          <BasicInfoStep
+            portfolioTitle={portfolioTitle}
+            onPortfolioTitleChange={setPortfolioTitle}
+            portfolioDescription={portfolioDescription}
+            onPortfolioDescriptionChange={setPortfolioDescription}
+            name={name}
+            onNameChange={setName}
+            contact={contact}
+            onAddContact={addContact}
+            onRemoveContact={removeContact}
+            onChangeContact={updateContact}
+            address={address}
+            onAddressChange={setAddress}
+            bio={bio}
+            onBioChange={setBio}
+            portfolioImages={portfolioImages}
+            onPortfolioImagesChange={setPortfolioImages}
+          />
+
+          <div className="flex justify-between mt-4">
+            <Button variant="ghost" onClick={() => navigate("/dashboard")}>← Cancel</Button>
+            <Button variant="primary" onClick={() => navigate("/builder/step1")}>Continue →</Button>
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+}

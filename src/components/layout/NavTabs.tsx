@@ -3,13 +3,13 @@ import { useAuthStore } from "../../store/authStore";
 
 const tabs = [
   { label: "Dashboard", path: "/dashboard", icon: "⊞" },
-  { label: "Builder", path: "/builder/step1", icon: "✦" },
+  { label: "Builder", path: "/builder/basic-info", icon: "✦" },
   { label: "Feed", path: "/portfolio/feed", icon: "◈" },
   { label: "Coffee Chat", path: "/coffee-chat", icon: "☕" },
   { label: "Analysis", path: "/portfolio/analysis", icon: "◎" },
 ];
 
-const BUILDER_PATHS = ["/builder/step1", "/builder/step2", "/builder/step3"];
+const BUILDER_PATHS = ["/builder/basic-info", "/builder/step1", "/builder/step2", "/builder/step3"];
 
 export default function NavTabs() {
   const navigate = useNavigate();
@@ -36,7 +36,7 @@ export default function NavTabs() {
         {tabs.map((tab) => {
           const active =
             pathname === tab.path ||
-            (tab.path === "/builder/step1" && BUILDER_PATHS.includes(pathname));
+            (tab.path === "/builder/basic-info" && BUILDER_PATHS.includes(pathname));
           return (
             <button
               key={tab.path}

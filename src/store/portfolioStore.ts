@@ -8,6 +8,8 @@ interface PortfolioState {
   addGeneratingPortfolio: (title: string, tags: string[]) => number;
   markPublished: (id: number) => void;
   setFetchedPortfolios: (items: PortfolioListItem[]) => void;
+  markError: (id: number) => void;
+  removePortfolio: (id: number) => void;
 }
 
 export const usePortfolioStore = create<PortfolioState>((set) => ({
@@ -41,4 +43,14 @@ export const usePortfolioStore = create<PortfolioState>((set) => ({
     set((s) => ({
       portfolios: [...s.portfolios.filter((p) => p.status === "generating"), ...items],
     })),
+}));
+  markError: (id) =>
+    set((s) => ({
+      portfolios: s.portfolios.map((p) =>
+        p.id === id ? { ...p, status: "error", updated: "생성 실패" } : p
+      ),
+    })),
+
+  removePortfolio: (id) =>
+    set((s) => ({ portfolios: s.portfolios.filter((p) => p.id !== id) })),
 }));

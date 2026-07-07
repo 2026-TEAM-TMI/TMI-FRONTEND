@@ -1,11 +1,12 @@
 const STEPS = [
-  { num: 1, label: "Connect" },
-  { num: 2, label: "Experience" },
-  { num: 3, label: "Finish" },
+  { num: 1, label: "Basic Info" },
+  { num: 2, label: "Connect" },
+  { num: 3, label: "Experience" },
+  { num: 4, label: "Finish" },
 ];
 
 interface BuilderStepperProps {
-  currentStep: 1 | 2 | 3;
+  currentStep: 1 | 2 | 3 | 4;
 }
 
 export default function BuilderStepper({ currentStep }: BuilderStepperProps) {

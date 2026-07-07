@@ -1,4 +1,4 @@
-import type { Award, Education } from "../../types/portfolio";
+import type { Award, Activity } from "../../types/portfolio";
 import AwardsSection from "./AwardsSection";
 import EducationSection from "./EducationSection";
 
@@ -7,10 +7,10 @@ interface ExtraExperienceStepProps {
   onAddAward: () => void;
   onRemoveAward: (id: number) => void;
   onChangeAward: (id: number, field: keyof Omit<Award, "id">, value: string) => void;
-  educations: Education[];
-  onAddEducation: () => void;
-  onRemoveEducation: (id: number) => void;
-  onChangeEducation: (id: number, field: keyof Omit<Education, "id">, value: string) => void;
+  activities: Activity[];
+  onAddActivity: () => void;
+  onRemoveActivity: (id: number) => void;
+  onChangeActivity: (id: number, field: keyof Omit<Activity, "id">, value: string) => void;
 }
 
 export default function ExtraExperienceStep({
@@ -18,10 +18,10 @@ export default function ExtraExperienceStep({
   onAddAward,
   onRemoveAward,
   onChangeAward,
-  educations,
-  onAddEducation,
-  onRemoveEducation,
-  onChangeEducation,
+  activities,
+  onAddActivity,
+  onRemoveActivity,
+  onChangeActivity,
 }: ExtraExperienceStepProps) {
   return (
     <>
@@ -32,10 +32,10 @@ export default function ExtraExperienceStep({
         onChange={onChangeAward}
       />
       <EducationSection
-        educations={educations}
-        onAdd={onAddEducation}
-        onRemove={onRemoveEducation}
-        onChange={onChangeEducation}
+        activities={activities}
+        onAdd={onAddActivity}
+        onRemove={onRemoveActivity}
+        onChange={onChangeActivity}
       />
     </>
   );

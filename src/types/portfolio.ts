@@ -26,12 +26,13 @@ export interface PortfolioListItem {
   tags: string[];
   updated: string;
   views: string;
-  status: "published" | "draft" | "generating";
+
   // GET /api/v1/members/{memberId}/portfolios 응답 필드 (실 데이터 병행 표시용, 없으면 undefined)
   description?: string;
   thumbnailImage?: string | null;
   jobCategory?: string;
   url?: string;
+  status: "published" | "draft" | "generating" | "error";
 }
 
 // GET /api/v1/members/{memberId}/portfolios 응답의 portfolios 배열 원소
@@ -46,38 +47,45 @@ export interface MemberPortfolio {
 
 export interface SkillScore {
   label: string;
-  value: number; // 0–1
+  value: number;
 }
-
-export type UploadStatus = "uploading" | "done" | "error";
 
 export interface RepoFile {
   file: File;
-  status: UploadStatus;
+  status: "uploading" | "done" | "error";
   key?: string;
 }
 
 export interface RepoEntry {
   id: number;
   url: string;
+  repositoryId: number | null;
+  name: string;
   description: string;
   files: RepoFile[];
+  images: RepoFile[];
 }
 
 export interface Award {
   id: number;
-  name: string;
-  type: string;
+  title: string;
+  organization: string;
   date: string;
   description: string;
 }
 
-export interface Education {
+export interface Activity {
   id: number;
-  program: string;
-  startDate: string;
-  endDate: string;
+  title: string;
+  organization: string;
+  period: string;
   description: string;
+}
+
+export interface ContactEntry {
+  id: number;
+  label: string;
+  value: string;
 }
 
 // ===== 포트폴리오 생성 Request Body =====
