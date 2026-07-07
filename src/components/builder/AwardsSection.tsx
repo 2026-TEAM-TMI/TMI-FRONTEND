@@ -14,12 +14,15 @@ function AwardCard({
   index,
   onRemove,
   onChange,
+  showErrors,
 }: {
   award: Award;
   index: number;
   onRemove: (id: number) => void;
   onChange: (id: number, field: keyof Omit<Award, "id">, value: string) => void;
+  showErrors: boolean;
 }) {
+  const titleError = showErrors && !award.title.trim();
   return (
     <div className="bg-surface rounded-2xl border border-surface-container p-5">
       <div className="flex justify-between items-center mb-3.5">
@@ -30,8 +33,9 @@ function AwardCard({
       </div>
       <div className="grid gap-3" style={{ gridTemplateColumns: "1fr 1fr" }}>
         <div style={{ gridColumn: "1 / -1" }}>
-          <label style={labelStyle}>수상명</label>
-          <TextInput placeholder="e.g. 대학생 창업 아이디어 경진대회 최우수상" value={award.title} onChange={(e) => onChange(award.id, "title", e.target.value)} />
+          <label style={labelStyle}>수상명<span className="text-red-500 ml-0.5">*</span></label>
+          <TextInput placeholder="e.g. 대학생 창업 아이디어 경진대회 최우수상" value={award.title} onChange={(e) => onChange(award.id, "title", e.target.value)} error={titleError} />
+          {titleError && <p className="text-[12px] text-red-500 mt-1">필수 입력 항목입니다.</p>}
         </div>
         <div>
           <label style={labelStyle}>주최/기관</label>
@@ -55,9 +59,10 @@ interface AwardsSectionProps {
   onAdd: () => void;
   onRemove: (id: number) => void;
   onChange: (id: number, field: keyof Omit<Award, "id">, value: string) => void;
+  showErrors?: boolean;
 }
 
-export default function AwardsSection({ awards, onAdd, onRemove, onChange }: AwardsSectionProps) {
+export default function AwardsSection({ awards, onAdd, onRemove, onChange, showErrors = false }: AwardsSectionProps) {
   return (
     <div className="mb-9">
       <div className="flex justify-between items-center mb-3.5">
@@ -80,7 +85,7 @@ export default function AwardsSection({ awards, onAdd, onRemove, onChange }: Awa
         </div>
       ) : (
         <div className="flex flex-col gap-3.5">
-          {awards.map((a, i) => <AwardCard key={a.id} award={a} index={i} onRemove={onRemove} onChange={onChange} />)}
+          {awards.map((a, i) => <AwardCard key={a.id} award={a} index={i} onRemove={onRemove} onChange={onChange} showErrors={showErrors} />)}
         </div>
       )}
     </div>

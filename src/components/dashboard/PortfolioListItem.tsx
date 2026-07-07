@@ -43,6 +43,16 @@ export default function PortfolioListItem({ portfolio: p, onClick }: PortfolioLi
     );
   }
 
+  if (p.status === "error") {
+    return (
+      <div className="rounded-[20px] p-7 bg-[#fdf2f2] border-[1.5px] border-[#f0c5c5] cursor-default flex flex-col items-center justify-center text-center gap-2 min-h-43">
+        <div className="text-3xl">⚠️</div>
+        <h3 className="text-[15px] font-bold text-on-surface leading-snug">{p.title}</h3>
+        <p className="text-[12px] font-semibold text-red-500">포트폴리오 생성에 실패했어요. 다시 시도해주세요.</p>
+      </div>
+    );
+  }
+
   return (
     <div
       ref={ref}

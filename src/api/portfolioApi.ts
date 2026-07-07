@@ -15,7 +15,7 @@ const JOB_CATEGORY_ENUM: Record<Exclude<JobCategory, "ALL">, string> = {
   프론트엔드: "FRONTEND",
 };
 
-// GET /api/v1/portfolios — 모든 유저의 public 포트폴리오를 생성일 최신순으로 조회
+// GET /api/v1/portfolios/feed — 모든 유저의 public 포트폴리오를 생성일 최신순으로 조회
 export async function getPortfolioFeed({
   page = 0,
   size = 15,
@@ -29,7 +29,7 @@ export async function getPortfolioFeed({
   if (jobCategory && jobCategory !== "ALL") {
     params.set("jobCategory", JOB_CATEGORY_ENUM[jobCategory]);
   }
-  return apiFetch<PortfolioFeedResponse>(`/api/v1/portfolios?${params}`, {
+  return apiFetch<PortfolioFeedResponse>(`/api/v1/portfolios/feed?${params}`, {
     method: "GET",
   });
 }
@@ -37,9 +37,12 @@ export async function getPortfolioFeed({
 export async function createPortfolio(
   data: CreatePortfolioRequest
 ): Promise<CreatePortfolioResponse> {
+  // 빌더 스토어에는 한글 카테고리("백엔드" 등)가 담기므로 서버 ENUM으로 변환해서 전송
+  const jobCategory =
+    JOB_CATEGORY_ENUM[data.jobCategory as Exclude<JobCategory, "ALL">] ?? data.jobCategory;
   return apiFetch<CreatePortfolioResponse>("/api/v1/portfolios", {
     method: "POST",
-    body: JSON.stringify(data),
+    body: JSON.stringify({ ...data, jobCategory }),
   });
 }
 

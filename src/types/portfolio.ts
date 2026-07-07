@@ -82,9 +82,11 @@ export interface Activity {
   description: string;
 }
 
+// type: 드랍다운 선택값(CONTACT_TYPE_OPTIONS 중 하나 또는 미선택 ""), customLabel: type이 "기타"일 때 직접 입력하는 라벨
 export interface ContactEntry {
   id: number;
-  label: string;
+  type: string;
+  customLabel: string;
   value: string;
 }
 

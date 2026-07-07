@@ -1,8 +1,10 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NavTabs from "../../components/layout/NavTabs";
 import BasicInfoStep from "../../components/builder/BasicInfoStep";
 import Button from "../../components/common/Button";
 import { useBuilderStore } from "../../store/builderStore";
+import { isBasicInfoComplete } from "../../utils/builderValidation";
 
 export default function BuilderBasicInfoPage() {
   const navigate = useNavigate();
@@ -15,6 +17,16 @@ export default function BuilderBasicInfoPage() {
     bio, setBio,
     portfolioImages, setPortfolioImages,
   } = useBuilderStore();
+
+  const [attemptedNext, setAttemptedNext] = useState(false);
+
+  const handleContinue = () => {
+    if (!isBasicInfoComplete({ portfolioTitle, portfolioDescription, name, bio })) {
+      setAttemptedNext(true);
+      return;
+    }
+    navigate("/builder/step1");
+  };
 
   return (
     <div className="min-h-svh bg-surface font-sans">
@@ -48,11 +60,12 @@ export default function BuilderBasicInfoPage() {
             onBioChange={setBio}
             portfolioImages={portfolioImages}
             onPortfolioImagesChange={setPortfolioImages}
+            showErrors={attemptedNext}
           />
 
           <div className="flex justify-between mt-4">
             <Button variant="ghost" onClick={() => navigate("/dashboard")}>← Cancel</Button>
-            <Button variant="primary" onClick={() => navigate("/builder/step1")}>Continue →</Button>
+            <Button variant="primary" onClick={handleContinue}>Continue →</Button>
           </div>
         </div>
       </main>

@@ -9,10 +9,14 @@ import VisibilitySettings from "../../components/builder/VisibilitySettings";
 import Button from "../../components/common/Button";
 import { useBuilderStore } from "../../store/builderStore";
 import { submitPortfolio } from "../../utils/submitPortfolio";
+import { isBasicInfoComplete, isConnectStepComplete, isExtraExperienceComplete } from "../../utils/builderValidation";
 
 export default function BuilderStep3Page() {
   const navigate = useNavigate();
   const {
+    portfolioTitle, portfolioDescription, name, bio,
+    selectedCategory, repos,
+    awards, activities,
     direction, setDirection,
     tags, setTags,
     selectedStyle, setSelectedStyle,
@@ -22,6 +26,7 @@ export default function BuilderStep3Page() {
   } = useBuilderStore();
 
   const [tagInput, setTagInput] = useState("");
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const handleTagKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if ((e.key === "Enter" || e.key === ",") && tagInput.trim()) {
@@ -34,7 +39,20 @@ export default function BuilderStep3Page() {
     }
   };
 
+  // 각 단계의 Continue 가드를 통과해야 여기 도달하지만, 직접 URL 접근 등으로 단계를 건너뛴 경우에 대비한 최종 안전망.
   const handleComplete = () => {
+    if (!isBasicInfoComplete({ portfolioTitle, portfolioDescription, name, bio })) {
+      setSubmitError("기본 정보가 비어 있어요. 'Basic Info' 단계에서 필수 항목을 입력해주세요.");
+      return;
+    }
+    if (!isConnectStepComplete({ selectedCategory, repos })) {
+      setSubmitError("직무 카테고리 또는 프로젝트가 비어 있어요. 'Connect' 단계에서 확인해주세요.");
+      return;
+    }
+    if (!isExtraExperienceComplete({ awards, activities })) {
+      setSubmitError("수상 경력 또는 활동 이력의 이름이 비어 있어요. 'Experience' 단계에서 확인해주세요.");
+      return;
+    }
     submitPortfolio();
     navigate("/dashboard");
   };
@@ -73,6 +91,10 @@ export default function BuilderStep3Page() {
           />
 
           <VisibilitySettings value={visibility} onChange={setVisibility} />
+
+          {submitError && (
+            <p className="text-[13px] text-red-500 font-semibold mb-4 text-right">{submitError}</p>
+          )}
 
           <div className="flex justify-between">
             <Button variant="ghost" onClick={() => navigate("/builder/step2")}>← Back</Button>

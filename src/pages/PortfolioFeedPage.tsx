@@ -8,6 +8,7 @@ import Pagination from "../components/common/Pagination";
 import type { JobCategory, PortfolioFeedItem } from "../types/portfolio";
 import { getPortfolioFeed } from "../api/portfolioApi";
 import { extractMemberIdFromPortfolioUrl } from "../utils/portfolioUrl";
+import { ApiError } from "../api/httpClient";
 
 const PAGE_SIZE = 15;
 
@@ -18,20 +19,24 @@ export default function PortfolioFeedPage() {
   const [portfolios, setPortfolios] = useState<PortfolioFeedItem[]>([]);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [retryCount, setRetryCount] = useState(0);
 
   useEffect(() => {
     setLoading(true);
+    setError(null);
     getPortfolioFeed({ page: currentPage - 1, size: PAGE_SIZE, jobCategory: activeFilter })
       .then((res) => {
         setPortfolios(res.portfolios);
         setTotalPages(Math.max(res.totalPages, 1));
       })
-      .catch(() => {
+      .catch((err) => {
         setPortfolios([]);
         setTotalPages(1);
+        setError(err instanceof ApiError ? err.message : "피드를 불러오지 못했습니다.");
       })
       .finally(() => setLoading(false));
-  }, [activeFilter, currentPage]);
+  }, [activeFilter, currentPage, retryCount]);
 
   const handleFilterChange = (f: JobCategory) => {
     setActiveFilter(f);
@@ -58,7 +63,11 @@ export default function PortfolioFeedPage() {
 
         <PortfolioFilterTabs active={activeFilter} onChange={handleFilterChange} />
 
-        <PortfolioGrid empty={!loading && portfolios.length === 0}>
+        <PortfolioGrid
+          empty={!loading && !error && portfolios.length === 0}
+          error={!loading ? error : null}
+          onRetry={() => setRetryCount((n) => n + 1)}
+        >
           {portfolios.map((p, i) => (
             <PortfolioCard
               key={p.url ?? i}

@@ -14,12 +14,15 @@ function ActivityCard({
   index,
   onRemove,
   onChange,
+  showErrors,
 }: {
   activity: Activity;
   index: number;
   onRemove: (id: number) => void;
   onChange: (id: number, field: keyof Omit<Activity, "id">, value: string) => void;
+  showErrors: boolean;
 }) {
+  const titleError = showErrors && !activity.title.trim();
   return (
     <div className="bg-surface rounded-2xl border border-surface-container p-5">
       <div className="flex justify-between items-center mb-3.5">
@@ -30,8 +33,9 @@ function ActivityCard({
       </div>
       <div className="grid gap-3" style={{ gridTemplateColumns: "1fr 1fr" }}>
         <div style={{ gridColumn: "1 / -1" }}>
-          <label style={labelStyle}>활동명</label>
-          <TextInput placeholder="e.g. 삼성 청년 SW 아카데미 (SSAFY)" value={activity.title} onChange={(e) => onChange(activity.id, "title", e.target.value)} />
+          <label style={labelStyle}>활동명<span className="text-red-500 ml-0.5">*</span></label>
+          <TextInput placeholder="e.g. 삼성 청년 SW 아카데미 (SSAFY)" value={activity.title} onChange={(e) => onChange(activity.id, "title", e.target.value)} error={titleError} />
+          {titleError && <p className="text-[12px] text-red-500 mt-1">필수 입력 항목입니다.</p>}
         </div>
         <div>
           <label style={labelStyle}>소속/기관</label>
@@ -55,9 +59,10 @@ interface EducationSectionProps {
   onAdd: () => void;
   onRemove: (id: number) => void;
   onChange: (id: number, field: keyof Omit<Activity, "id">, value: string) => void;
+  showErrors?: boolean;
 }
 
-export default function EducationSection({ activities, onAdd, onRemove, onChange }: EducationSectionProps) {
+export default function EducationSection({ activities, onAdd, onRemove, onChange, showErrors = false }: EducationSectionProps) {
   return (
     <div className="mb-8">
       <div className="flex justify-between items-center mb-3.5">
@@ -80,7 +85,7 @@ export default function EducationSection({ activities, onAdd, onRemove, onChange
         </div>
       ) : (
         <div className="flex flex-col gap-3.5">
-          {activities.map((a, i) => <ActivityCard key={a.id} activity={a} index={i} onRemove={onRemove} onChange={onChange} />)}
+          {activities.map((a, i) => <ActivityCard key={a.id} activity={a} index={i} onRemove={onRemove} onChange={onChange} showErrors={showErrors} />)}
         </div>
       )}
     </div>

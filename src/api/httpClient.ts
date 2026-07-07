@@ -16,6 +16,17 @@ export class ApiError extends Error {
   }
 }
 
+// 빈 본문(204 등)이나 JSON이 아닌 본문(게이트웨이 에러 페이지 등)에도 안전하게 파싱
+async function parseEnvelope<T>(res: Response): Promise<ApiEnvelope<T> | null> {
+  const text = await res.text();
+  if (!text) return null;
+  try {
+    return JSON.parse(text) as ApiEnvelope<T>;
+  } catch {
+    return null;
+  }
+}
+
 // POST /api/v1/members/reissue — Cookie의 refreshToken으로 accessToken 재발급
 export async function reissueAccessToken(): Promise<string> {
   const res = await fetch(`${BASE}/api/v1/members/reissue`, {
@@ -23,9 +34,9 @@ export async function reissueAccessToken(): Promise<string> {
     headers: { "Content-Type": "application/json" },
     credentials: "include",
   });
-  const body = (await res.json()) as ApiEnvelope<{ accessToken: string }>;
-  if (!res.ok) {
-    throw new ApiError(body.status ?? res.status, body.message ?? "토큰 재발급에 실패했습니다.");
+  const body = await parseEnvelope<{ accessToken: string }>(res);
+  if (!res.ok || !body) {
+    throw new ApiError(body?.status ?? res.status, body?.message ?? "토큰 재발급에 실패했습니다.");
   }
   useAuthStore.getState().setToken(body.data.accessToken);
   return body.data.accessToken;
@@ -34,7 +45,7 @@ export async function reissueAccessToken(): Promise<string> {
 export async function apiFetch<T>(
   path: string,
   options: RequestInit = {},
-  { retryOn401 = true }: { retryOn401?: boolean } = {}
+  { retryOnAuthError = true }: { retryOnAuthError?: boolean } = {}
 ): Promise<T> {
   const token = useAuthStore.getState().token;
 
@@ -48,19 +59,24 @@ export async function apiFetch<T>(
     },
   });
 
-  if (res.status === 401 && retryOn401) {
+  // 백엔드는 accessToken이 없거나 만료됐을 때 401이 아닌 403을 반환하므로(App.tsx 참고)
+  // 401뿐 아니라 403에서도 refreshToken으로 재발급 후 1회 재시도한다
+  if ((res.status === 401 || res.status === 403) && retryOnAuthError) {
     try {
       await reissueAccessToken();
     } catch {
       useAuthStore.getState().logout();
       throw new ApiError(401, "인증이 만료되었습니다. 다시 로그인해주세요.");
     }
-    return apiFetch<T>(path, options, { retryOn401: false });
+    return apiFetch<T>(path, options, { retryOnAuthError: false });
   }
 
-  const body = (await res.json()) as ApiEnvelope<T>;
+  const body = await parseEnvelope<T>(res);
   if (!res.ok) {
-    throw new ApiError(body.status ?? res.status, body.message ?? "요청에 실패했습니다.");
+    throw new ApiError(
+      body?.status ?? res.status,
+      body?.message ?? `요청에 실패했습니다. (HTTP ${res.status})`
+    );
   }
-  return body.data;
+  return (body?.data ?? undefined) as T;
 }

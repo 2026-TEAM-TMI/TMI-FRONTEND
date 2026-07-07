@@ -6,6 +6,10 @@ import { usePortfolioStore } from "../store/portfolioStore";
 const doneFileKeys = (files: { status: string; key?: string }[]) =>
   files.filter((f) => f.status === "done" && f.key).map((f) => f.key as string);
 
+// 드랍다운에서 고른 종류를 실제 라벨로 변환. "기타"는 사용자가 입력한 커스텀 라벨을 사용.
+const resolveContactLabel = (c: { type: string; customLabel: string }) =>
+  c.type === "기타" ? c.customLabel.trim() : c.type;
+
 export async function submitPortfolio() {
   const store = useBuilderStore.getState();
   const portfolioStore = usePortfolioStore.getState();
@@ -14,7 +18,9 @@ export async function submitPortfolio() {
   const tempId = portfolioStore.addGeneratingPortfolio(displayTitle, store.tags);
 
   const contactMap = Object.fromEntries(
-    store.contact.filter((c) => c.label.trim()).map((c) => [c.label, c.value])
+    store.contact
+      .map((c) => [resolveContactLabel(c), c.value] as const)
+      .filter(([label]) => label.trim() !== "")
   );
 
   const body: CreatePortfolioRequest = {

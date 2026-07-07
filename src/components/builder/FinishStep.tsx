@@ -1,4 +1,4 @@
-import { KeyboardEvent } from "react";
+import type { KeyboardEvent } from "react";
 import { Textarea } from "../common/Input";
 
 const STYLE_PRESETS = [

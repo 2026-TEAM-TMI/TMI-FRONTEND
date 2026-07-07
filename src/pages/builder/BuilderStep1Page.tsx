@@ -1,10 +1,12 @@
 // src/pages/builder/BuilderStep1Page.tsx
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NavTabs from "../../components/layout/NavTabs";
 import BuilderStepper from "../../components/builder/BuilderStepper";
 import GithubConnectStep from "../../components/builder/GithubConnectStep";
 import Button from "../../components/common/Button";
 import { useBuilderStore } from "../../store/builderStore";
+import { hasValidProject } from "../../utils/builderValidation";
 
 export default function BuilderStep1Page() {
   const navigate = useNavigate();
@@ -12,6 +14,16 @@ export default function BuilderStep1Page() {
     selectedCategory, setSelectedCategory,
     repos, addRepo, removeRepo, updateRepo, setRepoFiles, setRepoImages,
   } = useBuilderStore();
+
+  const [attemptedNext, setAttemptedNext] = useState(false);
+
+  const handleContinue = () => {
+    if (!hasValidProject(repos)) {
+      setAttemptedNext(true);
+      return;
+    }
+    navigate("/builder/step2");
+  };
 
   return (
     <div className="min-h-svh bg-surface font-sans">
@@ -39,11 +51,23 @@ export default function BuilderStep1Page() {
             onUpdateRepo={updateRepo}
             onRepoFilesChange={setRepoFiles}
             onRepoImagesChange={setRepoImages}
+            showErrors={attemptedNext}
           />
 
-          <div className="flex justify-between">
+          <div className="flex justify-between items-center">
             <Button variant="ghost" onClick={() => navigate("/builder/basic-info")}>← Back</Button>
-            <Button variant="primary" onClick={() => navigate("/builder/step2")}>Continue Crafting →</Button>
+            <div className="flex flex-col items-end gap-1.5">
+              {!selectedCategory && (
+                <p className="text-[12px] text-secondary font-semibold">직무 카테고리를 선택해주세요.</p>
+              )}
+              <Button
+                variant="primary"
+                disabled={!selectedCategory}
+                onClick={handleContinue}
+              >
+                Continue Crafting →
+              </Button>
+            </div>
           </div>
         </div>
       </main>

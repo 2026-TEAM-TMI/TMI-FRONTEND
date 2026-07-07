@@ -33,7 +33,7 @@ export default function Button({
   ...rest
 }: ButtonProps) {
   const base =
-    "relative inline-flex items-center justify-center gap-1.5 rounded-full font-bold cursor-pointer transition-all duration-200 font-[inherit] border-0 overflow-hidden";
+    "relative inline-flex items-center justify-center gap-1.5 rounded-full font-bold cursor-pointer transition-all duration-200 font-[inherit] border-0 overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none disabled:hover:translate-y-0";
 
   return (
     <button

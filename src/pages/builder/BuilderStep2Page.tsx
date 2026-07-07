@@ -1,10 +1,12 @@
 // src/pages/builder/BuilderStep2Page.tsx
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NavTabs from "../../components/layout/NavTabs";
 import BuilderStepper from "../../components/builder/BuilderStepper";
 import ExtraExperienceStep from "../../components/builder/ExtraExperienceStep";
 import Button from "../../components/common/Button";
 import { useBuilderStore } from "../../store/builderStore";
+import { isExtraExperienceComplete } from "../../utils/builderValidation";
 
 export default function BuilderStep2Page() {
   const navigate = useNavigate();
@@ -12,6 +14,16 @@ export default function BuilderStep2Page() {
     awards, addAward, removeAward, updateAward,
     activities, addActivity, removeActivity, updateActivity,
   } = useBuilderStore();
+
+  const [attemptedNext, setAttemptedNext] = useState(false);
+
+  const handleContinue = () => {
+    if (!isExtraExperienceComplete({ awards, activities })) {
+      setAttemptedNext(true);
+      return;
+    }
+    navigate("/builder/step3");
+  };
 
   return (
     <div className="min-h-svh bg-surface font-sans">
@@ -39,11 +51,12 @@ export default function BuilderStep2Page() {
             onAddActivity={addActivity}
             onRemoveActivity={removeActivity}
             onChangeActivity={updateActivity}
+            showErrors={attemptedNext}
           />
 
           <div className="flex justify-between">
             <Button variant="ghost" onClick={() => navigate("/builder/step1")}>← Back</Button>
-            <Button variant="primary" onClick={() => navigate("/builder/step3")}>Next: Finish →</Button>
+            <Button variant="primary" onClick={handleContinue}>Next: Finish →</Button>
           </div>
         </div>
       </main>
