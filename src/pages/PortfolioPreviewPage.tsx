@@ -1,6 +1,6 @@
 // src/pages/PortfolioPreviewPage.tsx
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import NavTabs from "../components/layout/NavTabs";
 import SkillRadarChart from "../components/portfolio/SkillRadarChart";
 import ProgressBar from "../components/common/ProgressBar";
@@ -15,6 +15,16 @@ const SKILLS: SkillScore[] = [
   { label: "API 설계", value: 0.9 },
   { label: "협업 / Git", value: 0.8 },
   { label: "문서화", value: 0.6 },
+];
+
+// 동종 업계(백엔드 직군) 평균 — TODO: 실 데이터 연동 필요
+const INDUSTRY_AVG_SKILLS: SkillScore[] = [
+  { label: "알고리즘", value: 0.58 },
+  { label: "시스템 설계", value: 0.65 },
+  { label: "DB / SQL", value: 0.62 },
+  { label: "API 설계", value: 0.7 },
+  { label: "협업 / Git", value: 0.75 },
+  { label: "문서화", value: 0.64 },
 ];
 
 function buildMockHtml(name: string, role: string) {
@@ -72,13 +82,19 @@ const SIDEBAR_W = 300;
 
 export default function PortfolioPreviewPage() {
   const navigate = useNavigate();
+  const location = useLocation();
   const user = useAuthStore((state) => state.user);
+
+  // 다른 회원의 카드를 클릭해 들어온 경우, API로 조회한 실제 포트폴리오 url이 전달됨
+  const portfolioUrl = (location.state as { portfolioUrl?: string } | null)?.portfolioUrl;
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const mockHtml = buildMockHtml(user?.name ?? "게스트", user?.role ?? "직군 미설정");
 
-  const handleDownload = () => {
-    const blob = new Blob([mockHtml], { type: "text/html;charset=utf-8" });
+  const handleDownload = async () => {
+    const blob = portfolioUrl
+      ? await fetch(portfolioUrl).then((res) => res.blob())
+      : new Blob([mockHtml], { type: "text/html;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
@@ -141,12 +157,21 @@ export default function PortfolioPreviewPage() {
             className="bg-white rounded-2xl overflow-hidden border border-surface-container"
             style={{ boxShadow: "0 4px 24px rgba(99,71,209,0.10)", minHeight: "600px" }}
           >
-            <iframe
-              srcDoc={mockHtml}
-              title="Portfolio Preview"
-              className="w-full border-0 block"
-              style={{ minHeight: "700px" }}
-            />
+            {portfolioUrl ? (
+              <iframe
+                src={portfolioUrl}
+                title="Portfolio Preview"
+                className="w-full border-0 block"
+                style={{ minHeight: "700px" }}
+              />
+            ) : (
+              <iframe
+                srcDoc={mockHtml}
+                title="Portfolio Preview"
+                className="w-full border-0 block"
+                style={{ minHeight: "700px" }}
+              />
+            )}
           </div>
         </div>
 
@@ -167,7 +192,23 @@ export default function PortfolioPreviewPage() {
           </div>
 
           <div className="px-3 pt-5 pb-2">
-            <SkillRadarChart skills={SKILLS} size={260} color="#6347d1" />
+            <SkillRadarChart
+              skills={SKILLS}
+              averageSkills={INDUSTRY_AVG_SKILLS}
+              size={260}
+              color="#6347d1"
+              averageColor="#a1a7b3"
+            />
+            <div className="flex items-center justify-center gap-4 mt-1">
+              <span className="flex items-center gap-1.5 text-[11px] font-semibold text-on-surface">
+                <span className="inline-block w-2.5 h-2.5 rounded-full" style={{ background: "#6347d1" }} />
+                내 역량
+              </span>
+              <span className="flex items-center gap-1.5 text-[11px] font-semibold text-secondary">
+                <span className="inline-block w-2.5 h-2.5 rounded-full" style={{ background: "#a1a7b3" }} />
+                동종 업계 평균
+              </span>
+            </div>
           </div>
 
           <div className="px-5 pb-5 flex flex-col gap-2.5">

@@ -1,4 +1,5 @@
 import { useState, useRef, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import type { PortfolioListItem as IPortfolioListItem } from "../../types/portfolio";
 
 interface PortfolioListItemProps {
@@ -7,6 +8,7 @@ interface PortfolioListItemProps {
 }
 
 export default function PortfolioListItem({ portfolio: p, onClick }: PortfolioListItemProps) {
+  const navigate = useNavigate();
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const ref = useRef<HTMLDivElement>(null);
 
@@ -20,10 +22,10 @@ export default function PortfolioListItem({ portfolio: p, onClick }: PortfolioLi
 
   const handleMouseLeave = useCallback(() => setTilt({ x: 0, y: 0 }), []);
 
-  // 서버에서 받은 실제 포트폴리오는 url(정적 html)로 새 탭에서 열고, 목업/생성 중 카드는 기존 내부 이동 사용
+  // 서버에서 받은 실제 포트폴리오는 preview 페이지 내부 iframe으로, 목업/생성 중 카드는 기존 내부 이동 사용
   const handleClick = () => {
     if (p.url) {
-      window.open(p.url, "_blank", "noopener,noreferrer");
+      navigate("/portfolio/preview", { state: { portfolioUrl: p.url } });
     } else {
       onClick();
     }

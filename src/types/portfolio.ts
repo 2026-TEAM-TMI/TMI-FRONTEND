@@ -1,20 +1,23 @@
 // src/types/portfolio.ts
 export type JobCategory = "ALL" | "AI" | "백엔드" | "프론트엔드";
 
-export interface PortfolioCard {
-  id: number;
-  name: string;
-  role: string;
-  jobCategory: Exclude<JobCategory, "ALL">;
-  title: string;
-  desc: string;
-  tags: string[];
-  matchScore: number;
-  views: string;
-  likes: string;
-  avatar: string;
-  color: string;
-  gradient: string;
+// GET /api/v1/portfolios (전체 유저의 public 포트폴리오 피드) 응답 portfolios 배열 원소
+export interface PortfolioFeedItem {
+  portfolioTitle: string;
+  portfolioDescription: string;
+  thumbnailImage: string | null;
+  jobCategory: string;
+  viewsCount: number;
+  url: string;
+}
+
+export interface PortfolioFeedResponse {
+  portfolios: PortfolioFeedItem[];
+  page: number;
+  size: number;
+  totalElements: number;
+  totalPages: number;
+  hasNext: boolean;
 }
 
 export interface PortfolioListItem {
@@ -43,6 +46,8 @@ export interface MemberPortfolio {
 
 export interface Masterpiece {
   id: number;
+  // GET /api/v1/portfolios/{memberId} 호출용. 실 데이터 연동 전까지는 목업 값
+  memberId: number;
   title: string;
   desc: string;
   tags: string[];

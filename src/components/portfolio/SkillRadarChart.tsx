@@ -4,6 +4,9 @@ interface HexRadarChartProps {
   skills: SkillScore[];
   size?: number;
   color?: string;
+  /** 동종 업계 평균 값 (skills와 같은 순서/개수). 전달 시 두 번째 폴리곤으로 겹쳐 그림 */
+  averageSkills?: SkillScore[];
+  averageColor?: string;
 }
 
 function hexPoint(cx: number, cy: number, r: number, i: number, n: number) {
@@ -15,7 +18,13 @@ function toPath(pts: { x: number; y: number }[]) {
   return pts.map((p, i) => `${i === 0 ? "M" : "L"}${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(" ") + "Z";
 }
 
-export default function SkillRadarChart({ skills, size = 260, color = "#6347d1" }: HexRadarChartProps) {
+export default function SkillRadarChart({
+  skills,
+  size = 260,
+  color = "#6347d1",
+  averageSkills,
+  averageColor = "#a1a7b3",
+}: HexRadarChartProps) {
   const cx = size / 2;
   const cy = size / 2;
   const maxR = size * 0.38;
@@ -24,6 +33,7 @@ export default function SkillRadarChart({ skills, size = 260, color = "#6347d1" 
 
   const gridPts = (r: number) => Array.from({ length: n }, (_, i) => hexPoint(cx, cy, maxR * r, i, n));
   const dataPts = skills.map((s, i) => hexPoint(cx, cy, maxR * s.value, i, n));
+  const avgPts = averageSkills?.map((s, i) => hexPoint(cx, cy, maxR * s.value, i, n));
   const labelR = maxR + size * 0.085;
 
   return (
@@ -41,6 +51,20 @@ export default function SkillRadarChart({ skills, size = 260, color = "#6347d1" 
         const p = hexPoint(cx, cy, maxR, i, n);
         return <line key={i} x1={cx} y1={cy} x2={p.x} y2={p.y} stroke="#eeebf8" strokeWidth={1} />;
       })}
+      {avgPts && (
+        <path
+          d={toPath(avgPts)}
+          fill={`${averageColor}18`}
+          stroke={averageColor}
+          strokeWidth={2}
+          strokeDasharray="4 3"
+          strokeLinejoin="round"
+        />
+      )}
+      {avgPts &&
+        avgPts.map((p, i) => (
+          <circle key={i} cx={p.x} cy={p.y} r={3} fill={averageColor} stroke="#fff" strokeWidth={1.5} />
+        ))}
       <path
         d={toPath(dataPts)}
         fill={`${color}20`}
