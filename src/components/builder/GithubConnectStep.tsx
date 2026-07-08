@@ -197,7 +197,7 @@ function RepoCard({
     <div className="bg-surface rounded-2xl border border-surface-container p-5 relative">
       <div className="flex justify-between items-center mb-3.5">
         <span className="text-[11px] font-bold tracking-widest uppercase text-secondary font-label">
-          Repository {index + 1}
+저장소 {index + 1}
         </span>
         <button
           onClick={() => onRemove(repo.id)}
@@ -353,7 +353,7 @@ export default function GithubConnectStep({
               onClick={() => onCategoryChange(cat)}
               className={`px-5 py-2.5 rounded-full text-sm font-bold cursor-pointer font-[inherit] transition-all duration-150 border-2 ${
                 selectedCategory === cat
-                  ? "bg-[linear-gradient(135deg,#6347d1,#9c48ea)] text-white border-primary-container shadow-[0_4px_12px_rgba(99,71,209,0.25)]"
+                  ? "bg-[linear-gradient(135deg,#3b82f6,#38bdf8)] text-white border-primary-container shadow-[0_4px_12px_rgba(59,130,246,0.25)]"
                   : "bg-surface text-on-surface-variant border-surface-container hover:border-outline-variant"
               }`}
             >
@@ -377,7 +377,7 @@ export default function GithubConnectStep({
           <button
             onClick={onAddRepo}
             disabled={reposLoading}
-            className="px-4 py-2 rounded-full text-[13px] font-bold text-white border-0 font-[inherit] bg-[linear-gradient(135deg,#6347d1,#9c48ea)] shadow-[0_4px_12px_rgba(99,71,209,0.25)] hover:opacity-90 transition-opacity duration-150 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-4 py-2 rounded-full text-[13px] font-bold text-white border-0 font-[inherit] bg-[linear-gradient(135deg,#3b82f6,#38bdf8)] shadow-[0_4px_12px_rgba(59,130,246,0.25)] hover:opacity-90 transition-opacity duration-150 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           >
             + 레포지토리 추가
           </button>

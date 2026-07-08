@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 import AppRouter from "./routes/AppRouter";
+import LoadingScreen from "./components/common/LoadingScreen";
 import { useAuthStore } from "./store/authStore";
 import { getMyInfo, toUser } from "./api/memberApi";
 import { reissueAccessToken } from "./api/authApi";
@@ -20,7 +21,7 @@ export default function App() {
   }, [setUser]);
 
   if (!sessionChecked) {
-    return <div className="min-h-screen bg-background" />;
+    return <LoadingScreen />;
   }
 
   return (

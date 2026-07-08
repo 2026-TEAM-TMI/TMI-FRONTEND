@@ -23,7 +23,7 @@ export function TextInput({ style, onFocusBorder = true, error = false, ...rest 
   return (
     <input
       style={{ ...baseStyle, borderColor: idleBorderColor, ...style }}
-      onFocus={onFocusBorder ? (e) => { e.target.style.borderColor = "#6347d1"; } : undefined}
+      onFocus={onFocusBorder ? (e) => { e.target.style.borderColor = "#3b82f6"; } : undefined}
       onBlur={onFocusBorder ? (e) => { e.target.style.borderColor = idleBorderColor; } : undefined}
       {...rest}
     />
@@ -40,7 +40,7 @@ export function Textarea({ style, onFocusBorder = true, error = false, ...rest }
   return (
     <textarea
       style={{ ...baseStyle, resize: "vertical", lineHeight: "1.5", borderColor: idleBorderColor, ...style }}
-      onFocus={onFocusBorder ? (e) => { e.target.style.borderColor = "#6347d1"; } : undefined}
+      onFocus={onFocusBorder ? (e) => { e.target.style.borderColor = "#3b82f6"; } : undefined}
       onBlur={onFocusBorder ? (e) => { e.target.style.borderColor = idleBorderColor; } : undefined}
       {...rest}
     />

@@ -57,7 +57,7 @@ export default function PortfolioFeedPage() {
       <NavTabs />
       <main className="max-w-290 mx-auto px-8 py-9">
         <div className="mb-7">
-          <h1 className="text-[28px] font-extrabold text-on-surface tracking-tight mb-1.5">Portfolio Feed ✨</h1>
+          <h1 className="text-[28px] font-extrabold text-on-surface tracking-tight mb-1.5">포트폴리오 피드</h1>
           <p className="text-sm text-outline">커뮤니티 포트폴리오를 탐색해보세요</p>
         </div>
 

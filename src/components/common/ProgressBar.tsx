@@ -9,7 +9,7 @@ interface ProgressBarProps {
 export default function ProgressBar({
   label,
   value,
-  accentColor = "#6347d1",
+  accentColor = "#3b82f6",
   height = 5,
   showValue = true,
 }: ProgressBarProps) {
@@ -42,7 +42,7 @@ export default function ProgressBar({
           className="h-full rounded-full"
           style={{
             width: `${pct}%`,
-            background: `linear-gradient(90deg, ${accentColor}, #9c48ea)`,
+            background: `linear-gradient(90deg, ${accentColor}, #38bdf8)`,
           }}
         />
       </div>

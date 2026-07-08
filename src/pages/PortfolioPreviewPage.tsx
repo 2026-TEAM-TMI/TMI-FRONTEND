@@ -32,17 +32,17 @@ function buildMockHtml(name: string, role: string) {
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <title>Portfolio — ${name}</title>
+  <title>포트폴리오 — ${name}</title>
   <style>
     body { margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; background: #f8f9ff; color: #121c2a; }
-    header { background: linear-gradient(135deg,#4b2ab8,#9c48ea); color:#fff; padding:48px; }
+    header { background: linear-gradient(135deg,#1d4ed8,#38bdf8); color:#fff; padding:48px; }
     header h1 { font-size:36px; margin:0 0 8px; }
     header p { opacity:.75; font-size:16px; margin:0; }
     main { max-width:860px; margin:0 auto; padding:40px 32px; }
     .section { background:#fff; border-radius:16px; padding:28px; margin-bottom:20px;
-      border:1px solid #e6eeff; box-shadow:0 1px 8px rgba(99,71,209,.06); }
-    h2 { font-size:18px; margin:0 0 16px; color:#4b2ab8; }
-    .tag { display:inline-block; background:#e6eeff; color:#4b2ab8; border-radius:999px;
+      border:1px solid #e6eeff; box-shadow:0 1px 8px rgba(59,130,246,.06); }
+    h2 { font-size:18px; margin:0 0 16px; color:#1d4ed8; }
+    .tag { display:inline-block; background:#e6eeff; color:#1d4ed8; border-radius:999px;
       padding:3px 12px; font-size:12px; font-weight:600; margin:3px; }
     .project { border-top:1px solid #e6eeff; padding-top:16px; margin-top:16px; }
     .project:first-of-type { border-top:none; padding-top:0; margin-top:0; }
@@ -57,19 +57,19 @@ function buildMockHtml(name: string, role: string) {
   </header>
   <main>
     <div class="section">
-      <h2>Skills</h2>
+      <h2>기술</h2>
       <span class="tag">Java / Spring</span><span class="tag">Kotlin</span>
       <span class="tag">PostgreSQL</span><span class="tag">Redis</span>
       <span class="tag">Kafka</span><span class="tag">Docker / K8s</span><span class="tag">AWS</span>
     </div>
     <div class="section">
-      <h2>Projects</h2>
+      <h2>프로젝트</h2>
       <div class="project">
-        <h3>Nebula OS — Distributed Job Scheduler</h3>
+        <h3>Nebula OS — 분산 작업 스케줄러</h3>
         <p>초당 10만 건 이상의 작업을 처리하는 분산 스케줄러 설계 및 구현. Kafka 기반 메시지 파이프라인으로 지연 99p 40ms → 8ms 개선.</p>
       </div>
       <div class="project">
-        <h3>Lumina — Real-time Analytics Pipeline</h3>
+        <h3>Lumina — 실시간 분석 파이프라인</h3>
         <p>Flink + ClickHouse 기반 실시간 집계 파이프라인. 일별 2억 이벤트 처리, 대시보드 응답 시간 3초 → 0.4초 단축.</p>
       </div>
     </div>
@@ -122,7 +122,7 @@ export default function PortfolioPreviewPage() {
           className="text-[11px] font-bold tracking-widest uppercase text-secondary"
           style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif" }}
         >
-          Portfolio Preview
+          포트폴리오 미리보기
         </span>
 
         <div className="ml-auto flex gap-2.5 items-center">
@@ -136,7 +136,7 @@ export default function PortfolioPreviewPage() {
             onClick={() => setSidebarOpen((v) => !v)}
             className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-[13px] font-bold cursor-pointer font-[inherit] transition-all duration-200 border"
             style={{
-              background: sidebarOpen ? "linear-gradient(135deg,#6347d1,#9c48ea)" : "#f8f9ff",
+              background: sidebarOpen ? "linear-gradient(135deg,#3b82f6,#38bdf8)" : "#f8f9ff",
               borderColor: sidebarOpen ? "transparent" : "#e6eeff",
               color: sidebarOpen ? "#fff" : "#484554",
             }}
@@ -155,19 +155,19 @@ export default function PortfolioPreviewPage() {
         >
           <div
             className="bg-white rounded-2xl overflow-hidden border border-surface-container"
-            style={{ boxShadow: "0 4px 24px rgba(99,71,209,0.10)", minHeight: "600px" }}
+            style={{ boxShadow: "0 4px 24px rgba(59,130,246,0.10)", minHeight: "600px" }}
           >
             {portfolioUrl ? (
               <iframe
                 src={portfolioUrl}
-                title="Portfolio Preview"
+                title="포트폴리오 미리보기"
                 className="w-full border-0 block"
                 style={{ minHeight: "700px" }}
               />
             ) : (
               <iframe
                 srcDoc={mockHtml}
-                title="Portfolio Preview"
+                title="포트폴리오 미리보기"
                 className="w-full border-0 block"
                 style={{ minHeight: "700px" }}
               />
@@ -196,12 +196,12 @@ export default function PortfolioPreviewPage() {
               skills={SKILLS}
               averageSkills={INDUSTRY_AVG_SKILLS}
               size={260}
-              color="#6347d1"
+              color="#3b82f6"
               averageColor="#a1a7b3"
             />
             <div className="flex items-center justify-center gap-4 mt-1">
               <span className="flex items-center gap-1.5 text-[11px] font-semibold text-on-surface">
-                <span className="inline-block w-2.5 h-2.5 rounded-full" style={{ background: "#6347d1" }} />
+                <span className="inline-block w-2.5 h-2.5 rounded-full" style={{ background: "#3b82f6" }} />
                 내 역량
               </span>
               <span className="flex items-center gap-1.5 text-[11px] font-semibold text-secondary">
@@ -213,7 +213,7 @@ export default function PortfolioPreviewPage() {
 
           <div className="px-5 pb-5 flex flex-col gap-2.5">
             {SKILLS.map((s) => (
-              <ProgressBar key={s.label} label={s.label} value={s.value} accentColor="#6347d1" height={5} />
+              <ProgressBar key={s.label} label={s.label} value={s.value} accentColor="#3b82f6" height={5} />
             ))}
           </div>
 
@@ -233,7 +233,7 @@ export default function PortfolioPreviewPage() {
             <button
               onClick={() => navigate("/portfolio/analysis")}
               className="w-full py-3 rounded-xl text-sm font-bold text-white border-0 cursor-pointer font-[inherit] flex items-center justify-center gap-2"
-              style={{ background: "linear-gradient(135deg,#6347d1,#9c48ea)", boxShadow: "0 4px 16px rgba(99,71,209,0.3)" }}
+              style={{ background: "linear-gradient(135deg,#3b82f6,#38bdf8)", boxShadow: "0 4px 16px rgba(59,130,246,0.3)" }}
             >
               📊 상세 분석 보기
             </button>

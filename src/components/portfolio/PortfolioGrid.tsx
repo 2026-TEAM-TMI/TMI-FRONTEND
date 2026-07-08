@@ -18,7 +18,7 @@ export default function PortfolioGrid({ children, empty, error, onRetry }: Portf
           <button
             onClick={onRetry}
             className="mt-4 px-4 py-2 rounded-full text-[13px] font-bold text-white border-0 cursor-pointer font-[inherit]"
-            style={{ background: "linear-gradient(135deg,#6347d1,#9c48ea)" }}
+            style={{ background: "linear-gradient(135deg,#3b82f6,#38bdf8)" }}
           >
             다시 시도
           </button>

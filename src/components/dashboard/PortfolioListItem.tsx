@@ -7,6 +7,11 @@ interface PortfolioListItemProps {
   onClick: () => void;
 }
 
+const STATUS_LABEL: Record<string, string> = {
+  published: "공개됨",
+  draft: "임시저장",
+};
+
 export default function PortfolioListItem({ portfolio: p, onClick }: PortfolioListItemProps) {
   const navigate = useNavigate();
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
@@ -64,7 +69,7 @@ export default function PortfolioListItem({ portfolio: p, onClick }: PortfolioLi
         transition: tilt.x === 0 && tilt.y === 0 ? "transform 0.4s ease" : "transform 0.1s ease",
         willChange: "transform",
       }}
-      className="rounded-[20px] p-7 bg-white border-[1.5px] border-surface-container shadow-[0_2px_12px_rgba(99,71,209,0.06)] hover:shadow-[0_12px_36px_rgba(99,71,209,0.16)] hover:border-outline-variant cursor-pointer"
+      className="rounded-[20px] p-7 bg-white border-[1.5px] border-surface-container shadow-[0_2px_12px_rgba(59,130,246,0.06)] hover:shadow-[0_12px_36px_rgba(59,130,246,0.16)] hover:border-outline-variant cursor-pointer"
     >
       {p.thumbnailImage && (
         <img
@@ -80,10 +85,10 @@ export default function PortfolioListItem({ portfolio: p, onClick }: PortfolioLi
           className="px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider whitespace-nowrap shrink-0 font-label"
           style={{
             background: p.status === "published" ? "#e6eeff" : "#f3ebfa",
-            color: p.status === "published" ? "#4b2ab8" : "#8127cf",
+            color: p.status === "published" ? "#1d4ed8" : "#0369a1",
           }}
         >
-          {p.status}
+          {STATUS_LABEL[p.status] ?? p.status}
         </span>
       </div>
 

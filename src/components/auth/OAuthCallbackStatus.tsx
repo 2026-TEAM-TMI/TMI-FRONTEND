@@ -1,3 +1,5 @@
+import LoadingScreen from "../common/LoadingScreen";
+
 interface OAuthCallbackStatusProps {
   error: string | null;
   onRetry: () => void;
@@ -10,7 +12,7 @@ export default function OAuthCallbackStatus({ error, onRetry }: OAuthCallbackSta
         <p className="text-sm text-red-500">{error}</p>
         <button
           onClick={onRetry}
-          className="px-4 py-2 rounded-xl bg-purple-50 text-sm font-medium text-purple-600 hover:bg-purple-100 transition-colors"
+          className="px-4 py-2 rounded-xl bg-blue-50 text-sm font-medium text-blue-600 hover:bg-blue-100 transition-colors"
         >
           로그인으로 돌아가기
         </button>
@@ -18,9 +20,5 @@ export default function OAuthCallbackStatus({ error, onRetry }: OAuthCallbackSta
     );
   }
 
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <p className="text-sm text-gray-500">로그인 처리 중입니다...</p>
-    </div>
-  );
+  return <LoadingScreen label="로그인 처리 중입니다..." />;
 }

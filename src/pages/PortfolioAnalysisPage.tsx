@@ -46,7 +46,7 @@ const MATCHES: MatchJob[] = [
   {
     id: 3,
     company: "Toss (토스)",
-    role: "Server-Side Engineer",
+    role: "서버 엔지니어",
     location: "강남, 서울",
     score: 87,
     reasons: [
@@ -58,7 +58,7 @@ const MATCHES: MatchJob[] = [
   {
     id: 4,
     company: "Coupang",
-    role: "Software Development Engineer",
+    role: "소프트웨어 개발 엔지니어",
     location: "삼성동, 서울",
     score: 83,
     reasons: [
@@ -69,7 +69,7 @@ const MATCHES: MatchJob[] = [
   {
     id: 5,
     company: "Line Plus",
-    role: "Backend Engineer (메신저 플랫폼)",
+    role: "백엔드 엔지니어 (메신저 플랫폼)",
     location: "분당, 경기도",
     score: 79,
     reasons: [
@@ -138,7 +138,7 @@ export default function PortfolioAnalysisPage() {
 
         {/* Profile banner */}
         <div
-          className="rounded-2xl p-7 mb-7 flex items-center gap-5 relative overflow-hidden bg-[linear-gradient(135deg,#4b2ab8_0%,#6347d1_55%,#9c48ea_100%)]"
+          className="rounded-2xl p-7 mb-7 flex items-center gap-5 relative overflow-hidden bg-[linear-gradient(135deg,#1d4ed8_0%,#3b82f6_55%,#38bdf8_100%)]"
         >
           <div
             className="absolute -right-10 -top-10 w-44 h-44 rounded-full pointer-events-none bg-white/6"
@@ -152,7 +152,7 @@ export default function PortfolioAnalysisPage() {
             <p
               className="text-[10px] font-bold tracking-widest uppercase mb-1 text-white/60 font-label"
             >
-              My Portfolio Analysis
+              내 포트폴리오 분석
             </p>
             <h1 className="text-xl font-extrabold text-white tracking-tight">{user?.name ?? "게스트"}</h1>
             <p className="text-[13px] mt-0.5 text-white/75">
@@ -177,7 +177,7 @@ export default function PortfolioAnalysisPage() {
             <button
               key={t.key}
               onClick={() => setActiveTab(t.key)}
-              className={`px-6 py-2.5 rounded-xl text-[13px] font-bold border-0 cursor-pointer font-[inherit] transition-all duration-150 ${activeTab === t.key ? "bg-[linear-gradient(135deg,#6347d1,#9c48ea)] text-white shadow-[0_4px_12px_rgba(99,71,209,0.25)]" : "bg-transparent text-outline"}`}
+              className={`px-6 py-2.5 rounded-xl text-[13px] font-bold border-0 cursor-pointer font-[inherit] transition-all duration-150 ${activeTab === t.key ? "bg-[linear-gradient(135deg,#3b82f6,#38bdf8)] text-white shadow-[0_4px_12px_rgba(59,130,246,0.25)]" : "bg-transparent text-outline"}`}
               
             >
               {t.label}
@@ -190,7 +190,7 @@ export default function PortfolioAnalysisPage() {
           <div className="flex flex-col gap-5">
 
             {/* Skill comparison */}
-            <div className="bg-white rounded-2xl p-8 border border-surface-container shadow-[0_1px_8px_rgba(99,71,209,0.06)]">
+            <div className="bg-white rounded-2xl p-8 border border-surface-container shadow-[0_1px_8px_rgba(59,130,246,0.06)]">
               <h2 className="text-base font-extrabold text-on-surface mb-1">역량 비교 분석</h2>
               <p className="text-[13px] text-outline mb-6">동일 직군 지원자 평균 대비 내 점수</p>
               <SkillAnalysisChart skills={SKILLS} />
@@ -210,7 +210,7 @@ export default function PortfolioAnalysisPage() {
                   </p>
                 </div>
                 <button
-                  className="px-4 py-2 rounded-full text-[11px] font-bold text-white border-0 cursor-pointer font-[inherit] shrink-0 bg-[linear-gradient(135deg,#6347d1,#9c48ea)]"
+                  className="px-4 py-2 rounded-full text-[11px] font-bold text-white border-0 cursor-pointer font-[inherit] shrink-0 bg-[linear-gradient(135deg,#3b82f6,#38bdf8)]"
                 >
                   역량 개선 →
                 </button>
@@ -218,9 +218,9 @@ export default function PortfolioAnalysisPage() {
             </div>
 
             {/* Magic Match */}
-            <div className="bg-white rounded-2xl p-8 border border-surface-container shadow-[0_1px_8px_rgba(99,71,209,0.06)]">
+            <div className="bg-white rounded-2xl p-8 border border-surface-container shadow-[0_1px_8px_rgba(59,130,246,0.06)]">
               <div className="flex items-baseline gap-2 mb-5">
-                <h2 className="text-base font-extrabold text-on-surface">Magic Match Top 5 ✦</h2>
+                <h2 className="text-base font-extrabold text-on-surface">맞춤 공고 추천 TOP 5</h2>
                 <span className="text-[12px] text-outline">내 포트폴리오 기반 추천 공고</span>
               </div>
 
@@ -247,13 +247,13 @@ export default function PortfolioAnalysisPage() {
           <div className="flex flex-col gap-5">
 
             {/* Improvement insights */}
-            <div className="bg-white rounded-2xl p-8 border border-surface-container shadow-[0_1px_8px_rgba(99,71,209,0.06)]">
+            <div className="bg-white rounded-2xl p-8 border border-surface-container shadow-[0_1px_8px_rgba(59,130,246,0.06)]">
               <div className="flex items-center gap-2.5 mb-1">
-                <h2 className="text-base font-extrabold text-on-surface">Improvement Insights</h2>
+                <h2 className="text-base font-extrabold text-on-surface">개선 제안</h2>
                 <span
                   className="px-2 py-0.5 rounded-full text-[10px] font-bold text-primary-container bg-surface-low font-label"
                 >
-                  Analysis v2.4
+                  분석 v2.4
                 </span>
               </div>
               <p className="text-[13px] text-outline mb-6">AI가 분석한 포트폴리오 개선 우선순위</p>
@@ -266,8 +266,8 @@ export default function PortfolioAnalysisPage() {
             </div>
 
             {/* Performance + Score + AI recommendation */}
-            <div className="bg-white rounded-2xl p-8 border border-surface-container shadow-[0_1px_8px_rgba(99,71,209,0.06)]">
-              <h2 className="text-base font-extrabold text-on-surface mb-5">Performance Summary</h2>
+            <div className="bg-white rounded-2xl p-8 border border-surface-container shadow-[0_1px_8px_rgba(59,130,246,0.06)]">
+              <h2 className="text-base font-extrabold text-on-surface mb-5">성과 요약</h2>
 
               <AnalysisInsight
                 stats={STATS}

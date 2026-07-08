@@ -12,10 +12,10 @@ export default function ChatRoomList({ rooms, selectedIndex, onSelect }: ChatRoo
 
   return (
     <div
-      className="w-64 shrink-0 bg-white rounded-[18px] border border-surface-container flex flex-col overflow-hidden shadow-[0_1px_6px_rgba(99,71,209,0.06)]"
+      className="w-64 shrink-0 bg-white rounded-[18px] border border-surface-container flex flex-col overflow-hidden shadow-[0_1px_6px_rgba(59,130,246,0.06)]"
     >
       <div className="px-5 py-4 border-b border-[#f0f0f8]">
-        <h2 className="text-[15px] font-extrabold text-on-surface">Coffee Chats ☕</h2>
+        <h2 className="text-[15px] font-extrabold text-on-surface">커피챗 ☕</h2>
         <p className="text-[11px] text-outline mt-0.5">{unreadCount}개의 새 메시지</p>
       </div>
       <div className="overflow-auto flex-1">

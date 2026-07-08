@@ -1,7 +1,7 @@
 // src/types/portfolio.ts
 export type JobCategory = "ALL" | "AI" | "백엔드" | "프론트엔드";
 
-// GET /api/v1/portfolios (전체 유저의 public 포트폴리오 피드) 응답 portfolios 배열 원소
+// GET /api/v1/portfolios/feed (전체 유저의 public 포트폴리오 피드) 응답 portfolios 배열 원소
 export interface PortfolioFeedItem {
   portfolioTitle: string;
   portfolioDescription: string;
@@ -27,7 +27,7 @@ export interface PortfolioListItem {
   updated: string;
   views: string;
 
-  // GET /api/v1/members/{memberId}/portfolios 응답 필드 (실 데이터 병행 표시용, 없으면 undefined)
+  // GET /api/v1/portfolios/{memberId} 응답 필드 (실 데이터 병행 표시용, 없으면 undefined)
   description?: string;
   thumbnailImage?: string | null;
   jobCategory?: string;
@@ -35,7 +35,7 @@ export interface PortfolioListItem {
   status: "published" | "draft" | "generating" | "error";
 }
 
-// GET /api/v1/members/{memberId}/portfolios 응답의 portfolios 배열 원소
+// GET /api/v1/portfolios/{memberId} 응답의 portfolios 배열 원소
 export interface MemberPortfolio {
   portfolioTitle: string;
   portfolioDescription: string;
@@ -130,6 +130,7 @@ export interface CreatePortfolioRequest {
   activities?: ActivityRequest[];
 }
 
+// POST /api/v1/portfolios 응답 — 생성된 포트폴리오의 조회 url만 내려온다 (id 없음)
 export interface CreatePortfolioResponse {
-  id: number;
+  url: string;
 }

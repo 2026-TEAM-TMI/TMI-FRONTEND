@@ -26,7 +26,7 @@ function AwardCard({
   return (
     <div className="bg-surface rounded-2xl border border-surface-container p-5">
       <div className="flex justify-between items-center mb-3.5">
-        <span className="text-[11px] font-bold tracking-widest uppercase" style={{ color: "#8127cf", fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>
+        <span className="text-[11px] font-bold tracking-widest uppercase" style={{ color: "#0369a1", fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>
           수상 {index + 1}
         </span>
         <button onClick={() => onRemove(award.id)} className="bg-transparent border-0 text-outline text-lg cursor-pointer px-1">×</button>
@@ -34,16 +34,16 @@ function AwardCard({
       <div className="grid gap-3" style={{ gridTemplateColumns: "1fr 1fr" }}>
         <div style={{ gridColumn: "1 / -1" }}>
           <label style={labelStyle}>수상명<span className="text-red-500 ml-0.5">*</span></label>
-          <TextInput placeholder="e.g. 대학생 창업 아이디어 경진대회 최우수상" value={award.title} onChange={(e) => onChange(award.id, "title", e.target.value)} error={titleError} />
+          <TextInput placeholder="예) 대학생 창업 아이디어 경진대회 최우수상" value={award.title} onChange={(e) => onChange(award.id, "title", e.target.value)} error={titleError} />
           {titleError && <p className="text-[12px] text-red-500 mt-1">필수 입력 항목입니다.</p>}
         </div>
         <div>
           <label style={labelStyle}>주최/기관</label>
-          <TextInput placeholder="e.g. 중소벤처기업부" value={award.organization} onChange={(e) => onChange(award.id, "organization", e.target.value)} />
+          <TextInput placeholder="예) 중소벤처기업부" value={award.organization} onChange={(e) => onChange(award.id, "organization", e.target.value)} />
         </div>
         <div>
           <label style={labelStyle}>수상 시기</label>
-          <TextInput placeholder="e.g. 2024.05" value={award.date} onChange={(e) => onChange(award.id, "date", e.target.value)} />
+          <TextInput placeholder="예) 2024.05" value={award.date} onChange={(e) => onChange(award.id, "date", e.target.value)} />
         </div>
         <div style={{ gridColumn: "1 / -1" }}>
           <label style={labelStyle}>설명</label>
@@ -73,7 +73,7 @@ export default function AwardsSection({ awards, onAdd, onRemove, onChange, showE
         <button
           onClick={onAdd}
           className="px-4 py-2 rounded-full text-[13px] font-bold text-white border-0 cursor-pointer font-[inherit]"
-          style={{ background: "linear-gradient(135deg,#6347d1,#9c48ea)", boxShadow: "0 4px 12px rgba(99,71,209,0.25)" }}
+          style={{ background: "linear-gradient(135deg,#3b82f6,#38bdf8)", boxShadow: "0 4px 12px rgba(59,130,246,0.25)" }}
         >
           + 수상 추가
         </button>

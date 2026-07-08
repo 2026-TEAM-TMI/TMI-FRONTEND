@@ -12,7 +12,7 @@ export default function ChatSidebarProfile({ room, onViewPortfolio, onViewAnalys
   return (
     <div
       className="w-[268px] shrink-0 bg-white rounded-[18px] border border-surface-container flex flex-col overflow-auto"
-      style={{ boxShadow: "0 1px 6px rgba(99,71,209,0.06)" }}
+      style={{ boxShadow: "0 1px 6px rgba(59,130,246,0.06)" }}
     >
       {/* Profile header */}
       <div className="px-[18px] py-5 text-center border-b border-[#f0f0f8]" style={{ background: "linear-gradient(180deg, #faf9ff 0%, #fff 100%)" }}>
@@ -37,7 +37,7 @@ export default function ChatSidebarProfile({ room, onViewPortfolio, onViewAnalys
       <div className="px-[18px] pt-3.5">
         <div
           className="rounded-2xl px-3.5 py-3 flex items-center justify-between"
-          style={{ background: `linear-gradient(135deg, ${room.color}, #9c48ea)` }}
+          style={{ background: `linear-gradient(135deg, ${room.color}, #38bdf8)` }}
         >
           <div>
             <p
@@ -87,7 +87,7 @@ export default function ChatSidebarProfile({ room, onViewPortfolio, onViewAnalys
           onClick={onViewAnalysis}
           className="w-full py-2.5 rounded-xl text-[12px] font-bold text-white border-0 cursor-pointer font-[inherit] flex items-center justify-center gap-1.5"
           style={{
-            background: `linear-gradient(135deg, ${room.color}, #9c48ea)`,
+            background: `linear-gradient(135deg, ${room.color}, #38bdf8)`,
             boxShadow: `0 4px 14px ${room.color}33`,
           }}
         >

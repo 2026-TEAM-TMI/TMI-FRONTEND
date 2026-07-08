@@ -6,14 +6,14 @@ interface VisibilitySettingsProps {
 }
 
 const OPTIONS: { value: Visibility; icon: string; label: string; desc: string }[] = [
-  { value: "public", icon: "🌍", label: "Public", desc: "Visible to everyone in the Feed" },
-  { value: "private", icon: "🔒", label: "Private", desc: "Only accessible via link" },
+  { value: "public", icon: "🌍", label: "공개", desc: "피드에서 모두에게 공개됩니다" },
+  { value: "private", icon: "🔒", label: "비공개", desc: "링크로만 접근할 수 있습니다" },
 ];
 
 export default function VisibilitySettings({ value, onChange }: VisibilitySettingsProps) {
   return (
     <div className="mb-8">
-      <h3 className="text-[15px] font-bold text-on-surface mb-3.5">🔒 Visibility</h3>
+      <h3 className="text-[15px] font-bold text-on-surface mb-3.5">🔒 공개 설정</h3>
       <div className="flex gap-3">
         {OPTIONS.map((opt) => (
           <button
@@ -21,12 +21,12 @@ export default function VisibilitySettings({ value, onChange }: VisibilitySettin
             onClick={() => onChange(opt.value)}
             className="flex-1 p-4 rounded-2xl cursor-pointer font-[inherit] text-center"
             style={{
-              border: `2px solid ${value === opt.value ? "#6347d1" : "#e6eeff"}`,
+              border: `2px solid ${value === opt.value ? "#3b82f6" : "#e6eeff"}`,
               background: value === opt.value ? "#f0f0ff" : "#f8f9ff",
             }}
           >
             <div className="text-2xl mb-1.5">{opt.icon}</div>
-            <p className="font-bold text-sm text-on-surface capitalize">{opt.label}</p>
+            <p className="font-bold text-sm text-on-surface">{opt.label}</p>
             <p className="text-[12px] text-on-surface-variant mt-0.5">{opt.desc}</p>
           </button>
         ))}

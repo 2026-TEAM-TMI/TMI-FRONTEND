@@ -41,7 +41,7 @@ export default function Pagination({ currentPage, totalPages, onChange }: Pagina
             onClick={() => onChange(p as number)}
             className={`${btnBase} ${
               currentPage === p
-                ? "bg-primary-container text-white shadow-[0_4px_12px_rgba(99,71,209,0.3)]"
+                ? "bg-primary-container text-white shadow-[0_4px_12px_rgba(59,130,246,0.3)]"
                 : "text-on-surface-variant hover:bg-surface-container"
             }`}
           >

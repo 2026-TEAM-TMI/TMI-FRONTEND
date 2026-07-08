@@ -19,7 +19,7 @@ export default function WelcomeBanner() {
     <div
       ref={ref}
       onMouseMove={handleMouseMove}
-      className="rounded-3xl px-12 py-11 mb-8 relative overflow-hidden bg-[linear-gradient(135deg,#4b2ab8_0%,#6347d1_50%,#9c48ea_100%)]"
+      className="rounded-3xl px-12 py-11 mb-8 relative overflow-hidden bg-[linear-gradient(135deg,#1d4ed8_0%,#3b82f6_50%,#38bdf8_100%)]"
     >
       {/* Cursor-following inner glow */}
       <div
@@ -38,19 +38,19 @@ export default function WelcomeBanner() {
       <div className="absolute -top-7.5 w-30 h-30 rounded-full pointer-events-none bg-white/3 animate-float-orb" style={{ left: "40%", animationDelay: "2s" }} />
 
       <p className="relative text-[11px] font-bold tracking-[0.12em] uppercase mb-3 text-white/55 font-label">
-        The Alchemist's Atelier
+        AI 포트폴리오 빌더
       </p>
       <h1 className="relative text-[34px] font-extrabold tracking-[-0.03em] leading-[1.2] mb-3 text-white">
-        Welcome back, {user?.name ?? "게스트"}! ✨
+        {user?.name ?? "게스트"}님, 환영합니다!
       </h1>
       <p className="relative text-[15px] leading-relaxed text-white/70">
-        Your portfolio magic is ready — keep crafting your story.
+        포트폴리오 작성을 계속 이어가보세요.
       </p>
 
       <div className="absolute right-12 top-1/2 -translate-y-1/2 text-center rounded-[20px] px-7 py-5 bg-white/12 backdrop-blur-sm border border-white/20">
         <p className="text-[36px] font-extrabold tracking-[-0.04em] leading-none text-white">82</p>
         <p className="text-[11px] font-semibold mt-1 tracking-[0.04em] text-white/65 font-label">
-          MAGIC SCORE
+          종합 점수
         </p>
       </div>
     </div>

@@ -8,7 +8,7 @@ export default function ScoreCircle({ score, label = "전체 적합도 점수", 
   return (
     <div
       className="rounded-2xl p-4 text-center text-white"
-      style={{ background: "linear-gradient(135deg, #6347d1, #9c48ea)" }}
+      style={{ background: "linear-gradient(135deg, #3b82f6, #38bdf8)" }}
     >
       <p
         className="text-[11px] font-semibold tracking-wide uppercase mb-0.5"

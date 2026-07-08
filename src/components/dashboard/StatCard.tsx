@@ -31,7 +31,7 @@ export default function StatCard({ label, value, change, icon }: StatCardProps) 
         transition: tilt.x === 0 && tilt.y === 0 ? "transform 0.4s ease" : "transform 0.1s ease",
         willChange: "transform",
       }}
-      className="rounded-[20px] px-7 pt-7 pb-6 bg-white border border-surface-container shadow-[0_2px_16px_rgba(99,71,209,0.07)] hover:shadow-[0_12px_36px_rgba(99,71,209,0.16)] cursor-default"
+      className="rounded-[20px] px-7 pt-7 pb-6 bg-white border border-surface-container shadow-[0_2px_16px_rgba(59,130,246,0.07)] hover:shadow-[0_12px_36px_rgba(59,130,246,0.16)] cursor-default"
     >
       <div className="flex justify-between items-start mb-5">
         <p className="text-[13px] font-semibold tracking-[0.02em] text-outline">{label}</p>

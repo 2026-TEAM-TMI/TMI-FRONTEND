@@ -32,7 +32,7 @@ export default function PortfolioCard({ portfolio: p, onPortfolioClick, onAuthor
         transition: tilt.x === 0 && tilt.y === 0 ? "transform 0.4s ease" : "transform 0.1s ease",
         willChange: "transform",
       }}
-      className="bg-white rounded-[18px] border border-surface-container flex flex-col overflow-hidden cursor-pointer shadow-[0_1px_6px_rgba(99,71,209,0.06)] hover:shadow-[0_12px_32px_rgba(99,71,209,0.18)]"
+      className="bg-white rounded-[18px] border border-surface-container flex flex-col overflow-hidden cursor-pointer shadow-[0_1px_6px_rgba(59,130,246,0.06)] hover:shadow-[0_12px_32px_rgba(59,130,246,0.18)]"
     >
       {p.thumbnailImage ? (
         <img src={p.thumbnailImage} alt={p.portfolioTitle} className="w-full h-36 object-cover" />

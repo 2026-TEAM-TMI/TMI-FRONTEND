@@ -17,7 +17,7 @@ const sizeMap: Record<Size, string> = {
 
 const variantMap: Record<Variant, string> = {
   primary:
-    "bg-[linear-gradient(135deg,#6347d1,#9c48ea)] text-white shadow-[0_4px_16px_rgba(99,71,209,0.35)] hover:shadow-[0_6px_24px_rgba(99,71,209,0.5)] hover:-translate-y-px active:translate-y-0",
+    "bg-[linear-gradient(135deg,#3b82f6,#38bdf8)] text-white shadow-[0_4px_16px_rgba(59,130,246,0.35)] hover:shadow-[0_6px_24px_rgba(59,130,246,0.5)] hover:-translate-y-px active:translate-y-0",
   secondary:
     "bg-surface-low text-primary border-[1.5px] border-[#dddaeb] hover:bg-surface-container hover:border-primary-container",
   ghost:
