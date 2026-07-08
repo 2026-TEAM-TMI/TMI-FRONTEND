@@ -1,11 +1,11 @@
-import { KeyboardEvent } from "react";
+import type { KeyboardEvent } from "react";
 import { Textarea } from "../common/Input";
 
-const STYLE_PRESETS = [
-  { id: "ethereal", name: "Ethereal Alchemist", color: "#6347d1", desc: "Mystic purple & lavender whites", icon: "" },
-  { id: "obsidian", name: "Obsidian Forge", color: "#121c2a", desc: "Dark & dramatic", icon: "" },
-  { id: "aurora", name: "Aurora Drift", color: "#8127cf", desc: "Vibrant & expressive", icon: "" },
-  { id: "custom", name: "Custom Style", color: "#797585", desc: "직접 스타일을 설명하세요", icon: "✏️" },
+export const STYLE_PRESETS = [
+  { id: "ethereal", name: "퍼플 톤", color: "#6347d1", desc: "신비로운 보라 & 라벤더 화이트", icon: "" },
+  { id: "obsidian", name: "다크 톤", color: "#121c2a", desc: "어둡고 드라마틱한 느낌", icon: "" },
+  { id: "aurora", name: "비비드 톤", color: "#8127cf", desc: "화려하고 강렬한 느낌", icon: "" },
+  { id: "custom", name: "커스텀 스타일", color: "#797585", desc: "직접 스타일을 설명하세요", icon: "✏️" },
 ];
 
 interface FinishStepProps {
@@ -56,7 +56,7 @@ export default function FinishStep({
             <span
               key={tag}
               className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[13px] font-semibold text-white"
-              style={{ background: "linear-gradient(135deg,#6347d1,#9c48ea)", fontFamily: "'Space Grotesk', system-ui, sans-serif" }}
+              style={{ background: "linear-gradient(135deg,#3b82f6,#38bdf8)", fontFamily: "'Space Grotesk', system-ui, sans-serif" }}
             >
               {tag}
               <button
@@ -72,14 +72,14 @@ export default function FinishStep({
             value={tagInput}
             onChange={(e) => onTagInputChange(e.target.value)}
             onKeyDown={onTagKeyDown}
-            placeholder={tags.length === 0 ? "e.g. 대용량 트래픽, 시스템 설계, MSA, 리더십..." : ""}
+            placeholder={tags.length === 0 ? "예) 대용량 트래픽, 시스템 설계, MSA, 리더십..." : ""}
             className="border-0 outline-none bg-transparent text-sm text-on-surface font-[inherit] flex-1 min-w-[120px]"
           />
         </div>
       </div>
 
       <div className="mb-7">
-        <h3 className="text-[15px] font-bold text-on-surface mb-3.5">🎨 Visual Style</h3>
+        <h3 className="text-[15px] font-bold text-on-surface mb-3.5">🎨 디자인 스타일</h3>
         <div className="grid grid-cols-2 gap-3">
           {STYLE_PRESETS.map((preset) => (
             <div
@@ -87,7 +87,7 @@ export default function FinishStep({
               onClick={() => onStyleChange(preset.id)}
               className="flex items-center gap-3 p-4 rounded-2xl cursor-pointer transition-all duration-150"
               style={{
-                border: `2px solid ${selectedStyle === preset.id ? "#6347d1" : "#e6eeff"}`,
+                border: `2px solid ${selectedStyle === preset.id ? "#3b82f6" : "#e6eeff"}`,
                 background: selectedStyle === preset.id ? "#f0f0ff" : "#f8f9ff",
               }}
             >
@@ -124,7 +124,7 @@ export default function FinishStep({
                 "미니멀하고 테크니컬한 느낌을 주고 싶어요.\n" +
                 "코드 스니펫 스타일의 카드와 모노스페이스 폰트를 활용해주세요."
               }
-              style={{ minHeight: "120px", borderColor: "#6347d1", background: "#faf9ff" }}
+              style={{ minHeight: "120px", borderColor: "#3b82f6", background: "#faf9ff" }}
             />
           </div>
         )}

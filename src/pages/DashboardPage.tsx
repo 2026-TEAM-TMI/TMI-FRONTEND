@@ -53,9 +53,9 @@ export default function DashboardPage() {
   }, [memberId, setFetchedPortfolios]);
 
   const stats = [
-    { label: "Total Views", value: dashboardStats.totalViewsCount.toLocaleString(), icon: "👁️" },
-    { label: "Chat Requests", value: "18", change: "+3 this week", icon: "☕" },
-    { label: "My Portfolios", value: String(dashboardStats.portfolioCount), change: "Active", icon: "✨" },
+    { label: "총 조회수", value: dashboardStats.totalViewsCount.toLocaleString(), icon: "👁️" },
+    { label: "커피챗 요청", value: "18", change: "이번 주 +3", icon: "☕" },
+    { label: "내 포트폴리오", value: String(dashboardStats.portfolioCount), change: "활성", icon: "✨" },
   ];
 
   return (

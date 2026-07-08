@@ -8,9 +8,9 @@ export default function AuthFooterLinks({ onFindAccount, onResetPassword, onSign
   return (
     <div className="flex justify-center gap-6 mt-6">
       {[
-        { label: "Find Account", handler: onFindAccount },
-        { label: "Reset Password", handler: onResetPassword },
-        { label: "Sign Up", handler: onSignUp },
+        { label: "계정 찾기", handler: onFindAccount },
+        { label: "비밀번호 재설정", handler: onResetPassword },
+        { label: "회원가입", handler: onSignUp },
       ].map(({ label, handler }) => (
         <button
           key={label}

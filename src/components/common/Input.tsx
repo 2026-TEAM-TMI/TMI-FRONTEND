@@ -1,4 +1,4 @@
-import { InputHTMLAttributes, TextareaHTMLAttributes } from "react";
+import type { InputHTMLAttributes, TextareaHTMLAttributes } from "react";
 
 const baseStyle: React.CSSProperties = {
   width: "100%",
@@ -15,14 +15,16 @@ const baseStyle: React.CSSProperties = {
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   onFocusBorder?: boolean;
+  error?: boolean;
 }
 
-export function TextInput({ style, onFocusBorder = true, ...rest }: InputProps) {
+export function TextInput({ style, onFocusBorder = true, error = false, ...rest }: InputProps) {
+  const idleBorderColor = error ? "#f87171" : "#e6eeff";
   return (
     <input
-      style={{ ...baseStyle, ...style }}
-      onFocus={onFocusBorder ? (e) => { e.target.style.borderColor = "#6347d1"; } : undefined}
-      onBlur={onFocusBorder ? (e) => { e.target.style.borderColor = "#e6eeff"; } : undefined}
+      style={{ ...baseStyle, borderColor: idleBorderColor, ...style }}
+      onFocus={onFocusBorder ? (e) => { e.target.style.borderColor = "#3b82f6"; } : undefined}
+      onBlur={onFocusBorder ? (e) => { e.target.style.borderColor = idleBorderColor; } : undefined}
       {...rest}
     />
   );
@@ -30,14 +32,16 @@ export function TextInput({ style, onFocusBorder = true, ...rest }: InputProps) 
 
 interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   onFocusBorder?: boolean;
+  error?: boolean;
 }
 
-export function Textarea({ style, onFocusBorder = true, ...rest }: TextAreaProps) {
+export function Textarea({ style, onFocusBorder = true, error = false, ...rest }: TextAreaProps) {
+  const idleBorderColor = error ? "#f87171" : "#e6eeff";
   return (
     <textarea
-      style={{ ...baseStyle, resize: "vertical", lineHeight: "1.5", ...style }}
-      onFocus={onFocusBorder ? (e) => { e.target.style.borderColor = "#6347d1"; } : undefined}
-      onBlur={onFocusBorder ? (e) => { e.target.style.borderColor = "#e6eeff"; } : undefined}
+      style={{ ...baseStyle, resize: "vertical", lineHeight: "1.5", borderColor: idleBorderColor, ...style }}
+      onFocus={onFocusBorder ? (e) => { e.target.style.borderColor = "#3b82f6"; } : undefined}
+      onBlur={onFocusBorder ? (e) => { e.target.style.borderColor = idleBorderColor; } : undefined}
       {...rest}
     />
   );

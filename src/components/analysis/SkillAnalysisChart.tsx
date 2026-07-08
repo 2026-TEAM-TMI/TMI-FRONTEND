@@ -25,7 +25,7 @@ export default function SkillAnalysisChart({ skills }: SkillAnalysisChartProps) 
                 style={{ width: `${s.avg}%` }}
               />
               <div
-                className="absolute top-0 left-0 h-full rounded-full bg-[linear-gradient(90deg,#6347d1,#9c48ea)]"
+                className="absolute top-0 left-0 h-full rounded-full bg-[linear-gradient(90deg,#3b82f6,#38bdf8)]"
                 style={{ width: `${s.mine}%` }}
               />
             </div>

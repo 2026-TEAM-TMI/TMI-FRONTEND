@@ -31,7 +31,7 @@ export async function loginWithSocial(
       method: "POST",
       body: JSON.stringify({ socialType }),
     },
-    { retryOn401: false }
+    { retryOnAuthError: false }
   );
 }
 

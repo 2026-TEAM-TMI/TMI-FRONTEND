@@ -31,7 +31,7 @@ interface BuilderState {
   setName: (v: string) => void;
   addContact: () => void;
   removeContact: (id: number) => void;
-  updateContact: (id: number, field: "label" | "value", value: string) => void;
+  updateContact: (id: number, field: keyof Omit<ContactEntry, "id">, value: string) => void;
   setAddress: (v: string) => void;
   setBio: (v: string) => void;
   setPortfolioImages: (files: RepoFile[]) => void;
@@ -88,7 +88,7 @@ export const useBuilderStore = create<BuilderState>((set) => ({
   setPortfolioDescription: (v) => set({ portfolioDescription: v }),
   setName: (v) => set({ name: v }),
   addContact: () =>
-    set((s) => ({ contact: [...s.contact, { id: _contactId++, label: "", value: "" }] })),
+    set((s) => ({ contact: [...s.contact, { id: _contactId++, type: "", customLabel: "", value: "" }] })),
   removeContact: (id) => set((s) => ({ contact: s.contact.filter((c) => c.id !== id) })),
   updateContact: (id, field, value) =>
     set((s) => ({ contact: s.contact.map((c) => (c.id === id ? { ...c, [field]: value } : c)) })),

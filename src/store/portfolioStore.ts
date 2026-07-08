@@ -38,10 +38,14 @@ export const usePortfolioStore = create<PortfolioState>((set) => ({
       ),
     })),
 
-  // 생성 중인 카드(status: "generating")는 유지한 채, 나머지를 서버에서 조회한 목록으로 교체
+  // 클라이언트 전용 임시 카드(생성 중 / 생성 실패)는 유지한 채, 나머지를 서버 조회 목록으로 교체.
+  // 실패 카드까지 유지해야 제출 실패가 사용자에게 계속 노출된다.
   setFetchedPortfolios: (items) =>
     set((s) => ({
-      portfolios: [...s.portfolios.filter((p) => p.status === "generating"), ...items],
+      portfolios: [
+        ...s.portfolios.filter((p) => p.status === "generating" || p.status === "error"),
+        ...items,
+      ],
     })),
 
   markError: (id) =>

@@ -22,7 +22,7 @@ export default function ChatInput({ value, onChange, onSend, accentColor }: Chat
         onClick={onSend}
         className="w-[42px] h-[42px] rounded-xl border-0 text-white text-base cursor-pointer flex items-center justify-center shrink-0"
         style={{
-          background: `linear-gradient(135deg, ${accentColor}, #9c48ea)`,
+          background: `linear-gradient(135deg, ${accentColor}, #38bdf8)`,
           boxShadow: `0 4px 12px ${accentColor}44`,
         }}
       >

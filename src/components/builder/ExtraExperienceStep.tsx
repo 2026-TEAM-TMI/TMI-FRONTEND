@@ -11,6 +11,7 @@ interface ExtraExperienceStepProps {
   onAddActivity: () => void;
   onRemoveActivity: (id: number) => void;
   onChangeActivity: (id: number, field: keyof Omit<Activity, "id">, value: string) => void;
+  showErrors?: boolean;
 }
 
 export default function ExtraExperienceStep({
@@ -22,6 +23,7 @@ export default function ExtraExperienceStep({
   onAddActivity,
   onRemoveActivity,
   onChangeActivity,
+  showErrors = false,
 }: ExtraExperienceStepProps) {
   return (
     <>
@@ -30,12 +32,14 @@ export default function ExtraExperienceStep({
         onAdd={onAddAward}
         onRemove={onRemoveAward}
         onChange={onChangeAward}
+        showErrors={showErrors}
       />
       <EducationSection
         activities={activities}
         onAdd={onAddActivity}
         onRemove={onRemoveActivity}
         onChange={onChangeActivity}
+        showErrors={showErrors}
       />
     </>
   );

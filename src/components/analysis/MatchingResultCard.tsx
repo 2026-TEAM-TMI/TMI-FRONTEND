@@ -6,7 +6,7 @@ interface MatchingResultCardProps {
 
 export default function MatchingResultCard({ job }: MatchingResultCardProps) {
   return (
-    <div className="bg-white rounded-2xl border border-surface-container shadow-[0_1px_8px_rgba(99,71,209,0.06)] overflow-hidden hover:shadow-[0_4px_20px_rgba(99,71,209,0.1)] hover:border-outline-variant transition-all duration-200">
+    <div className="bg-white rounded-2xl border border-surface-container shadow-[0_1px_8px_rgba(59,130,246,0.06)] overflow-hidden hover:shadow-[0_4px_20px_rgba(59,130,246,0.1)] hover:border-outline-variant transition-all duration-200">
       <div className="p-5">
         <div className="flex items-start justify-between mb-3">
           <div>
@@ -16,14 +16,14 @@ export default function MatchingResultCard({ job }: MatchingResultCardProps) {
             </div>
             <p className="text-[12px] text-outline">{job.location}</p>
           </div>
-          <span className="px-3 py-1 rounded-full text-[12px] font-extrabold text-white shrink-0 bg-[linear-gradient(135deg,#6347d1,#9c48ea)]">
+          <span className="px-3 py-1 rounded-full text-[12px] font-extrabold text-white shrink-0 bg-[linear-gradient(135deg,#3b82f6,#38bdf8)]">
             {job.score}% 매칭
           </span>
         </div>
 
         <div className="mb-3">
           <p className="text-[10px] font-bold tracking-widest uppercase text-outline mb-1.5 font-label">
-            WHY IT MATCHES
+            매칭 이유
           </p>
           <ul className="flex flex-col gap-1">
             {job.reasons.map((r, i) => (
@@ -37,7 +37,7 @@ export default function MatchingResultCard({ job }: MatchingResultCardProps) {
         {job.gaps.length > 0 && (
           <div className="mb-4">
             <p className="text-[10px] font-bold tracking-widest uppercase text-outline mb-1.5 font-label">
-              SKILL GAPS
+              부족한 역량
             </p>
             <div className="flex flex-wrap gap-1.5">
               {job.gaps.map((g) => (

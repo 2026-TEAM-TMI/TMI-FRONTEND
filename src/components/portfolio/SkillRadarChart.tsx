@@ -21,7 +21,7 @@ function toPath(pts: { x: number; y: number }[]) {
 export default function SkillRadarChart({
   skills,
   size = 260,
-  color = "#6347d1",
+  color = "#3b82f6",
   averageSkills,
   averageColor = "#a1a7b3",
 }: HexRadarChartProps) {

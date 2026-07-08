@@ -14,7 +14,7 @@ export function toUser(member: Member): User {
     name: member.name,
     role: member.role,
     avatar: member.name?.[0]?.toUpperCase() ?? "?",
-    color: "#6347d1",
+    color: "#3b82f6",
     email: member.email,
     githubLogin: member.githubLogin,
     profileImage: member.profileImage,

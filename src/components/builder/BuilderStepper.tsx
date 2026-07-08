@@ -1,8 +1,8 @@
 const STEPS = [
-  { num: 1, label: "Basic Info" },
-  { num: 2, label: "Connect" },
-  { num: 3, label: "Experience" },
-  { num: 4, label: "Finish" },
+  { num: 1, label: "기본 정보" },
+  { num: 2, label: "연동" },
+  { num: 3, label: "경력" },
+  { num: 4, label: "완료" },
 ];
 
 interface BuilderStepperProps {
@@ -21,7 +21,7 @@ export default function BuilderStepper({ currentStep }: BuilderStepperProps) {
               <div
                 className={`w-11 h-11 rounded-full flex items-center justify-center font-extrabold text-[15px] transition-all duration-300 ${
                   active
-                    ? "bg-[linear-gradient(135deg,#6347d1,#9c48ea)] text-white shadow-[0_6px_20px_rgba(99,71,209,0.4)] scale-110"
+                    ? "bg-[linear-gradient(135deg,#3b82f6,#38bdf8)] text-white shadow-[0_6px_20px_rgba(59,130,246,0.4)] scale-110"
                     : done
                     ? "bg-primary-container/20 text-primary-container border-2 border-primary-container"
                     : "bg-surface-container text-outline border-2 border-outline-variant"
@@ -41,7 +41,7 @@ export default function BuilderStepper({ currentStep }: BuilderStepperProps) {
               <div className="relative mx-3 mb-5 w-32 h-0.5">
                 <div className="absolute inset-0 bg-surface-container rounded-full" />
                 <div
-                  className="absolute inset-y-0 left-0 rounded-full bg-[linear-gradient(90deg,#6347d1,#9c48ea)] transition-all duration-500"
+                  className="absolute inset-y-0 left-0 rounded-full bg-[linear-gradient(90deg,#3b82f6,#38bdf8)] transition-all duration-500"
                   style={{ width: done ? "100%" : "0%" }}
                 />
               </div>

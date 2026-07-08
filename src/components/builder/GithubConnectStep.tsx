@@ -3,6 +3,7 @@ import type { RepoEntry, RepoFile } from "../../types/portfolio";
 import type { GithubRepository } from "../../types/github";
 import { getMyRepositories } from "../../api/memberApi";
 import { uploadFile } from "../../api/uploadApi";
+import type { UploadType } from "../../types/upload";
 import { useAuthStore } from "../../store/authStore";
 import { Textarea } from "../common/Input";
 
@@ -43,7 +44,7 @@ const FILE_ALLOWED = [
 function useFileUploader(
   initial: RepoFile[],
   onFilesChange: (files: RepoFile[]) => void,
-  purpose: string,
+  purpose: UploadType,
   allowed: string[]
 ) {
   const filesRef = useRef<RepoFile[]>(initial);
@@ -100,7 +101,7 @@ function FileDropzone({
   allowed: string[];
   files: RepoFile[];
   onFilesChange: (files: RepoFile[]) => void;
-  purpose: string;
+  purpose: UploadType;
 }) {
   const [dragOver, setDragOver] = useState(false);
   const { handleFiles, removeFile } = useFileUploader(files, onFilesChange, purpose, allowed);
@@ -172,6 +173,7 @@ function RepoCard({
   onChange,
   onFilesChange,
   onImagesChange,
+  showErrors,
 }: {
   repo: RepoEntry;
   index: number;
@@ -180,6 +182,7 @@ function RepoCard({
   onChange: (id: number, field: keyof Omit<RepoEntry, "id" | "files" | "images">, value: string | number | null) => void;
   onFilesChange: (id: number, files: RepoFile[]) => void;
   onImagesChange: (id: number, images: RepoFile[]) => void;
+  showErrors: boolean;
 }) {
   const selectedRepo = availableRepos.find((r) => r.html_url === repo.url);
 
@@ -194,7 +197,7 @@ function RepoCard({
     <div className="bg-surface rounded-2xl border border-surface-container p-5 relative">
       <div className="flex justify-between items-center mb-3.5">
         <span className="text-[11px] font-bold tracking-widest uppercase text-secondary font-label">
-          Repository {index + 1}
+저장소 {index + 1}
         </span>
         <button
           onClick={() => onRemove(repo.id)}
@@ -206,11 +209,12 @@ function RepoCard({
 
       <div className="flex flex-col gap-3">
         <div>
-          <label className={labelCls}>레포지토리 선택</label>
+          <label className={labelCls}>레포지토리 선택<span className="text-red-500 ml-0.5">*</span></label>
           <div className="relative">
             <select
               value={repo.url}
               onChange={(e) => handleRepoSelect(e.target.value)}
+              style={showErrors && repo.repositoryId === null ? { borderColor: "#f87171" } : undefined}
               className="w-full appearance-none px-4 py-3 pr-10 rounded-xl border-[1.5px] border-outline-variant bg-white text-[14px] text-on-surface focus:outline-none focus:border-primary-container cursor-pointer transition-colors duration-150"
             >
               <option value="">레포지토리를 선택하세요</option>
@@ -231,6 +235,9 @@ function RepoCard({
               <GitHubIcon size={11} color="#797585" />
               {selectedRepo.html_url}
             </p>
+          )}
+          {showErrors && repo.repositoryId === null && (
+            <p className="text-[12px] text-red-500 mt-1">레포지토리를 선택해주세요.</p>
           )}
         </div>
 
@@ -279,6 +286,7 @@ interface GithubConnectStepProps {
   onUpdateRepo: (id: number, field: keyof Omit<RepoEntry, "id" | "files" | "images">, value: string | number | null) => void;
   onRepoFilesChange: (id: number, files: RepoFile[]) => void;
   onRepoImagesChange: (id: number, images: RepoFile[]) => void;
+  showErrors?: boolean;
 }
 
 const JOB_CATEGORIES = ["AI", "백엔드", "프론트엔드"];
@@ -292,6 +300,7 @@ export default function GithubConnectStep({
   onUpdateRepo,
   onRepoFilesChange,
   onRepoImagesChange,
+  showErrors = false,
 }: GithubConnectStepProps) {
   const githubUsername = useAuthStore((s) => s.user?.githubLogin) ?? "-";
   const [availableRepos, setAvailableRepos] = useState<GithubRepository[]>([]);
@@ -336,7 +345,7 @@ export default function GithubConnectStep({
       </div>
 
       <div className="mb-8">
-        <label className="block text-sm font-bold text-on-surface mb-3">원하는 직무 카테고리</label>
+        <label className="block text-sm font-bold text-on-surface mb-3">원하는 직무 카테고리<span className="text-red-500 ml-0.5">*</span></label>
         <div className="flex gap-2.5 flex-wrap">
           {JOB_CATEGORIES.map((cat) => (
             <button
@@ -344,7 +353,7 @@ export default function GithubConnectStep({
               onClick={() => onCategoryChange(cat)}
               className={`px-5 py-2.5 rounded-full text-sm font-bold cursor-pointer font-[inherit] transition-all duration-150 border-2 ${
                 selectedCategory === cat
-                  ? "bg-[linear-gradient(135deg,#6347d1,#9c48ea)] text-white border-primary-container shadow-[0_4px_12px_rgba(99,71,209,0.25)]"
+                  ? "bg-[linear-gradient(135deg,#3b82f6,#38bdf8)] text-white border-primary-container shadow-[0_4px_12px_rgba(59,130,246,0.25)]"
                   : "bg-surface text-on-surface-variant border-surface-container hover:border-outline-variant"
               }`}
             >
@@ -358,17 +367,17 @@ export default function GithubConnectStep({
         <div className="flex justify-between items-center mb-3.5">
           <div>
             <h3 className="text-[15px] font-bold text-on-surface flex items-center">
-              📁 레포지토리 정보
+              📁 레포지토리 정보<span className="text-red-500 ml-0.5">*</span>
               <HelpTooltip text={REPO_VISIBILITY_HELP} />
             </h3>
             <p className="text-[12px] text-outline mt-0.5">
-              {reposLoading ? "레포지토리 목록을 불러오는 중이에요..." : "포트폴리오에 담을 프로젝트를 추가하세요"}
+              {reposLoading ? "레포지토리 목록을 불러오는 중이에요..." : "포트폴리오에 담을 프로젝트를 1개 이상 추가하세요"}
             </p>
           </div>
           <button
             onClick={onAddRepo}
             disabled={reposLoading}
-            className="px-4 py-2 rounded-full text-[13px] font-bold text-white border-0 font-[inherit] bg-[linear-gradient(135deg,#6347d1,#9c48ea)] shadow-[0_4px_12px_rgba(99,71,209,0.25)] hover:opacity-90 transition-opacity duration-150 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-4 py-2 rounded-full text-[13px] font-bold text-white border-0 font-[inherit] bg-[linear-gradient(135deg,#3b82f6,#38bdf8)] shadow-[0_4px_12px_rgba(59,130,246,0.25)] hover:opacity-90 transition-opacity duration-150 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           >
             + 레포지토리 추가
           </button>
@@ -381,6 +390,9 @@ export default function GithubConnectStep({
             <div className="text-3xl mb-2">📂</div>
             <p className="font-semibold">아직 추가된 레포지토리가 없습니다</p>
             <p className="text-[12px] mt-1 text-[#b0abc0]">위 버튼을 눌러 레포지토리를 추가하세요</p>
+            {showErrors && (
+              <p className="text-[12px] text-red-500 mt-2 font-semibold">프로젝트를 1개 이상 추가해주세요.</p>
+            )}
           </div>
         ) : (
           <div className="flex flex-col gap-3.5">
@@ -394,6 +406,7 @@ export default function GithubConnectStep({
                 onChange={onUpdateRepo}
                 onFilesChange={onRepoFilesChange}
                 onImagesChange={onRepoImagesChange}
+                showErrors={showErrors}
               />
             ))}
           </div>

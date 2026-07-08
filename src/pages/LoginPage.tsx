@@ -31,7 +31,7 @@ export default function LoginPage() {
           inset: 0,
           pointerEvents: "none",
           zIndex: 0,
-          background: `radial-gradient(circle 480px at ${cursor.x}px ${cursor.y}px, rgba(99,71,209,0.10) 0%, transparent 70%)`,
+          background: `radial-gradient(circle 480px at ${cursor.x}px ${cursor.y}px, rgba(59,130,246,0.10) 0%, transparent 70%)`,
           transition: "background 0.08s linear",
         }}
       />
@@ -47,7 +47,7 @@ export default function LoginPage() {
             width: "620px",
             height: "620px",
             borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(99,71,209,0.16) 0%, transparent 70%)",
+            background: "radial-gradient(circle, rgba(59,130,246,0.16) 0%, transparent 70%)",
           }}
         />
         <div
@@ -59,7 +59,7 @@ export default function LoginPage() {
             width: "520px",
             height: "520px",
             borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(156,72,234,0.13) 0%, transparent 70%)",
+            background: "radial-gradient(circle, rgba(56,189,248,0.13) 0%, transparent 70%)",
           }}
         />
         <div
@@ -71,7 +71,7 @@ export default function LoginPage() {
             width: "300px",
             height: "300px",
             borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(75,42,184,0.07) 0%, transparent 70%)",
+            background: "radial-gradient(circle, rgba(29,78,216,0.07) 0%, transparent 70%)",
             animationDelay: "3s",
           }}
         />

@@ -7,6 +7,11 @@ interface PortfolioListItemProps {
   onClick: () => void;
 }
 
+const STATUS_LABEL: Record<string, string> = {
+  published: "공개됨",
+  draft: "임시저장",
+};
+
 export default function PortfolioListItem({ portfolio: p, onClick }: PortfolioListItemProps) {
   const navigate = useNavigate();
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
@@ -43,6 +48,16 @@ export default function PortfolioListItem({ portfolio: p, onClick }: PortfolioLi
     );
   }
 
+  if (p.status === "error") {
+    return (
+      <div className="rounded-[20px] p-7 bg-[#fdf2f2] border-[1.5px] border-[#f0c5c5] cursor-default flex flex-col items-center justify-center text-center gap-2 min-h-43">
+        <div className="text-3xl">⚠️</div>
+        <h3 className="text-[15px] font-bold text-on-surface leading-snug">{p.title}</h3>
+        <p className="text-[12px] font-semibold text-red-500">포트폴리오 생성에 실패했어요. 다시 시도해주세요.</p>
+      </div>
+    );
+  }
+
   return (
     <div
       ref={ref}
@@ -54,7 +69,7 @@ export default function PortfolioListItem({ portfolio: p, onClick }: PortfolioLi
         transition: tilt.x === 0 && tilt.y === 0 ? "transform 0.4s ease" : "transform 0.1s ease",
         willChange: "transform",
       }}
-      className="rounded-[20px] p-7 bg-white border-[1.5px] border-surface-container shadow-[0_2px_12px_rgba(99,71,209,0.06)] hover:shadow-[0_12px_36px_rgba(99,71,209,0.16)] hover:border-outline-variant cursor-pointer"
+      className="rounded-[20px] p-7 bg-white border-[1.5px] border-surface-container shadow-[0_2px_12px_rgba(59,130,246,0.06)] hover:shadow-[0_12px_36px_rgba(59,130,246,0.16)] hover:border-outline-variant cursor-pointer"
     >
       {p.thumbnailImage && (
         <img
@@ -70,10 +85,10 @@ export default function PortfolioListItem({ portfolio: p, onClick }: PortfolioLi
           className="px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider whitespace-nowrap shrink-0 font-label"
           style={{
             background: p.status === "published" ? "#e6eeff" : "#f3ebfa",
-            color: p.status === "published" ? "#4b2ab8" : "#8127cf",
+            color: p.status === "published" ? "#1d4ed8" : "#0369a1",
           }}
         >
-          {p.status}
+          {STATUS_LABEL[p.status] ?? p.status}
         </span>
       </div>
 

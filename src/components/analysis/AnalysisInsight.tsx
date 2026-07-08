@@ -12,7 +12,7 @@ export default function AnalysisInsight({ stats, recommendation, onEdit }: Analy
       {/* Performance summary */}
       <div className="grid grid-cols-3 gap-3">
         {stats.map((s) => (
-          <div key={s.label} className="bg-white rounded-2xl p-4 border border-surface-container text-center" style={{ boxShadow: "0 1px 8px rgba(99,71,209,0.06)" }}>
+          <div key={s.label} className="bg-white rounded-2xl p-4 border border-surface-container text-center" style={{ boxShadow: "0 1px 8px rgba(59,130,246,0.06)" }}>
             <p className="text-[22px] font-extrabold text-on-surface tracking-tight">{s.value}</p>
             <p className="text-[11px] font-semibold text-on-surface-variant mt-0.5">{s.label}</p>
             <p className="text-[11px] text-outline mt-1">{s.sub}</p>
@@ -23,7 +23,7 @@ export default function AnalysisInsight({ stats, recommendation, onEdit }: Analy
       {/* AI recommendation */}
       <div
         className="rounded-2xl p-5"
-        style={{ background: "linear-gradient(135deg, #2d1b69, #4b2ab8)" }}
+        style={{ background: "linear-gradient(135deg, #2d1b69, #1d4ed8)" }}
       >
         <p
           className="text-[10px] font-bold tracking-widest uppercase mb-2"

@@ -37,7 +37,7 @@ export default function SocialLoginButton({ onClick, disabled }: SocialLoginButt
         style={{ background: "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.08) 50%, transparent 60%)" }}
       />
       <GitHubIcon />
-      <span className="relative">Continue with GitHub</span>
+      <span className="relative">GitHub으로 계속하기</span>
     </button>
   );
 }

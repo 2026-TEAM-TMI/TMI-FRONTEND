@@ -22,7 +22,7 @@ export default function ChatWindow({
   return (
     <div
       className="flex-1 bg-white rounded-[18px] border border-surface-container flex flex-col overflow-hidden"
-      style={{ boxShadow: "0 1px 6px rgba(99,71,209,0.06)" }}
+      style={{ boxShadow: "0 1px 6px rgba(59,130,246,0.06)" }}
     >
       {/* Header */}
       <div className="flex items-center gap-2.5 px-5 py-3.5 border-b border-[#f0f0f8] bg-[#faf9ff]">
